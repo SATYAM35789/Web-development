@@ -1,0 +1,52 @@
+/*  According to the last session we are changing the media on the basis of px . this is not good idea that
+for every device we apply px. So cleary the specific range. */
+@media (max-width : 600px) {
+    /* Phones */
+    body {
+        background-color: red;
+    }
+    div::after {
+        content : "This is mobile compitable"
+    }
+}
+@media (min-width : 600px) {
+    /* Phones */
+    body {
+        background-color: aquamarine;
+    }
+    div::after {
+        content : "Potrait for tabs and Big phones "
+    }
+}
+@media (min-width : 768px) {
+     /* Tablet */
+     body {
+        background-color: blue;
+     }
+     div::after {
+        content: "Tablets";
+     }
+}
+@media (min-width : 992px) {
+     /* Laptop */
+     body {
+        background-color: rgb(7, 233, 67);
+     }
+     div::after {
+        content: "Laptop";
+     }
+}
+@media (min-width : 1200px) {
+     /* Larger Screen */
+     body {
+        background-color: pink;
+     }
+     div::after {
+        content: "Bigger Screen";
+     }
+}
+
+div {
+    text-align: center;
+    font-size: x-large;
+}

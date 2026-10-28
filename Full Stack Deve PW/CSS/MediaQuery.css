@@ -1,0 +1,49 @@
+body {
+    background-color: red;
+}
+div {
+    font-size: x-large;
+    text-align: center;
+}
+div::after{
+    content: "Welcome to the Demo" ;
+}
+@media(max-width:400px){
+    body{
+        background-color: white;
+    }
+    div::after{
+        /* Max width : is se kam chalega but is se jada nahi  */
+        content: "very small";
+    }
+}
+/* Appling in a range */
+@media( 400px <= width <= 750px){
+    body {
+        background-color: yellowgreen;
+    }
+    div::after{
+        content: Mid size Device;
+    }
+}
+
+@media(min-width: 750px) {
+    /* If viewport is atleast 900px then this style will apply */
+    body{
+        background-color: purple;
+    }
+    div::after{
+        /* 750PX se jada applicable */
+        content: " Woh 750px its working" ;
+    }
+}
+
+@media(min-width: 900px) {
+    /* If viewport is atleast 900px then this style will apply */
+    body{
+        background-color: aquamarine;
+    }
+    div::after{
+        content: "Woh 900px its working" ;
+    }
+}

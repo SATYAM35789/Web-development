@@ -1,0 +1,42 @@
+<!-- Why nee display property : until now we know html show default behavier 1 Inline 2. Block Level 
+ Display property have property to change the html default behavier -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Property</title>
+    <style>
+        p{
+            display: inline;
+        }
+        span{
+            display: block;
+        }
+    .inline-bloook{
+        /* Apne hisab se height aur width de sakte hai */
+        display: inline-block;
+        width: 200px;
+        height: 50px;
+        color: red;
+    }
+    </style>
+ </head>
+ <body>
+    <!-- Display property  :- Inline -->
+     <!-- P default behavior is Block -->
+    <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor, laudantium?
+    </p>
+    <p> Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+    <hr>
+
+    <!-- Span =  Inline -->
+     <span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio placeat eos, fuga dolorum tempora suscipit.</span>
+     <span> Lorem ipsum dolor sit, amet consectetur adipisicing.
+     </span>
+
+     <p class="inline-bloook"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, libero.</p>
+     <p class="inline-bloook"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, libero.</p>
+    </body>
+ </html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Tailwind (pesudo class Varient Transition Animation and responsiveness)</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <h2> Pseudo Clases</h2>
+    <button class="bg-sky-500 hover:bg-sky-700 hover:text-white rounded-2xl p-3">Save changes</button>
+
+    <h2>Hover Focus Active </h2>
+    <button class="bg-violet-500 hover:bg-violet-600 focus:outline-2 focus:outline-offset-2
+          focus:outline-violet-500 active:bg-violet-700 hover:text-white rounded-3xl w-40 h-20">
+        Save changes
+    </button>
+
+    <h3> Transition </h3>
+    <button class="transition duration-150 ease-in rounded-3xl bg-blue-400  hover:bg-violet-600 p-4">Button A </button>
+    <button class="transition duration-300 ease-out rounded-3xl bg-red-500 hover:bg-violet-600 p-3">Button B</button>
+    <button class="transition duration-400 ease-in-out rounded-2xl bg-orange-500 hover:bg-violet-600 p-4">Button
+        C</button>
+
+    <h3> Responsive Design example </h3>
+    <div class="mx-auto max-w-md overflow-hidden rounded-xl bg-white shadow-md md:max-w-2xl">
+        <div class="md:flex">
+            <div class="md:shrink-0">
+                <img class="h-48 w-full object-cover md:h-full md:w-48"
+                    src="https://images.pexels.com/photos/36036924/pexels-photo-36036924.jpeg"
+                    alt="Modern building architecture" />
+            </div>
+            <div class="p-8">
+                <div class="text-sm font-semibold tracking-wide text-indigo-500 uppercase md:text-red-500">Company
+                    retreats</div>
+                <a href="#" class="mt-1 block text-lg leading-tight font-medium text-black hover:underline">
+                    Incredible accommodation for your team
+                </a>
+                <p class="mt-2 text-gray-500">
+                    Looking to take your team away on a retreat to enjoy awesome food and take in some sunshine? We have
+                    a list of
+                    places to do just that.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <h1 class="mt-9">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque, natus.</h1>
+
+</body>
+
+</html>

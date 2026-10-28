@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Flexbox</title>
+    <style>
+        .container {
+            border: 2px solid red;
+            display: flex;
+            height: 80vh;
+            justify-content: center; /*Main axis mai center kare ga*/
+            align-items: center;
+            /* flex-direction: column-reverse; */
+            flex-direction: row;
+            /* Flex-direction is known as Main axis.(Direction in which items are alligned)
+            The direction in which items are not alligned are known as Cross-Axis.
+            flex-wrap:- Jab items overflow ho jaye toh we want ke overflow item next line mai aa jaye (naya item niche jayega)*/
+            /* flex-wrap: wrap; */
+            /* Jo multiple line form ho rahi hai unko center mai karna (single-line align-item aur multiple line toh align-center)*/
+            /* align-content: center; */
+            /* Flex-flow property:- syntex: flex-flow:<flex-direction><flex-wrap> */
+            /* flex-flow: row wrap-reverse; */
+            /* gap: 15px;  */
+            row-gap: 40px;
+            column-gap: 15px;
+            }
+
+        .item {
+            height: 62px;
+            width: 62px;
+            border: 2px solid black;
+            /* margin: 4px; */
+            background-color: violet;
+        }
+        /* By default ascending order */
+        .order-1{
+            order: 1;
+        }
+        .order-2{
+            order: 2;
+        }
+        .order-3{
+            order: 3;
+        }
+        .item1{
+            /* flex-grow:2; */
+            flex-shrink: 2;
+            align-self: flex-end;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="container">
+            <div class="item item1">1</div>
+            <div class="item">2</div>
+            <div class="item">3</div>
+            <div class="item order-1">4</div>
+            <div class="item">5</div>
+            <div class="item">6</div>
+            <div class="item">7</div>
+            <div class="item">8</div>
+            <div class="item">9</div>
+            <div class="item order-2">10</div>
+            <div class="item">11</div>
+            <div class="item">12</div>
+            <div class="item">13</div>
+            <div class="item">14</div>
+            <div class="item">15</div>
+        </div>
+    </main>
+</body>
+
+</html>

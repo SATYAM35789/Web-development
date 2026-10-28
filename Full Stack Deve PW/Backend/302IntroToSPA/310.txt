@@ -1,0 +1,170 @@
+1.useStae hook(310)
+     - react humko bahut sari utility factor provide karta hai. utility functions bahut sare use cases ke liye hote hai.
+      callback cashing, memoryManagement, etc., jinko hum hooks kahte hai(utility fn)
+     - hook ek utility functions hai jo specific task karne mai maddat karte hai. 
+     - hook by default bhi exist karte hai, and user defined bhi hote hai. 
+     - ex counter.js
+     - Basic DOM, Dom ke element par hum different functionalality add kar pate the like onclick, onblur, onfocus,etc
+     - ye ham yaha bhi kar sakte hai. 
+     - onclick in javascript expect call back function . 
+     - onclick no action on button no tract will be tracked , because react local veriables ko treat nahi karta 
+       rerender nahi hoga. 
+          example:
+          function Counter(){
+             let x = 0 
+             return(
+                <>
+                    Count : {x}
+                    <button onClick={ ()=> x +=1}> Inc</button>
+                    <button onClick={ ()=> x -=1}> Dec</button>
+                 </>
+               )
+          }
+          export default Counter
+     - React target karta hai ek special type ke varibale ko
+         -jo ki component ki memory mai exist karenge, jinke change hone se component rerender hoga.  
+         - stateVariable :- inko use karne ke liye react hamko ek utility function provide karta hai, hook, jiska naam hai useState
+               - ye normally use se start ho rahe hote. 
+               - useState(): jisko stateVariable banana chahte hai, uski initial value , and ye return hoga as an array.
+                 and the array ko destructure kar sakte hai and  has 2 value 1. stateVariable 2. setX() :function : jo stateVariable ko update
+                 kar sakta hai. Jo bhi is function mai pass karenge wo set ho jayega. example:- 
+                 import { useState } from "react"
+                 function Counter(){
+                    const [x,setX] = useState(0)
+                    return(
+                         <>
+                           Count : {x}
+                           <button onClick={ ()=> setX(x+1)}> Inc</button>
+                           <button onClick={ ()=> setX(x-1)}> Dec</button>
+                         </>
+                    )
+                  }
+                  export default Counter
+     - Agar variable local hai , agar render hota hai toh value change nahi  ho sakti  hai,
+     - Agar variable global hai, toh render hone par bhi koi change  hota kyuki varibale dobara nahi ban raha. like Z variable. 
+
+2. Condtional rendering and lists filename CondionalRendering.js
+     - Example 
+      import { useState } from "react"
+ 
+      function Conditional(){
+   
+         const [x,setX] = useState(0)
+    
+        return(
+           <>
+              <h4> Condional Rendering </h4>
+              Count X : {x} is {(x%2==0)? 'Even':'Odd'}
+              <button onClick={ ()=> setX(x+1)}> Inc</button>
+              <button onClick={ ()=> setX(x-1)}> Dec</button>
+
+           </>
+          )
+      }
+      export default Conditional 
+
+      - jo bhi value hai uske corresponding , expression re-compitute ho rahi hai, kyuki x stateVariable hai, so uske
+        corresponding, Component rerender hoga.   
+      - 2nd Ex Todo.js
+          - Taking a boolean expression. 
+          - false input true someTodo
+      -useState([]) : passing array in useState , filename ArrayuseState.js
+         {todos.map((todo)=> <li> {todo} </li>)}
+          - isme ek ek karke  todos aayega, aur call back ka return naye array mai jayega.
+          - array ka setter function, hamesha ek array expect karta hai 
+            Galat : setTodos(todos.push('Another one'))
+            Sahi  : setTodos([1,2,3])
+            ...todos : ye array ko destructure kar deta hai. 
+            so destructure ke baad , array mai another todo add ho sakta hai. 
+            - <button onClick={()=>setTodos([...todos, 'Another one'])}>Click </button>
+              - yaha todos update hua, jab todos update hua toh, component rerender hua toh sare ke sare todos rerender karenge.
+
+3. Props discussion:
+     - jo bhi html element hote unke pass kuchh n kuchh additional attributes hote hai, jiski help se hum elements ki kuchh 
+       additional property defined kar pa rahe hote hai.
+     - similarly react mai bhi jo component hai, toh component ke liye bhi additional property defined kar sakte hai.
+     - component ki reusability badna hai, function ki usability badane ke input arguments badal dete lakin logic same rahta hai,
+       similarly input arguments jo function mai dete the usko attribute se relie karke component mai pass karte hai.
+     - attribute= props, custom component mai additional props pass kar sakte hai, carry the extra details about the component.
+     - Avatar.jsx filename
+        - props ek tarah ka object hota hai, is object ke ander jaha bhi is component ko call kar rahe hai, waha se props
+          ko pass karenge, wo sare ke sare props wo yaha available honge. 
+          - for example App.jsx mai Avatar call kar lenge, bahut sari property deni similarly to html.
+          -Agar Avatar1.jsx jaisa format rakhte hai toh hum default value bhi pass kar sakte hai. 
+          - component ko as a property pass karna.  for that we use the children props. in App.jsx
+          -keyProps :- jab bhi ek component  ko list mai render karte hai n, bahut sare component list mai html like jsx mai render 
+            kar rahe hote hai n then wo ek special props expect karte hai key props.
+            keyProps :  ek uniqe identifier, list ke items render hua hai kon se nahi hai, iska pata keyProps se lagaya jata hai. 
+
+tic-tac-toe Folder (313 : UI desined for tic-tac-toe)
+    - sabse pahle toh vite app installation
+    - removes extra details like .css and some of contain of the .jsx. 
+    - create Folder component in src having two Folder 1. Card 2 Icon 
+    - Go to icon and create Icon.jsx file. and install icon library. 
+    - create component Icon in Icons.js
+       - takes the props name, and there is some if and elseif based logic on the basis of name. 
+    - crete component Card in Card.jsx
+    - crete component Grid in grid.jsx
+       - const [board, setBoard] = useState([])
+       - Adding array :-
+          - array fill with empty string
+            const [board, setBoard] = useState(Array(numberOfCards).fill(''))
+       -return 
+         - create div and className id grid
+         - start card render from here:
+           - card mei key pass karna hoga so hum, index (idx) pass kar denge.
+             {board.map((el, idx)=> <Card key={idx}/>)}
+             - card expect karta hai player ko 
+tic-tac-toe(314 adding functionalalities):-
+  - Displaying kon current player hai
+    - turn variable : agar turn ki value true hai toh value O , vice-versa x
+       <h1 className="turn-highlight"> Current turn : {(turn)? 'O' : 'X'}</h1>
+  - Ab jaise he card par click hota hai toh current turn ki value change ho jani chahiye, aur jiski turn thi wo value
+    caed par aa jana chayiye. 
+    - Clean code likhne ke liye, new Folder name helper,aur jaha code likhenge uska naam checkWinner.js
+      -function : agar hamare pass board given hai, aur ek symbol (X OR O), aur check karenge isme se kon jita hai.
+        -index value ke symbols agar barabar hai symbol se toh symbol return kardo. 
+        - isWinner method: 
+         -Rows wise check : 
+            if(board[0]==board[1]&& board[1]==board[2]&& board[2]==symbol)return symbol
+            if(board[3]==board[4]&& board[4]==board[5]&& board[5]==symbol)return symbol
+            if(board[6]==board[7]&& board[7]==board[8]&& board[8]==symbol)return symbol
+
+          -Columns waise check :
+            if(board[0]==board[3]&& board[3]==board[6]&& board[6]==symbol) return symbol
+            if(board[1]==board[4]&& board[4]==board[7]&& board[7]==symbol) return symbol
+            if(board[2]==board[5]&& board[5]==board[8]&& board[8]==symbol) return symbol
+
+          -Diagonal check :-
+            if(board[0]==board[4]&& board[4]==board[8]&& board[8]==symbol) return symbol
+            if(board[2]==board[4]&& board[4]==board[6]&& board[6]==symbol) return symbol
+      - ab jaise koi click karta hai, toh hamko uska icon change kar dena hai aur check karenge koi jita toh nahi.
+        -play() method: ye play fun ek index lega, aur is index click hoga, jaha par click karenge us card ke pass uski 
+         index hai {board.map((el, idx)=> <Card key={idx} onPlay ={play} player = {el} index = {idx} />)} yaha se. 
+         wo us index value ko play mai pass kar dega. 
+    
+    - Aagar winner nahi mila hai toh kuchh render mat karo, agar mil gaya hai toh return mai 
+        {
+          winner && (
+              <h1 className="turn-highlight"> Winner is {winner}</h1>
+          )
+        }
+
+        &&: agar pahli value false hai dusra part kabhi bhi evaluate bhi nahi karta. so agar winner nahi hai means
+        false then wo evaluate bhi nahi hoga. 
+        - card.jsx ke ander abhi click/onPlay implement nahi kiya hai, so 
+          ab card ke ander player, onPlay , index pass ho raha hai. 
+
+   - Reset function implementation :-
+   summary: card par click hone ke baad, jo bhi call ka index hai, us se call kar dete hai, function work, jis bhi index par 
+   call hua hai , jiski turn  thi wo value set ho jati hai. Phir check karo ki wo winner hai ki nahi , agar hai toh winners set kardo.
+   chahe winner tha chahe n , board ko updeate kardo. 
+
+tic-tac-toe :- 
+-game ho jane ke baad , card par click hone rok de.
+- game ke dauran agar kisi card mai value mil gai hai toh wo update n ho. 
+- <div className="card" onClick={ ()=> !gameEnd && player== ""&& onPlay(index)}>  
+  - hum tab click kar payenge jab game end na ho, aur player empty ho means card par O , X na ho .
+
+
+    

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Float % color</title>
+    <style>
+        .cards {
+            /* Overflow means the text arein cut form*/
+            border: 2px solid black;
+            display: flow-root;
+        }
+
+        img {
+            /* Image left side chala jayega aur allow the content to shift right */
+            float: left;
+        }
+
+        .card {
+            border: 2px solid red;
+        }
+        .card:nth-child(3){
+            background-color: rgb(191, 255, 0);
+            /* agar mai nahi chahta ki left side mai value float kare */
+            /* clear: left; left mai float nahi honge  */
+            clear: both; /* Kisi bhi side float nahi hone dega*/
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cards">
+        <img src="imag.jpg" alt=" Satyam Mishra" width="230px">
+        <div class="card">
+            <p> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque rerum laboriosam ab itaque illo,
+                dolorum modi minus ut error. Voluptatem, repellendus dignissimos nulla voluptates excepturi ducimus
+                dolorem nam beatae tempore ex corrupti saepe incidunt.</p>
+        </div>
+        <div class="card">
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga provident quisquam consequatur rem odit
+                reprehenderit nesciunt inventore, ut repellendus eveniet neque doloribus velit mollitia recusandae
+                tenetur? Animi, fuga rerum facere unde consectetur eveniet assumenda illum dolorem doloribus dolores
+                nihil nobis, magni suscipit cum ullam sit debitis porro odio sunt beatae. Quae fugiat eius illum
+                voluptates, nisi voluptas, provident quasi nostrum id asperiores error corrupti sunt odit unde veniam
+                molestiae itaque tenetur quas recusandae magni? Tempora dolorem, quod totam molestias aliquid provident
+                non sit, quia deleniti quidem necessitatibus, sunt alias? Dolorum voluptatum quibusdam nesciunt quo
+                explicabo, aspernatur ipsam blanditiis adipisci, ea magni beatae illum reprehenderit molestias?
+                Reprehenderit quia soluta illo sed sequi eos quibusdam et provident praesentium, aliquam vitae dicta
+                aut, accusamus doloribus. Distinctio cupiditate voluptas soluta ipsum, quas reiciendis quo voluptate!
+                Laborum amet suscipit earum velit a quia adipisci hic sint! Sunt natus molestiae et itaque quas, earum
+                odit laborum unde modi necessitatibus impedit. Aut reprehenderit repellat placeat eos repellendus rem
+                rerum, officiis accusamus quia doloremque. Libero numquam illum dicta voluptatem ullam reiciendis quae
+                magni est placeat ut! Iure suscipit odit quas molestias consequuntur provident sapiente dolorem, qui
+                dolor voluptas iusto accusantium numquam ratione quaerat natus, veniam dolorum facilis consequatur
+                nostrum quia dolores velit inventore aperiam. Dignissimos vitae distinctio voluptatem ducimus, dolorum,
+                non voluptas ullam, corrupti alias ex sunt! Eaque tenetur, quo dignissimos hic rerum, provident et
+                aliquid similique ipsam ipsa enim accusantium laboriosam praesentium officiis fugit unde ea magni,
+                cumque amet esse. Delectus assumenda consequuntur dolore magni molestiae nemo architecto quaerat quidem
+                deleniti. Quasi atque aliquam similique asperiores culpa, ratione iure repudiandae saepe possimus
+                aspernatur, ut quis necessitatibus nihil vel. Laboriosam sunt iste libero odio unde quas temporibus nisi
+                laborum alias fugiat aliquid aut maiores dolor quasi nulla, dolorem eum consequuntur cupiditate beatae
+                fuga. Tenetur et quia voluptatum quisquam accusantium perferendis. Provident sapiente accusamus
+                voluptates aliquam. Odit, eaque! Repellendus consectetur ad magni et beatae, dolorum nulla possimus
+                consequuntur distinctio aperiam molestiae. Adipisci non, officia tempora recusandae ex iste rem
+                obcaecati. Vitae sapiente distinctio unde quisquam, iusto minus dolorum officia at architecto? A,
+                doloremque? Vitae.
+            </p>
+        </div>
+        <div class="card">Card3</div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Display Property</title>
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      .box{
+        border: 2px solid blue;
+        /*display: inline; /* By using this div behave as a inline element. */
+        display: inline-block;
+        padding: 45px; /* Agar inline hai toh top se padding/margin/width nahi hogi*/
+        margin: 34px;
+        width: 344px; 
+      }
+      .box1{
+        /* display: none; */
+        /* visibility: hidden; */
+        /* Display grid/Inline grid and display flex */
+        color: bisque;
+      }
+    </style>
+</head>
+<body>
+    <!-- https://developer.mozxilla.org/en-us/docs/Web/CSS/display -->
+    <div class="box box1">
+        I am Block Element. And I can able to convert into a inline element
+    </div>
+    <div class="box"> also a nice box </div>
+    <!-- We can see here that this two come in the same line vice-versa with div -->
+    <span> I am Good</span>
+    <span> boy </span>
+</body>
+</html>

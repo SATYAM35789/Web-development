@@ -1,0 +1,51 @@
+div {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    position: relative;
+    /* Attaching the design  */
+    animation-name: colorchange;
+    animation-duration: 3s;
+    animation-delay: 2s;
+}
+/* Defining degine */
+/* @keyframes colorchange {
+    from {background-color: blue;
+     top: 0px;  left: 0px;
+    } 
+    
+    to
+    {background-color: yellow;
+     top: 0px; left: 200px;
+    }
+} */
+ @keyframes colorchange {
+    0% {
+    background-color: blue;
+     top: 0px;  left: 0px;
+    } 
+
+    25% {
+    background-color: yellow;
+     top: 0px; left: 200px;
+    }
+
+    50%{
+        background-color: black;
+        top: 200px;
+        left: 200px;
+    }
+    
+    75% {
+        background-color: aqua;
+        top: 200px;
+        right: 0px;
+    }
+
+    100% {
+        background-color: violet;
+        top: 0px;
+        left: 0px;
+    }
+    
+}

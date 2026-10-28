@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom Part 3</title>
+</head>
+<body>
+    <!-- HTML -->
+   <h1> Hello Bachho </h1> 
+   <p id="js"></p>
+   <button onclick="hey()" id="jss"> Submit </button>  <!--  Onclick attribute : jo bhi eventaction hum chahte hai uska function likhenge --> 
+
+   <!-- JavaScript -->
+   <script>
+    document.addEventListener("dblclick" , hello) // (kya ho, jab ye ho toh kya karna hai usko or function)
+    function hello(){
+        document.getElementById("js").innerText = "Namaste Bachho";
+    }
+    function hey(){
+        document.getElementById("jss").innerText = "Namaste";
+        document.getElementById("jss").style.color = "red";
+        document.getElementById("jss").style.backgroundColor = "black"
+        document.getElementById("jss").style.padding = "15px"
+        document.getElementById("jss").style.border = "2px solid yellow" 
+    }
+   </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!-- You have given 12 files: 6 video and 6 audio
+ Design a website using a HTML only and which shows these files. 
+ 1.mp3, 2.mp3...
+ 1.mp4, 2.mp4
+ using preview-->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exersize</title>
+    <link rel="stylesheet" href="style.css">
+ </head>
+ <body>
+    <main>
+        <nav id="video">
+            <ul>
+
+                <video src="1.mp4" height="250" width="200"controls loop  poster="1img.jpg"></video>
+                <video src="2.mp4" height="250" width="200"controls loop  poster="2img.jpg"></video>
+                <video src="3.mp4" height="250" width="200"controls loop  poster="3img.jpg"></video>
+                <video src="4.mp4" height="250" width="200"controls loop  poster="4img.jpg"></video>
+                <video src="5.mp4" height="250" width="200"controls loop  poster="5img.jpg"></video>
+                <video src="6.mp4" height="250" width="200"controls loop  poster="6img.jpg"></video>
+            </ul>
+        </nav>
+        <nav id="audio">
+            <ul>
+                <audio src="1.mp3" controls preload="auto"></audio>
+                <audio src="2.mp3" controls preload="metadata"></audio>
+                <audio src="3.mp3" controls preload="none"></audio>
+                <audio src="4.mp3" controls preload="auto"></audio>
+                <audio src="5.mp3" controls preload="metadata"></audio>
+                <audio src="6.mp3" controls preload="auto"></audio>
+            </ul>
+        </nav>
+    </main>
+ </body>
+ </html>

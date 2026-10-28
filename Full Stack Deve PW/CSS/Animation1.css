@@ -1,0 +1,70 @@
+div {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    position: relative;
+    /* Attaching the design  */
+    animation-name: colorchange;
+    animation-duration: 10s;
+    animation-delay: 2s;
+    /* Different Property of Animation */
+    /* animation-iteration-count: 3; */
+    /* animation-iteration-count: infinite; */
+    /* animation-direction: alternate-reverse; */
+    /* animation-fill-mode: forwards; */
+      animation-fill-mode: backwards;
+}
+#ease{
+    animation-timing-function: ease;
+}
+#linear{
+    animation-timing-function: linear;
+}
+#ease-in{
+    animation-timing-function: ease-in;
+}
+#ease-in-out{
+    animation-timing-function: ease-in-out;
+}
+/* fill mode: starting aur ending mai kaise rahe */
+/* Defining degine */
+/* @keyframes colorchange {
+    from {background-color: blue;
+     top: 0px;  left: 0px;
+    } 
+    
+    to
+    {background-color: yellow;
+     top: 0px; left: 200px;
+    }
+} */
+ @keyframes colorchange {
+    0% {
+    background-color: blue;
+     top: 0px;  left: 0px;
+    } 
+
+    25% {
+    background-color: yellow;
+     top: 0px; left: 200px;
+    }
+
+    50%{
+        background-color: black;
+        top: 200px;
+        left: 200px;
+    }
+    
+    75% {
+        background-color: aqua;
+        top: 200px;
+        right: 0px;
+    }
+
+    100% {
+        background-color: violet;
+        top: 0px;
+        left: 0px;
+    }
+    
+}

@@ -1,0 +1,52 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://excalidraw.com",
+  "elements": [
+    {
+      "id": "-7MGpgBF5hP-4BWNKEXYY",
+      "type": "text",
+      "x": 455.9999694824219,
+      "y": -295.00003814697266,
+      "width": 875.4793090820312,
+      "height": 725,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a8",
+      "roundness": null,
+      "seed": 1039930923,
+      "version": 1793,
+      "versionNonce": 1432748837,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1763844983653,
+      "link": null,
+      "locked": false,
+      "text": "Port: different service ko access karne ke liye use hoti hai. \nlike database services, html services, etc\n\nPort Definition : - In COMP  Networking, a port is a logical \nconstruct that is used to identify specific process or service \nrunning on comput or other networking device. \n-> Port number allow data to be routed to the correct application\nor service. Ek device se dusre device par ja sake. \n-> Devices ko  pahchane ke liye IP address ka use hota hai, jisko \nnetwork addreses of host kaha jata hai so port no. hamesha is se \nassociate rahta hai.  \n\nDifferent types port:- \n1. Well-Known Port: assigned by the Internet Assigned Numbers Authority\n(IANA) to specific services or protocol from 0 to 1023.\nHttp 80, https 443, etc\n2. Reserved Port:-  range 1024 to 49151\n->used by apps and services are considered well-Knowned.\nex Http 8080, Mysql 3306 etc\n3. Dynamic:- ex client program initiates a connection to a server program, the \noperating system assign a unique dynamoc port number to the client side of a \nconnection . this number is used for duration of the connection and is released\nwhen the connection is closed.\n\nBest Practices Of using Port Numbers:-\n-> use standard ports(taki firewal ka dhyaan kam rkhana pade)\n-> port farwarding (apne actual port na dikha kar dure port kodikhana/inteernall mapping)\n-> Document port useage and searvh for more. \n",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Port: different service ko access karne ke liye use hoti hai. \nlike database services, html services, etc\n\nPort Definition : - In COMP  Networking, a port is a logical \nconstruct that is used to identify specific process or service \nrunning on comput or other networking device. \n-> Port number allow data to be routed to the correct application\nor service. Ek device se dusre device par ja sake. \n-> Devices ko  pahchane ke liye IP address ka use hota hai, jisko \nnetwork addreses of host kaha jata hai so port no. hamesha is se \nassociate rahta hai.  \n\nDifferent types port:- \n1. Well-Known Port: assigned by the Internet Assigned Numbers Authority\n(IANA) to specific services or protocol from 0 to 1023.\nHttp 80, https 443, etc\n2. Reserved Port:-  range 1024 to 49151\n->used by apps and services are considered well-Knowned.\nex Http 8080, Mysql 3306 etc\n3. Dynamic:- ex client program initiates a connection to a server program, the \noperating system assign a unique dynamoc port number to the client side of a \nconnection . this number is used for duration of the connection and is released\nwhen the connection is closed.\n\nBest Practices Of using Port Numbers:-\n-> use standard ports(taki firewal ka dhyaan kam rkhana pade)\n-> port farwarding (apne actual port na dikha kar dure port kodikhana/inteernall mapping)\n-> Document port useage and searvh for more. \n",
+      "autoResize": true,
+      "lineHeight": 1.25
+    }
+  ],
+  "appState": {
+    "gridSize": 20,
+    "gridStep": 5,
+    "gridModeEnabled": false,
+    "viewBackgroundColor": "#ffffff",
+    "lockedMultiSelections": {}
+  },
+  "files": {}
+}

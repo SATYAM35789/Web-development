@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Tramsforms</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            height: 50px;
+            width: 50px;
+            background-color: beige;
+            border: 2px solid black;
+            /* Rotate Property:- */
+            transform: rotate(40deg);
+            /* transform: rotate(0.125turn); */
+            /* transform: rotateX(40deg); */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* transform: scale(1.6); */
+            /* transform: scaley(1.6); */
+            /* transform: skew(20deg); */
+            /* transform: skewy(20deg); */
+            /* transform: translate(34px); */
+            /* transform: translate(100%); */
+            /* Using Multiple transform property: */
+            /* transform: translatey(100%) skew(40deg) translateX(45%); */
+            transform-origin: 0% 32%;
+        }
+        .container{
+            width: 100vw;
+            height: 80vh;
+            background-color: purple;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box"> Box</div>
+    </div>
+    
+</body>
+</html>
+<!-- Two types of transforms:
+2d Transforms:This property allows the content to be restructured in ways like translate, rotate, scale,etc
+ as it is 2D, therefore the content is transformed into X and Y dimensions. 
+ 3d Transforms: ka Source code sir nr Git hub par post kiya usko dekna zaruri hai -->

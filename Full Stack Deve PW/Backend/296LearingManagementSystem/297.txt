@@ -1,0 +1,572 @@
+  User Module
+  1.Server Folder
+    1. npm init:- 
+    -Basic npm repo create :-Ye command dalenge aur sari information jo init karne ke baad honge unko ok karte jayenge
+    - Dependency install karenge
+       like or command npm i bcryptjs cloudinary cookie-parser cors dotenv express jsonwebtoken mongoose multer 
+       nodemailer nodemon morgan --save
+    
+    2. server.js: File
+        - app jo dusri file mai exist karta hai usko aquire kar lenge. So that code ko muduler abana sake
+             const app = require('./app');
+        - app ka ek instance bana lenge : jo ek portpar listen karega
+           app.listen(PORT, ()=>{
+           })
+              -agar successfully up or kaam karne lagta hai, then
+                   console.log(`App is running at http:localhost:${PORT}`);
+                   ${PORT} :- for dynamically value 
+               
+        - aur jab kaam ho jayega toh bata dena ki ho gaya.
+              const PORT = process.env.PROCESS || 5000;
+
+          2nd Day 
+        - Cloudinary configuration :-
+          -v2 hamko cloudinary se milega
+          -cloud name , api_key, api_secret iske sari value env files lenge
+
+
+    3.app.js:-  express server setup karna hai :
+      - ek express chahiye , jisko hamne dependency mai install kiya tha uskp aquire karlenge
+         const express = require('express');
+      - express ke help se app bana lena hai
+         const app = express();
+      -ab is app ke through hum routes,auths, middlewares, configuration set up kar sakte hai
+        - body mai jo bhi request aati hai, sari ki sari parse hokar aage jayega
+            app.use(express.json());
+        -cors ko bhi use and require karenge:
+           -const cors = require('cors')
+           -app.use(cors({
+              }))
+             -Origin kya hoga , ye defined hoga env file mai aur FrontendURL denege taki humko pata rahe ki 
+              ye YRL hamre api ko use kar sake.
+                  origin:[process.env.FRONTEND_URL]
+             -credential ko true kar denge: means jo nhi cookies wo navigate kar sakte hai
+                 credentials : true
+        -token set up ho tph hum token ko parse kar sake or cookies ki details lo parse karna
+           app.use(cookieParser());
+        -route bana rahe hai , server up hai ki nahi
+           app.use('/ping', function(req,res){})
+           -agar koi , is url par hit karta hai toh , response ye dedo
+             res.send('/pong')
+        -routes 3 module ko yaha defined karenge:-
+        -agar user koi bhi url or routes hit karta hai toh kya karna hai:-
+          -wildcard root:
+           app.all('*',(req,res)=>{
+            })
+                        OR
+               app.use((req, res) => {
+                 res.status(404).json({
+                    success: false,
+                    message: 'Route not found'
+                  });
+               });
+
+            -response mai bata denge ki ye url exist nahi karta 
+               res.status(404).send('OOPS! 404 page not found')
+        - app modeule ko export karnege, taki koi aur file isko use kar sake
+
+        Note:- 
+         common js use nahi karnege iske wajah sa require karna padata hai, hum module use karne wale , 
+         jisko jum import and export directly kar sakte hai modification karenge in package.json 
+           "type": "module",
+           file use karte samay pura path dalna padega
+             import app  from './app.js';
+        - .env file server kaise up hota hai :- 
+          const{config}= require('dotenv')
+          - calling config 
+           config();
+
+   -server.js :
+      - humko pata nahi chal pa raha ki , koi random pages/url load karne ke kosis kar raha hai
+        hamare ek library jo call Management mai help karta hai
+          - npm  i morgan --save
+   -app.js : jaise baaki sab middlewares ko use karte hai waise he isko bhi kar sakte hai:
+     - app.use(morgan('dev')) :- morgan use karne se basically hum kuchh output print karwa sakte hai
+     - Morgan library:- 
+      -logger middlewares hai nodejs ka
+      -There are different things jonko hum kog kar sakte hai:- 
+        combined, common, dev, short, tiny and custom .
+      - different users kya kya access karne kosis kar rahe hai
+   
+   2nd Day
+   -app.use(express.urlencoded({extended: true})) 
+     -main benefit , jo bhi url aane wala hai, usme parsing and params mai use hota hai. 
+
+   4.config Folder 
+     -Where we deal with database connection.
+     1.dbconnection.js : database ka connection karnege
+      - mongoose chahiye: import karnege
+         import mongoose from "mongoose";
+      -mongoose mai configuration set karnege jo ignore kar dega strict query ko means query exist ya sovle 
+       na ho toh error mat dena:-
+         mongoose.set('strictQuery', false);
+      -connection establish ke liye function likhenge
+        - const connectiondb = ()=>{}
+          -mongoose se connection banana hai 
+            mongoose.connect()
+            pass the the envfile mongourl
+          -const connectiondb = async()=>{
+               const {connection }= await mongoose.connect(
+                   process.env.MONGO_URL || `mongodb://127.0.0.1:27017/lms`
+                 )
+            }
+         -Check karenge ki connection hua hai ki nahi
+           -if : connection ho gaya
+           -else : connection nahi hua toh pure code ko try catch mai dal denge because we need error handling
+              try: pure code ko try mai
+              catch: 
+                - error message ko show karnege
+                - process terminate kar do : connection tod do
+         
+         - export the file
+         - server.js mai ensure karenge ki connection establishhua ki nahi
+
+         - app.js: There are different routes defined
+         -user se related sare activity is path par design karunga : userRoutes
+            app.use('/api/v1/user',userRoutes)
+
+   5.routes Folder
+     - Where we defined all the related routes.
+     1. userRoutes :-
+      - User se related path yaha design hoga:
+      1.user.routes.js:- file
+        - Route banane ke liye sabse pahle humko express chahiye
+           import {Router} from 'express'
+        - router ka instance bana lenge 
+          const router = Router()
+
+          instance ke help se different routes bana 
+          *get ka fayeda url mai dal kar bhi logout/ action perform kar sakte
+          router.post('/register', register);
+          router.post('/login', login);
+          router.ger('/logout', logout);
+          router.get('/me', getProfile); user ki profile ki detail dekhne ke liye
+          
+        - export default router
+         
+         2nd Day
+        -router.post('/reset',forgotPassword);
+          -email send kardo
+        -router.post('/reset/resetToken',resetPassword);
+          - email aa gaya hai , ab reset kar do
+
+        -router.post('change-password', isLoggedIn, changePassword)
+          -isLoggedIn because user loggin rahega tabhi woh apna password change kar sakta hai
+        
+        -router.put('/update',isLoggedIn, upload.single('avatar'), updateUser)
+          
+   6.controllers Folder
+     1. user.controller.js:
+        - iske ander wo sare method defined honge jo user routes mai use ho rahe hai like register, login, 
+          logout, getProfile.
+         1. const register = (req, res , next)=>{}
+            -post request marte hai, toh information body mai aati hai
+                const { fullName, email, password} = req.body;
+            - Validation :- 
+            if : fullname,email, password nahi hua toh kya karenge ,  status and show error return kar denge
+               - isme hum barbar hum return aur kuchh response errpr bhehte hai, ab isko bar-bar nahi karna chahte
+                 isiliye hum ek generic function bana lenge utils FOLDER ke ander (utils folder ke ander jao)
+               -next : means next line par jao in app.js
+
+            else :-
+              - Two  ways :- 
+               - Check karenge ki user exist karta hai ki nahi, database mai. 
+                  if : exist  karta hai, toh error message and status de dedo
+                  else: agar user exist nahi karta hai toh , toh user create karna hai, ye two ways ho captureStackTrace
+                  - 1 step mai:- user ki basic information database mai save/store kar denge
+                       If: agar store nahi hua  toh kya karenge
+                       Else : agar ho gaya toh kya karenge thik hai koi message send karni ki zarurat nahi hai
+                  - ToDo : File upload karenge
+                  - ab tak sari configuration ko save kar denge
+                      await user.save()
+                  - 2nd step: user ki profile 3rd party par upload kar denge 
+         - account create successfully ka status send kar denge
+         - user password ko undefined kar denge taki dobara user ke password n jaye
+
+         - User register toh ho gaya hai, lakin ab hamre pass option hai ki user ko login karne ke liye bole 
+         - What needed for login 1. JWTtoken generate karna hota hai 2. JWTtoken ko cookies mai dalna hota hai.
+         - Generating token 
+           -user level par he kar dete hai async- wait fun ka use karke
+              const token = await user.generateJWTToken()
+               userSchema mai isko configure karke aa jate hai (user.model.js :Generic method)
+           - JWTtoken ko cookies mai save karna hai:- 
+               res.cookie('token', token, cookieOption)
+                -token uppar defined hai
+                -cookieOption : maxAge , httpOnly : true (means ki client javascript se kuchh kar na sake),secure
+
+         - Summarry:- Abhi tak hamne file upload nahi kiya hai, cookie aur password Encrypting kar chuke hai, 
+           registration hone ke baad automatically login hone ka logic likhe diye hai. Registration Flow Ready.
+           Kya kya kiye hai:- (Registration Flow)
+            - Details nikali, Validation kiya, check kiya email exist karta hai ki nahi, karta hai toh error message
+              dedo, nahi karta hai toh ek instance create karlo, user ka instance jo bana hai usme kuchh modification
+              karne ke baad file upload karlo, upload hone ke baad database mai save karlo, save karte waqt ensure karenge
+              ki  jo hamre pass hook , wo data encrypt karke save karega, ek successfully database mai entry save 
+              karli toh hum wapas se successful login toh ho gaye ho, mai kuchh aur basic chiz karna chahta hu, jaise
+              Generating JWTtoken , cookie mai set kar denge benefit yah hai ki dobara aapko login mannually nahi karna 
+              padega.  
+
+      2nd Day: -
+         File upload karenge:
+          - Goal 1. Server par, form type of data ko accept karne code
+                 2. Avatar jo ki binary form usko convert kar  seke real file mai:
+              - client se data server par binary form mai gai hai, Binary form mai data save nahi karenge kyuki 
+               baad user ko URL return karna hai, ek image ka proper URL, jisko render kar sake aur user usko dekh sake.
+              - So we need, binary to image mai convert karne ka logic. ye kaam Multer karega. 
+                 MULTER :Ek package hai, jo binary se image mai convert karega, aapke sarver par temporary jagah par
+                 store karega,phir temporary store se cloudinary par upload karne ke package use hoga jo cloudinary kud 
+                 deta hai. upload hone ke baad temporary store , jo server par usko delete kar denge. 
+              - so is tarah ke data ko external server or cdn mai store karte hai, taki server par problem na ho.
+                external jaha data store hoga , wo karenge cloudinary(3rd party service) ke help se. 
+              - Full process of uploading file:
+                - client se form mai binary form mai data manga, image mai convert karna , ek temporary destination par dala,
+                  multer ka use karte hue, isko cloudinary par upload kiya with help of cloudinary package, upload hone ke 
+                  baad temporary destination store data ko delete kar diya.
+            
+               - Psotman mai nornal file passs karene, wo automatically binary mai le lega.
+
+           -Writing generic code, koi bhi request mere controller mai aane se pahle, agar uske ander koi bhi form type
+            ki request hogi, toh pahle usko convert kar do ek image url mai phir yaha bhejo, process karne ke liye.
+             -we use multer: 
+
+         - file ka logic:-
+           -ab humko req.file se , converted file mil jayegi. 
+           - jo data aaya hai usko upload karne ki kosis karenge, cloudinary par upload karenge
+              isko karnege try catch mai. 
+             -try 
+               -cloudinary par upload karne ke liye we have 
+               -  cloudinary instance name result : ander req.file.path dal denge.
+                  if 
+                    - Agar result mil jata hai
+                      - dummy data jo define ki usko change karenge.
+                      note: cloudinary mai directly store nahi kar sakete, pahle verify karenge ki hamare credential
+                      sahi hai ki nahi 
+                       - ye credential hum defined karenge server.js mai
+                    - Romoving the file from  server(locally nahi rakhni hai)
+                       fs.rm(`upload/$(req.file.filename)`)
+               
+               catch 
+                 - ye kaam karne mai kai bhi garbad hoti hai,  error code and error message send kar denge.
+                  
+                
+
+         2. const login = (req, res)=>{}
+           - login karne ke liye humko kuchh details milengi, body mai.
+                 const {email, password} = req.body;
+           - check karenge
+              if: email aur password mai se ek bhi nahi hai, toh error message and error code de denge
+                  return next(new AppError('All fields are required', 400))
+           -  else :
+                -check karnege ki , email really exist karta hai ki nahi
+                - Agar karta hai toh mujko uska password bhi de dena, kyuki password validate karna hai
+                  - password explicitily mangna select('+password') ,
+                  So yaha tak humko user ki detail mai jayegi. 
+            
+           - User exist karta hai ki nahi
+             if:- user ya compair karne ke bad password , dono mai ek bhi nahi toh error message and errorcode respnse bhej dobara
+             else : user exist and password also match then
+               - token generate kardo
+                 - password undefined (token mai jo password hai)
+                 -usko cookie mai kuchh information save karna
+
+           - response denge, successfully login ho chuke hai, aur json mai configuration set kar denge. 
+           - Abhi tak sare kaam ko hum Try Catch mai dal sakete hai error handling ke liye. 
+
+           Summarry:- Logged Flow
+           - login in karne ki kosis ki, sabse pahle database mai check kiya ki user exist karta hai ki nahi,
+            agar user exist karta hai yoh usko password le lo, agar user exist karta hai aur uska password match
+            then JWTtoken generate kar do, generated token ko cookie mai set kar denge taaki, wo loggedin user ki
+            tarah behave kare, next time agar user se related data info bhejne ki zarurat padegi toh, wo automatically
+            JWTtoken se le lega. successful info bhej do ye hone ke baad. 
+
+            - compairesPassword ka logic in user.model.js mai defined karnege   
+
+         3. const logout = (req, res)=>{}
+            - logout ka simple tarike hota hai ko , uski cookie jakar delete kar do. 
+              - cookie mai token k0 null kar denge 
+                  res.cookie('token', null)
+              - aur iske options ko reset kar do
+
+            - response mai ek success message return kar denge. 
+        
+         4. const getProfile = (req, res)=>{}
+           - Ab user ki profile jan ni hai. means humko pata hona chahiye ki kos se user ki baat ho rahi hai,
+            uski id, kiske liye hum database jakar dekhe. 
+           
+           - userId humko mil gayi hai (isko define karenge middleware mai)
+           -agar id(userId) exist karti hai then , database mai querry denge ki is id ke base par info nikal lo
+           - Agar ye successful ho gaya toh, successCode aur message bhej do.
+           -error handling karlo Try Catch se.
+           - agar error aata hai toh usse related errorCode and json configuration bhej do. (catch mai)
+           
+           - userid kaha se mila hai, kyuki aap login ho tabhi profile par hit kar paa rahe ho so aapke
+             pass ek chiz hai wo hai JWTtoken exist karta hai in cookie ke ander. So cookie se info nikal kar
+             iss req ke ander dalna hai. we do this middleware because aage use hua toh hum waha bhi use kar sake.
+         
+         2nd Day:-
+         5. const forgotPassword = (req,res,next) =>{}
+           -email mil jayega req.body se (client dega)
+           - if :
+              -email nahi diya,error message aur error code de denge. 
+           -Agar email hai toh ,email database mai check karenge ki hai ki nahi
+           -  if:
+              - agar email nahi hai, toh error message denge ki email not registerd , aur error code bhi
+           -agar email exist karta hai database toh hum ek random url generate karenge
+            - ek generic method banayenge taki usko multiple jagah use kar sake
+               generatePasswordResetPassword()  
+               -user.model mai banayenge is function ko. 
+               -token ko store , karenge database mai.
+                  await user.save()
+               -save hone ke baad url generate karna hai
+                  const resetPasswordURL = `${process.env.FRONTED_URL}/reset-password/${resetToken}`
+               - generate URL ko email par send karna hai, ek method in try Catch
+                 try:
+                  -sendEmail naam ke method mai email, subject, message bata do 
+                  -agar ye successful ho gaya toh response mai success message with json configuration 
+                 catch
+                   -agar error aati hai toh, error message and statusCode bhej do
+                   -in any case, mail send nahi hua toh kuchh chiz ko reset karenge
+                     - user.forgotPasswordToken = undefined kar denge
+                     - user.forgotPasswordExpairy = undefined set ker denge
+                     - hum nahi chahte ki do alag alag tokens generate ho aur, aur user pahle wale par jaye aur
+                       bole ki token expaire ho gaya hai , is scenario se bachne ke liye uppar kaam kiye hai.
+               - 1st Part complete ho chuka hai, ab Gmail pae link chala jayega, ab humko user se naya email lena 
+                 hai, aur ye token lekar wapas bhej dena hai waha, jaha password reset karna ka logic hoga. 
+         6. const resetPassword = (req,res) =>{}
+            - Yaha data humko params ke form mai milne wali hai, jaha milega uska naam resetToken hai jo routes mai hai
+            - password milega req.body se
+            -Verfication karenge database mai ki aisa koi tokens exist karta hai ki nahi 
+              - forgotPasswordToken generate karenge
+                -crypto ka use karenge, hash generate karenge aur compair karenge
+            Validate:
+            - Jo email hamne diya tha,us email par koi token exist karta hai ki nahi means jo token ham email par
+              bheje the wo kisi user ka hai ki nahi.
+            - jo token hai uska expairy kya hai, eligible hai ki nahi kahi time khatam nahi ho gaya n reset ka.
+                  const user = await User.findOne({
+                     forgotPasswordToken,
+                     forgotPasswordExpairy : {$gt:Date.now()}
+                  })
+            - so hamko wahi token nikalna hai jo expaire nahi hua hai aur jo token match ho jaye. 
+               if(!user): agar user expaire hai toh, error message and error code
+               else agar user sahi then:
+                 - user.password = password(new password)
+                 - user.forgotPasswordToken hai usko update karenge (pahle jaisa kar denge)
+                 - user.forgotPasswordExpairy isko bhi update karenge
+                 - user.save()   database mai save kar lenge. 
+               - success ka message with json some configuration
+            - query params ko bhi ensure karenge wo decode ho sake in app.js
+               app.use(express.urlencoded({extended: true}))
+
+          Note: Abhi tak hamne password reset kiya in case jab humko password nahi pata tha , 
+                next hum try karnege in case when password pata hai.
+
+         7. const changePassword = (req, res)=>{}
+            - req.body se password aur new password lenge.
+               const {oldPassword, newPassword } = req.body 
+            -user ki information req.user se milengi
+                const {id} = req.user
+            - if : old aur new password mai se ek bhi nahi hai toh, error message and error statusCode bhej do.
+            - else :
+                - uppar jo id hai hamare pass uske corresponding , database mai se uske password fetch karlenge.
+                - iski info user mai store karlenge
+                  const user = await User.findById(id).select('+password')
+            -Agar user nahi mila , unable to fetch password then errormessage with statusCode bhej do.
+            -Agar user exist karta hai toh , usko password compare karna hai
+              -we have already made comparePassword earlier, uski help se compaire karlenge. 
+                const isPasswordValid = await user.comparePassword(oldPassword)
+               - if:Agar password match nahi kiya toh phir error message with statusCode bhej do
+               - else: agar password matched
+                 - user.password mai newPassword dal denge
+                 - database mai save kar denge.
+                 - purana password ko undefined kar denge. 
+                 - success message send kardo.
+         
+         8. const updateUser = (req, res )=>{}
+           - update mai do chiz update karne ke liye de rahe hai 
+             1. fullname
+             2. profile picture
+           - req.body se fullname mil jayega. 
+           - token se id nikal lenge  
+           - check karenge user exist karta hai , is id ka
+             - if : exist nahi karta , then send error message with statusCode
+             - else : user ka fullname update kardo.
+             - check user ne profile picture dali hai kya. 
+               if dali hai : delete kardo wo picture
+               else mai try catch add kar do.
+             - database mai change save kar do
+             - Suusess message with statusCode bhej denge  
+            
+      7.models Folder :- 
+     - User Level model kaisa dikhega yaha defined karenge
+     1. user.model.js :
+        -user ka interface kaisa dikhega wo iske ander define karenge
+        -so pahle hamko schema aur model chahiye hota hai
+           import {Schema, model} from "mongoose"
+        -schema ke through ham koi bhi schema bana sakte hai
+            const userSchema = new Schema({}) : iske ander user ki configuration defined kar do
+            - fullname : type, Validation: required, minlength, maxlength,lowercase,trim,
+            - email : type, required, lowercase, minlength, maxlength, match(used check the email format)
+            -password : type, required, minlength, select
+            -avatar : public_id, secure_url
+            -role : type, enum, default
+            -ForgotPasswordToken:- type
+            -ForgotPasswordExpairy :-  Date 
+         -configuration defined hone ke baad uske ek instance bana lo
+        - ek instance, user, bana liya userSchema ka 
+            const User = model('user', userSchema)
+      Note: 3 Level of Validation:
+        1.interface level :- through react and javascript
+        2. user controller mai
+        3. jab hum database mai store karne ja rahe hai, uska model bana rahe tab. 
+
+        - Encrypting the password
+           -pre ke ander: save function
+             so ,  save hone se pahle is function ko call karna. 
+               userSchema.pre('save', function(next){})
+                - if: agar password modified nahi hai hai toh , toh wapas jakar next kaam karlo. 
+                - else: agar password mai changes hua tha, toh password modified kardo 
+         
+         - Generic method:- 
+           - Ek function jiske ander JWTtoken generate karenge
+           -  sign ke ander : information stored karenge token ke form mai
+             information like:- id, email, subscription,etc. 
+           - Ye jo function hai wo dynamically in information ko , tokens generate karke, store karke de dega 
+           - Ab is token ko cookies mai store karna hai in user.controller.js 
+
+         -comparePassword function:-
+          -so hum yaha compaire karna chahte hai ki jo hamara plain text password(jo user diya hai loggin karte samay)
+           hai usko bcrypt password jo stored hai database mai.
+           - logic : bcrypt mai jo password hai usko compair kar rahe hai, database ke password se
+           note: humko ye yaad rakhna hai ye async job hota hai, bcrypt method hai mostly hote hai
+
+         -generatePasswordResetPassword()
+           -ye function generate karne kaam karega, dynamically token aur expairy set karega.
+           -creating new token name resetToken, crypto se , ye random generated token de dega.
+           -database mai isko save  karna chahte  hai 
+             -Hamane kuchh defined kiya tha user schema usko set karna chahte hai
+               -forgotPasswordToken
+                 - resetToken jo uppar defined kiye the usko directly bhej sakte hai , but hum usko encrypt kar
+                   ke bhejenge, with crypto.
+                   -createHash(sha256): sha256 is an algorithum
+                   -update(resetToken): resetToken se update karenge.
+                   -digest('hex): hex form mai phir se le lenge
+               -forgotPasswordExpairy : 15 min ke kiye 
+               -crypto:- algorithum use ki hai , crypto algorithum, for security purpose , we can check library.
+                        
+   8.middlewares Folder
+     1. error.middleware.js:
+       - define karnege errorMiddleware = (err,req,res,next)=>{}
+       -response mai message aur status , user ko bhejna chahte hai
+       -export kardo 
+       - imprt it in app.js
+     2. auth.middleware.js :- 
+        -isLoggedIn method:
+          -req, res, next milega
+          -sabse pahle token de do from the cookie
+            const {token} = req.cookies;
+            - hum tokrn ko simply use kar paa rahe hai because hum app.js mai cookieParser hai so jo
+              bhi cookie aa rahi wo parse hokar aa rahi hai, so isiliye extract kar pa rahe hai.
+          -check
+           if : token exist nahi karta hai toh, errorcode and message, response mai de do
+           else: token exist then userDetail nikalenge.
+             -jwt.verify() :verify mai token SECRET key pass karenge , is sare details user ki mil jayegi.
+         
+          - user ki details aa jane ke baad , req.user mai send kar 
+          - export kar do aur isko use karenge route mai , getProfile se pahle. because info extract ho jaye 
+            jo humko send karna hai getProfile mai. 
+      
+      2nd Day
+      3. multer.middleware.js :
+         -hamne multer library use ki hai
+         -hamne destination de diya hai jo file doge wo is path par upload hogi
+         -file jo upload hoga uski kitani limit hone wali hai
+         - store kaha hoga, destination par , aur jo uska original naam hai, us naam se upload hogi.
+         -file filter means kon kon si file access ho sakti hai (if)
+         - else : filter jo hai uske alwaa hua toh ye error de denge
+         - middleware ko hum kahi use kasrte hai, isko use karenge routes mai, registration se pahle
+           - iske pass option hota haia ki single file upload karni hai ki, multipple file upload karni hai
+             upload.single("avatar"): data key hai uska naam avtar hai usko pass karenge
+
+           - avatar mai se data nikal0 binary wala, usko convert karke temporary folder mai dalo, aur mujko
+             path de do. 
+           - ye hone baad controller mai, file ka logic likhenge.
+
+               
+   9.utils Folder 
+      1.error.utils.js
+        - ek class banayenge usko extends karenge Error ke sath
+           class AppError extends Error{}
+        - constructor: message, statusCode pass kardo
+           constructor(message, statusCode)
+          -error message hai toh usko pass kardo 
+           super(message)
+          -statusCode ko bhi inreach karlo
+           this.statusCode = statusCode
+          - captureStackTrace check karna
+   
+     Utils ke through jo bhi error ko hum error message and status , la rahe wo users ko dikhana bhi hai , 
+     uske liye hum custom middleware likhane wale hai, bh default error aati hai, object jo hmko mila hai utils se
+     usko bhej denge next mai. 
+     Ek generic middleware banayenge :  agar koi bhi error aayegi toh wo yaha app.js mai dikhai de dega, 
+     app.js mai he ham define karenge. So go to middleware Folder. 
+
+   2.sendEmail.js :-
+     - we use nodemailer library 
+     - nodemailer.createTransport ke through kuchh chize set kar sakte hai : host,port,security, auth(3rd party ko use karne 
+       chahiye hota hai) 
+     - transporter.sendEmail(): kuchh configuration set karenge, email kisne bheja , kisko bheja hai, subject kya hai
+       , message kya hai. 
+     - export kardo sendEmail
+
+
+  10.upload Folder:-
+
+    Multer package:- 
+     - Appki koi bhi request jo multipart form data ke form aati aur usko generic form use karne ke kiye, 
+       hum multer use kar sakte hai.
+     - client side par form mai agar koi naam(avatar) bhej rahe ho, us avatar ko ek middleware bana kar usme bol sakte
+       hai ki multipart form data koi avtaar ka key aa raha hai, toh binary data ko convert karo, ek file upload ka logic
+       wo upload karne ke mujko req.file mai wo final data or url de do. 
+   
+     Cloudinary package :- 
+      -node ka sdk hai , jo quickly, file ek jagah se dusri jagah migrate karne mai kaam aata hai
+      - how to use:
+        -cloudinary ka instance mil jata hai, then aur kuchh configuration ke upper kaam kar sakte hai. 
+
+
+  11.Theory before Implementation :- 
+   1. Forget Password:- User Flow
+      - Reset password karne ki kuchh detail deni padti , jaise emailid or phoneNum.
+      - then is email ke basis par kuchh URL generate karunga , url ke ander token with ForgotPasswordExpairy
+      - generate hone ke baad kahi send kar dunga, agar emailid hai then Gmail par send kar dunga. 
+      - Gmail par , generate URL (unique URL) ko browser par open karenge
+      - Open hone ke baad , puchhta hai:-
+        - Enter New Password
+
+      Implementation do part mai hota hai:- 
+      Part1:
+       Email hai , validate karenge ki database mai  hai ki nahi, email exist karega toh, generate new token,
+       Do kaam karenge 1 send email with new url containing token +  2.save the token with expairy with database.
+
+       Part2:
+        Agar user jo time duration hamne save kiya hai uske ander us URL par click kar deta hai then, get the token 
+        from URL query parameter, verify token in the database ki token yahi hai n aur expairy nahi hua hai n, update
+        password in the database. 
+        -Encryption:- 
+          - token database mai dala we do in Encrypt form
+          - jab token verify kiya wo encrypt form mai karenge
+          - new password dala wo bhi encrypt karke dalenge. 
+   2. change password 
+         - change password karne ke liye kya karna hoga 
+         -user se maange ki purana aur naya password dedo.
+         - check karenge ki purana wala Password sahi hai ya nahi
+         - agar password sahi hai toh,  usko purana wala password se change kar denge.
+              
+   
+           
+
+        
+        
+       
+
+
+

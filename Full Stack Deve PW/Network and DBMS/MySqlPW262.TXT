@@ -1,0 +1,491 @@
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 34
+Server version: 8.0.44 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| information_schema |
+| jbit               |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> crete database Movies_Databases;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'crete database Movies_Databases' at line 1
+mysql> create database Movies_Databases;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show database;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'database' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| information_schema |
+| jbit               |
+| movies_databases   |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+9 rows in set (0.00 sec)
+
+mysql> use  movies_databases;
+Database changed
+mysql> DROP DATABASE  movies_databases;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| information_schema |
+| jbit               |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> CREATE movies_databases;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'movies_databases' at line 1
+mysql> CREATE DATABASE movies_databases;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE movies_databases;
+Database changed
+mysql>  CREATE TABLE Movies(Name VARCHAR(100), Rating INTEGER);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> SHOW TABLES;
++----------------------------+
+| Tables_in_movies_databases |
++----------------------------+
+| movies                     |
++----------------------------+
+1 row in set (0.01 sec)
+
+mysql> insert into Movies(Name, Rating) VALUES ("Avengers" 5);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '5)' at line 1
+mysql>  insert into movies(Name, Rating) VALUES ("Avengers" 5);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '5)' at line 1
+mysql> INSERT INTO Movies(Name, Rating) VALUES ("Avengers" 5);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '5)' at line 1
+mysql> INSERT INTO movies(Name, Rating) VALUES ("Avengers" 5);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '5)' at line 1
+mysql>   INSERT INTO movies(Name, Rating) VALUES ("Avengers", 5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  INSERT INTO movies(Name, Rating) VALUES ("Avengers End Game", 5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from movies;
++-------------------+--------+
+| Name              | Rating |
++-------------------+--------+
+| Avengers          |      5 |
+| Avengers End Game |      5 |
++-------------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select Name form movies;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'movies' at line 1
+mysql>  select Name from movies;
++-------------------+
+| Name              |
++-------------------+
+| Avengers          |
+| Avengers End Game |
++-------------------+
+2 rows in set (0.00 sec)
+
+mysql> clear
+mysql> Create Database Movies_DB_PW;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE Database Movies_DB_PW;
+ERROR 1049 (42000): Unknown database 'database'
+mysql> USE Movies_DB_PW;
+Database changed
+mysql> CREATE TABLE ACTORS(FirstName Varchar(20), LastName Varchar(20,  Gender Varchar(10, NetWorth Integer);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',    Gender Varchar(10, NetWorth Integer)' at line 1
+mysql> CREATE TABLE ACTORS(FirstName Varchar(20), LastName Varchar(20) , Gender Varchar(10), NetWorth Integer);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql>  INSERT INTO movies(Name, Rating) VALUES ("Avengers End Game", 5)
+    ->
+    ->
+    ->  INSERT INTO movies(Name, Rating) VALUES ("Avengers End Game", 5);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INSERT INTO movies(Name, Rating) VALUES ("Avengers End Game", 5)' at line 4
+mysql> INSERT INTO Movies_DB_PW (FirstName, LastName , Gender, Networth) VALUE ("Jonny"," Depp", "Male" 200);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '200)' at line 1
+mysql> INSERT INTO Movies_DB_PW (FirstName, LastName , Gender, Networth) VALUE ("Jonny"," Depp", "Male" ,200);
+ERROR 1146 (42S02): Table 'movies_db_pw.movies_db_pw' doesn't exist
+mysql> show table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> show tables
+    -> show tables;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'show tables' at line 2
+mysql> show tables;
++------------------------+
+| Tables_in_movies_db_pw |
++------------------------+
+| actors                 |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO actors(FirstName, LastName , Gender, Networth) VALUE ("Jonny"," Depp", "Male" 200)
+    -> INSERT INTO actors (FirstName, LastName , Gender, Networth) VALUE ("Jonny"," Depp", "Male" 200);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '200)
+INSERT INTO actors (FirstName, LastName , Gender, Networth) VALUE ("Jonny",' at line 1
+mysql> INSERT INTO actors (FirstName, LastName , Gender, Networth) VALUE ("Jonny"," Depp", "Male", 200);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO actors (FirstName, LastName , Gender, Networth) VALUE ("Chris"," Willium", "Male", 400);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO actors (FirstName, LastName , Gender, Networth) VALUE ("Rashmika"," Mandanna", "Female", 500);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO actors (FirstName, LastName , Gender, Networth) VALUE ("Tunisha"," Sharama", "Female", 1000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO actors (FirstName, LastName , Gender, Networth) VALUE ("Salman"," Khan", "Male",200) ("Sarukh","Khan","Male", 250);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '("Sarukh","Khan","Male", 250)' at line 1
+mysql> INSERT INTO actors (FirstName, LastName , Gender, Networth) VALUE ("Jonny"," Depp", "Male", 200);
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  INSERT INTO actors (FirstName, LastName , Gender, Networth) VALUE ("Salman"," Khan", "Male",200) ,("Sarukh","Khan","Male", 250);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from actors;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Jonny     |  Depp     | Male   |      200 |
+| Chris     |  Willium  | Male   |      400 |
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1000 |
+| Jonny     |  Depp     | Male   |      200 |
+| Salman    |  Khan     | Male   |      200 |
+| Sarukh    | Khan      | Male   |      250 |
++-----------+-----------+--------+----------+
+7 rows in set (0.00 sec)
+
+mysql> \!cls
+ERROR:
+Usage: \! shell-command
+mysql> select * from actors where Networth >= 500 ;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1000 |
++-----------+-----------+--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from actors where Networth >= 500 or Networth 200;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '200' at line 1
+mysql> select * from actors where Networth >= 500 or Networth <=200;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Jonny     |  Depp     | Male   |      200 |
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1000 |
+| Jonny     |  Depp     | Male   |      200 |
+| Salman    |  Khan     | Male   |      200 |
++-----------+-----------+--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from actors where Networth >= 500 or Networth < 200;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1000 |
++-----------+-----------+--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from actors where Gender = "Female"
+    -> select * from actors where Gender = "Female";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from actors where Gender = "Female"' at line 2
+mysql> select * from actors where Gender = "Female";
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1000 |
++-----------+-----------+--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select FirstName, NetWorth from actors;
++-----------+----------+
+| FirstName | NetWorth |
++-----------+----------+
+| Jonny     |      200 |
+| Chris     |      400 |
+| Rashmika  |      500 |
+| Tunisha   |     1000 |
+| Jonny     |      200 |
+| Salman    |      200 |
+| Sarukh    |      250 |
++-----------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select FirstName, NetWorth from actors where Gender = "Male";
++-----------+----------+
+| FirstName | NetWorth |
++-----------+----------+
+| Jonny     |      200 |
+| Chris     |      400 |
+| Jonny     |      200 |
+| Salman    |      200 |
+| Sarukh    |      250 |
++-----------+----------+
+5 rows in set (0.00 sec)
+
+mysql>  INSERT INTO actors (FirstName, LastName , Gender, Networth) VALUE ("Chadwick"," Bosman", "Male", 1000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from actors;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Jonny     |  Depp     | Male   |      200 |
+| Chris     |  Willium  | Male   |      400 |
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1000 |
+| Jonny     |  Depp     | Male   |      200 |
+| Salman    |  Khan     | Male   |      200 |
+| Sarukh    | Khan      | Male   |      250 |
+| Chadwick  |  Bosman   | Male   |     1000 |
++-----------+-----------+--------+----------+
+8 rows in set (0.00 sec)
+
+mysql> INSERT INTO actors (FirstName, LastName , Gender, Networth) VALUE ("Chris","Evans", "Male", 1000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from actors where FirstName like "Ch" ;
+Empty set (0.00 sec)
+
+mysql> select * from actors where FirstName like "Ch%" ;
++-----------+----------+--------+----------+
+| FirstName | LastName | Gender | NetWorth |
++-----------+----------+--------+----------+
+| Chris     |  Willium | Male   |      400 |
+| Chadwick  |  Bosman  | Male   |     1000 |
+| Chris     | Evans    | Male   |     1000 |
++-----------+----------+--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from actors where FirstName like "%is" ;
++-----------+----------+--------+----------+
+| FirstName | LastName | Gender | NetWorth |
++-----------+----------+--------+----------+
+| Chris     |  Willium | Male   |      400 |
+| Chris     | Evans    | Male   |     1000 |
++-----------+----------+--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from actors where FirstName like "%a% ;
+    ">
+    "> select * from actors where FirstName like "Ch%" ;
+    ">
+    "> select * from actors where FirstName like "%a% ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Ch%" ;
+
+select * from actors where FirstName like "%a%' at line 3
+mysql> select * from actors where FirstName like "%a%" ;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1000 |
+| Salman    |  Khan     | Male   |      200 |
+| Sarukh    | Khan      | Male   |      250 |
+| Chadwick  |  Bosman   | Male   |     1000 |
++-----------+-----------+--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from actors Order By Networth ASC;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Jonny     |  Depp     | Male   |      200 |
+| Jonny     |  Depp     | Male   |      200 |
+| Salman    |  Khan     | Male   |      200 |
+| Sarukh    | Khan      | Male   |      250 |
+| Chris     |  Willium  | Male   |      400 |
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1000 |
+| Chadwick  |  Bosman   | Male   |     1000 |
+| Chris     | Evans     | Male   |     1000 |
++-----------+-----------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql>  select * from actors Order By Networth DESC;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Tunisha   |  Sharama  | Female |     1000 |
+| Chadwick  |  Bosman   | Male   |     1000 |
+| Chris     | Evans     | Male   |     1000 |
+| Rashmika  |  Mandanna | Female |      500 |
+| Chris     |  Willium  | Male   |      400 |
+| Sarukh    | Khan      | Male   |      250 |
+| Jonny     |  Depp     | Male   |      200 |
+| Jonny     |  Depp     | Male   |      200 |
+| Salman    |  Khan     | Male   |      200 |
++-----------+-----------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql>  select * from actors where FirstName like "Ch" Order By Networth ASC;
+Empty set (0.00 sec)
+
+mysql>  select * from actors where FirstName like "Ch%" Order By Networth ASC;
++-----------+----------+--------+----------+
+| FirstName | LastName | Gender | NetWorth |
++-----------+----------+--------+----------+
+| Chris     |  Willium | Male   |      400 |
+| Chadwick  |  Bosman  | Male   |     1000 |
+| Chris     | Evans    | Male   |     1000 |
++-----------+----------+--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from actors Order By FirstName, NetWorth DESC;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Chadwick  |  Bosman   | Male   |     1000 |
+| Chris     | Evans     | Male   |     1000 |
+| Chris     |  Willium  | Male   |      400 |
+| Jonny     |  Depp     | Male   |      200 |
+| Jonny     |  Depp     | Male   |      200 |
+| Rashmika  |  Mandanna | Female |      500 |
+| Salman    |  Khan     | Male   |      200 |
+| Sarukh    | Khan      | Male   |      250 |
+| Tunisha   |  Sharama  | Female |     1000 |
++-----------+-----------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select * from actors  where FirstName like "Ch%" Order By FirstName, NetWorth DESC;
++-----------+----------+--------+----------+
+| FirstName | LastName | Gender | NetWorth |
++-----------+----------+--------+----------+
+| Chadwick  |  Bosman  | Male   |     1000 |
+| Chris     | Evans    | Male   |     1000 |
+| Chris     |  Willium | Male   |      400 |
++-----------+----------+--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from actors limit 4;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Jonny     |  Depp     | Male   |      200 |
+| Chris     |  Willium  | Male   |      400 |
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1000 |
++-----------+-----------+--------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from actors limit 4 offset 2;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1000 |
+| Jonny     |  Depp     | Male   |      200 |
+| Salman    |  Khan     | Male   |      200 |
++-----------+-----------+--------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from actors;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Jonny     |  Depp     | Male   |      200 |
+| Chris     |  Willium  | Male   |      400 |
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1000 |
+| Jonny     |  Depp     | Male   |      200 |
+| Salman    |  Khan     | Male   |      200 |
+| Sarukh    | Khan      | Male   |      250 |
+| Chadwick  |  Bosman   | Male   |     1000 |
+| Chris     | Evans     | Male   |     1000 |
++-----------+-----------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select * from actors  where FirstName like "Ch%" Order By FirstName, NetWorth DESC limit 2;
++-----------+----------+--------+----------+
+| FirstName | LastName | Gender | NetWorth |
++-----------+----------+--------+----------+
+| Chadwick  |  Bosman  | Male   |     1000 |
+| Chris     | Evans    | Male   |     1000 |
++-----------+----------+--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> update actors set NetWorth = 500 where FirstName = "Chadwick";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from actors;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Jonny     |  Depp     | Male   |      200 |
+| Chris     |  Willium  | Male   |      400 |
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1000 |
+| Jonny     |  Depp     | Male   |      200 |
+| Salman    |  Khan     | Male   |      200 |
+| Sarukh    | Khan      | Male   |      250 |
+| Chadwick  |  Bosman   | Male   |      500 |
+| Chris     | Evans     | Male   |     1000 |
++-----------+-----------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql>
+mysql> update actors set NetWorth = 1500 where FirstName = "Tunisha";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from actors;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Jonny     |  Depp     | Male   |      200 |
+| Chris     |  Willium  | Male   |      400 |
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1500 |
+| Jonny     |  Depp     | Male   |      200 |
+| Salman    |  Khan     | Male   |      200 |
+| Sarukh    | Khan      | Male   |      250 |
+| Chadwick  |  Bosman   | Male   |      500 |
+| Chris     | Evans     | Male   |     1000 |
++-----------+-----------+--------+----------+
+9 rows in set (0.00 sec)

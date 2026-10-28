@@ -1,0 +1,101 @@
+USER INFO:-
+  - user ki info humko cookies me se milegi aur baki ka info hum database se nikalenge. 
+  - in cookies we have emailid or userid. 
+
+  authroute.js:-
+  - get use kyuki user ki id get karni hai. 
+  -controller method name getUser :- iske liye ek method bana lenge authcontroller mai. 
+
+  authcontroller.js 
+  - getUser fn se humko user ki information laker aani hai
+      need to find info:
+      1. userid : chahiye because iske base par querry karke database se info nikale le. 
+         - hum user se har baar toh userid nahi maan sakte, kyuki already login/signin hu mai, meri info cookies 
+           mai available hai, koi sense nahu banega baar baar mangne ka
+      2. - Toh kaise validate karenge ki already login hai ki nahi or checking valid having valid token or not
+
+      Considering that we are login and having userid:
+        try mai :- userid ke base par  querry to find info from database
+           - password nahi dena hai client ko , humne uppar password mai select : false likha tha means by default
+             user schema se info nika raha hai , agar explicity password nahi mang raha toh usko nahi milega.
+             explict mangana ex : .select{+password}   (uppar likha hai)
+        catch: 
+           - agar user ki infi nahi milti hai tab lya karenge. 
+
+
+middleware Folder: 
+       - user ko infornation kon dega 
+       - validate kon kara raha ki ye validate user hai ki nahi we have middleware:-
+       -kaam karega
+         - jo token hamne generate karke daala tha,wo aaaya tha JWTToken() se, and jwttoken mai hamne userid 
+           aur emailid store karke rakhi thi ye information already ek cookie ander store hai. client side par 
+           kya hum token ko decrypt karke usme se userid ko nikal kar req mai dal denge toh 1 problrm solve.
+        jwtAuth.js : ek middleware
+         - jsonwebtoken ka ek instance banayenge JWT naam ka
+         - creating middleware 
+             - isme jwtToken naam ka ek method banate hai :-
+                1.tin cjiz pass ho rahi hai req, res , next. next : means ek se dusre process par jana one at a time
+                2. token mila toh thik nahi mila toh null de do 
+                   const token = (req.cookies && req.cookies.token) || null
+                3.if else :-  token hai toh kya karna hai nahi toh kya karna hai
+                    -no:- then send message not authorized or invalid token
+                    -yes :- then verify the tokens using try and catch
+                        -try : 
+                          - verify(token, process.env.SECRET) syntex :- verify(kisko, kisse)
+                          - verify is validthen payload mai info mil jayegi
+                               const payload = JWT.verify(token, process.env.SECRET)
+                          - ab hum is valid info ko userinfo mai bhej denge
+                              req.user = {id:payload.id, email:payload.email};
+                        -catch
+                          - agar verifiaction nahi ho pati hai toh message send kar denge verifivation mai 
+                            issue hai.
+             
+             -export bhi kar denge isko
+        
+         - authroute mai hum chahenge ki user pahle middleware se hokar getuser par:
+                authRouter.get('/user',jwtAuth, getUser) :- moving one proces to another at a time
+
+Summary:- middleware ban gaya hai, is middeleware ko hamne route mai bhi daal diya hai, jiske through hamara
+verifiaction bhi ho raha hai, payload mai req.user set ho raha jisko hum controll ke ander use kar rahe hai.
+
+problem: req.cookies use kar rahe hai, uske ander se token nikalne ki kosis kar rahe hai, sara info serialized 
+hota hai means network mai communication serialized hota hai. Ab kisko toh isko json mai convert karna padega 
+taki info/ token nikal sake, read kar sake, ye kon karta hai. uske liye hum use karte hai cookieParser milega
+require cookie-Parser se. cookie Parserpahle kar lena kisi bhi route mai jane se pahle in app.js. taaki jwtauth 
+mai request pahuchhe wo parsed gokar pahuchhe.
+
+// LogOUT:- 
+authcontroller.js :- 
+  method
+  export
+authroute.js :-
+    - create new route
+       - getmethod ke through
+       -ensuring ki user login hai ki nahi jwtAuth
+       - logout 
+   
+   aapk login ho ki nahi ye kaise pata chalta hai, aapke token mai jwttoken exist karta hai is se. Agar token ko 
+   delete kar de ya invalid kar de , then user logout ho jayega.
+   -response mai jo cookie thi naam token tha , usko null karde aur cookieoption khud de dete hai.
+
+// password encrypting:-
+- Hamane password set karte samay raw password set kar diya tha so hamko password encrypted form mai karna hai
+-we use bcrypt dependency use karenge
+- login karte samay jo password tha usko encrypt karke bheju par hum controller mai ye nahi karna chahta
+ wo bydefault save karte samay ho jaye. 
+   -mongoose mai ye features hai  schema ke uppar kuchh middeleware laga kar sakte hai(userSchema.js)
+    - pre() method (ek middeleware)
+      - if:- agar password change nahi hua hai toh is jagah se aage bad jao
+              if(!this.isModified('password')){
+                 return next()
+                }
+      - else :- agar password change than modified it
+        - modified karenge jo mera bcrypt hai uske help se 10 randomvalue ka isko password mai set kar denge
+                  this.password = await bcrypt.hash(this.password, 10)
+                  return next();
+
+// encrypted  karne ki wajay se signin mai dikaat aa gayi kyukijab hum compair karenge jo password database mai
+   hai aur jo user in ne bheja tha ek plain text hai aur ek encrypted form mai hai .
+   encrypted ko wapas decrypt nahi kar sakte toh hum encrypted form mai he compair kat sakte hai
+   ek method hota hai compair method jo bcrypt deta hai wo compair karke bata dega: - 
+      

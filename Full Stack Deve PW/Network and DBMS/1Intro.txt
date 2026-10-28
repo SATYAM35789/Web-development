@@ -1,0 +1,34 @@
+ Introduction:-
+ Networking concepts are important aspect of web development understanding how networks, the internet and various protocols work is crucial
+ for web developers to create reliable and secure websites. As a web developer, it's important to understand how the internet works .
+ this includes the concepts like networks, the internet, www, DNS, Ip addresses and port numbers. 
+
+ Computer Network: A group a interconnected computer is called network. 
+ A web developers, having an understandingof how networks work is crucial for buildinh reliable and secure websites. When a designing a website,
+ web developersneed to consider factors such as network speed , bandwidth, and latency to ensure that their site loads quickly and easily accessible to users.
+
+ Internet:- networks of computer Network. it follows the (rules) standaralized communication protocolsto exchange the data and information.
+ Provides vast no. of resources. 
+
+ WWW:- resources ko internet ke through use karne ke liye www mention karte hai. 
+ Close network bhi bana sakte hai, called intranet. we use something else  to access data on intranet. 
+ The web is often described as a distributed system, meaning that the web pages and resources are hosted on servers located all around 
+ the world . That allow users to access information and resources from anywhere with an internet connection, making the web an essential
+ plateform for global communication and collaboration. 
+
+Ip address:- Bahut sare devices network se connected hai, ab devices ko unically identify karne ke liye koi mechanism chaihiye n. 
+Ip addresses are used to identify and communicate with devices on a network and are an essential components of the internet infrastruture.
+Two main types 
+1. IPv4:- are the most common type and consist of four sets of numbers between 0 and 255 and seperated by dotes. ex 192.168.1.1
+2. IPv6:L:- are longer and consist of eight sets of four hexadecimal digits, seperated by colon. ex 2001:odb8:85a3:0000:0000:0370:7334
+(static and dynamic IP)
+
+Ip address are used to identify servers that host websites and web application. When a user types a domain name (www.pwslills.com)
+into their web browser, the browser uses a DNS server to translate the domain name into the Ip address of server thet hosts the website. 
+The browser then sends a request to server using Ip address, asking for web page or resources requested by the user. 
+
+Ip address humko bat diya ki kis device se connect hona hai, device mai different request bhi ho sakte hai, inko differentiate karne ke liye hamre pass
+hota hai port no. 
+
+Port No:- numeric identifier used to identify specific service running on a server. It used to help route data to correct destination on a network and are essential 
+componentsof internet communication protocols. 

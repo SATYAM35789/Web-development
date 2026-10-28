@@ -1,0 +1,76 @@
+<!-- What are CSS selectors:-
+ CSS selectors allow us to choose specific elements and apply styles to them.
+ -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Css Selectors</title>
+    <style>
+        /*Element selector */
+       
+       /* div{
+            background-color: red;
+        } */
+        /* Class selector*/
+        .red{
+                background-color: red;
+            }
+                
+        /* ID selector */
+        #green{
+            background-color: green;
+        }
+        /* Child Selector*/
+        div > p{
+            color: blue;
+            background-color: brown;
+        }
+        /* Descendant Selector*/
+        div p{
+            color: rgb(18, 193, 103);
+            background-color: salmon;
+        }
+        /* Universal selector*/
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        /*Pseudo selector*/
+        a:visited{
+            color: yellow;
+        }
+        a:link{
+            color: pink;
+        }
+        a:active{
+            background-color: red;
+        }
+        a:hover{
+            background-color: yellow;
+        }
+
+    </style>
+ </head>
+ <body>
+    <div class="red">
+        I am a div
+          <p> I am para inside div</p>
+    </div>
+    <div id="green">
+        Hello everyone
+    </div>
+    <div>
+        <article>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit, possimus. Libero cupiditate accusantium odio mollitia voluptatibus iste eaque aut! Quae voluptatem ut ea perspiciatis, possimus quibusdam recusandae doloribus harum ipsa.
+            </p>
+        </article>
+    </div>
+    <div>
+        <a href="https://www.google.com"> Go to google</a>
+        <a href="https://www.facebook.com"> GO to Facebook</a>
+    </div>
+ </body>
+ </html>

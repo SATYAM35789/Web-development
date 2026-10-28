@@ -1,0 +1,177 @@
+Payment modeule :-
+    1.Theory before Implementation :- 
+      -subscription :- subscription ke time period mai, aapko sare course available rahenge. 
+      -koi bhi naya course or lecture aapko accessible subscription time period mai. 
+      - user level par functionalities : subscription, unsubscription, verify
+      - Admin level par functionalities : user level + view, list
+
+      We use
+      -Razorpay ka use karenge
+        - planid : dete hai jaha hum defined bhi karte hai karte kuchh configuration. 
+        - har ek user jab wo Payment karne jayega, uske liye subscriptionid banti hai. 
+          - Payment ho jane ke baad uske liye invoice uske according hoti hai. 
+       -User plan for payment:
+        - kisi bhi course mai jab jayenge toh wo payment karne ke liye bolega, means option for course payment show hoga
+        - us option par click karne ke baad hum ek landing page par jayenge, jaha hum behind the scene hum ek url generate 
+          karenge, usko hum use karenge payment karne ke liye. 
+        - page generate, mai kuchh important details
+          -client side mai ek sdk , chahiye hoga react ka, jiske through payment gateway pura dikhega. usme important 
+           Razorpay ki public_key
+          - subscribe ke liye hame ek unique id generate karni hoti, uske subscribe ke liye post request karenge , usme
+            subscribe par hit karenge , waha humko subscriptionid mil jayega, is id ke corresponding payment initate kar denge. 
+            Payment hone ke baad Razorpay humko redirect karta hai ek url par, jo react side par implement hai. 
+            - ab hum varify karenge ki user ne payment ki hai ki nahi.
+              payload mai kuchh information hogi, Razorpay pay mai kuchh info hogi, jaha 
+              in Razorpay:
+               1.paymentid: is id ke liye payment ho gayi hai 2.subscriptionid : is id ke liye payment hua hai
+               3. signature : isme paymentid, subscriptionid and secret jo hamne store karke rakha hai inke combination se signature 
+                  match karna hai  
+        
+        User Payment Flow: 
+         - Creating endPoint :-
+         - /razorpay-key: client mai sdk hai uske liye , client ko de denge
+         - subscription url banana hai, agar subscribe nahi hai toh
+            /subscribe : is se hum payment gateway par chale jayenge
+         - jab client par wapas aayega toh usko verify kar lenge.
+            /verfy :  payment done after verification.
+
+        subscription hua hai ki nahi, ye chiz ko hum user level par reakhenge in user.model.js add subscription :id,status.
+        payment.module.js : ye payment ke according details rakhega , uska structure kaisa hoga. 
+
+    
+    2. module folder :
+       -payment.module.js:
+           - model aur schema mongoose se import kar lenge.
+           - paymentSchema naam ka ek schema bana lete hai. 
+             -razorpay_payment_id : type, required, 
+             -razorpay_subscription_id : type, required
+             -razorpay_signature: type, required
+             note: id and plan ye sab razorpay se mil jayega hum uska reference use kar lenge.
+           - payment ka information ke liye ek payment naam ka variable bana lete hai
+             - jo lega collection ka naam (payment) aur schema chahiye.
+           -export kardo Payment ko.
+    
+    3.routes  Folder
+        - payment.routes.js
+          - import karlo Router ko express se
+          - ek Router ka instance bana lo router naam ka
+          - ek router, jiska route('/razorpay-key')
+             jis route par different request ho rahe hai jaise
+              1  .get(getRazorpayApiKey)
+          -  router, jiska route('/subscribe')
+             jis route par different request ho rahe hai jaise
+              1  .post(buySubscription)
+          -  router, jiska route('/verify')
+             jis route par different request ho rahe hai jaise
+              1  .post(verifySubscription)
+          -  router, jiska route('/unsubscription')
+             jis route par different request ho rahe hai jaise
+              1  .post(cancelSubscription)
+            
+          - Hum chahte hai ki admin, payment se related details dekh paye so
+          -  router, jiska route('/')
+             jis route par different request ho rahe hai jaise
+              1  .get(allPayments)
+          - Sabko export kardo
+        Note : iska root path defined kardo app.js mai
+           -app.use('api/v1/payments',paymentRoutes)
+          - Adding validation : is operation ko karne ke liye kya criteria/capability ki zarurat hai like
+             We defined in different roots like : isLoggedIn,
+    
+    3. controller Folder
+        -payment.controller.js
+          1.-const getRazorpayApiKey = async (req,res,next)=>{}
+             -razorpay ki key ko wapas se client ko send karni hai
+               - statusCode aur json configuration ke sath bhej do
+
+          2.-const buySubscription = async (req,res,next)=>{}
+              - subscription lene se pahle ye verification karenge ki jo kharid raha hai , wo exist karta hai ki nahi
+                -user se related info, humko milega req.body se.
+                -database mai check kar lenge ki ye user exist karta hai ki nahi. 
+                if: user exist nahi karta hai toh, errormessage with statusCode de do
+                if: agar aap admin ho tabhi aap subscription, nahi le sakte
+                   - user.role === 'ADMIN' : errormessage with statusCode
+                - if not admin, then go to razorpay, then uska ek subscription create lar lena hai,
+                  -agar ek subscription create karenge, tabhi uske corresponding payment gathway par redirect karenge,
+                   jaha hum payment karenge
+                   -generating subscription :-
+                     -razorpay ki dependency : server.js par razorpay ka instance bana lenge
+                        -export const razorpay = new Razorpay() 
+                        - Razorpay mai kuchh configuration dena hai. 
+                      for subscription :  const subscription = await razorpay.subscriptions.create()
+                       iske configuration mai plain_id denge : jiske corresponding har baar load kearenge ek url generate hota ,
+                       ek naya subscriptionid generate hota hai, uske corresponding payment hota hai.
+                -subscription banane ke baad, us information ko store kar  lete hai user mai. 
+                  subscription.id, subscription.status
+                - database mai save kar do
+                - success message with statusCode aur sari info bhej dete hai.
+                - subscriptionid : jo client side, react par sdk ko chahiye jaha se wo page payment ke redirect karega.
+                - ye flow ho gaya jiske through ek url generate kar sakte hai, upi mai detail dal kar wapas aayenge toh ye usko statuc ko active 
+                  kar dega. Active hone ke baad verify karna hai. 
+          3.-const verifySubscription = async (req,res,next)=>{}
+             - client se data milega, razorpay_payment_id,razorpay_signature, razorpay_subscription_id.
+             - yaha bhi check kar lenge ki user exist karta hai ki nahi, id nikalkar, req.user se.
+             - Theory:- verify kaise karte hai, uske liye kya zarurat hota hai, aur kya chize possible hota hai wo sab info
+                ke liye , razorpay Psotman collection hai, jaha dekh sakte hai ki subscription, cancelSubscription,
+                verfy ke liye kya karna hota hai yaha mil jata hai. or Aur iske documentation mai bhi jayengi. 
+                - plan ek rahene wala hai, multiple plan nahi hai. hotstar ki tarah. 
+            - user  check with help of id. in database
+            -  if : user not exist, then errormessage with error code return kar do.
+            - subscriptionid nikal lo user se. 
+            - signature generate karenge :
+              -crypto ki help se, 
+                - createHmac('sha256',process.env.RAZORPAY_SECRET)
+                - update() :  do chiz pass karni hoti hai
+                   -razorpay_payment_id
+                   - pipe (|)
+                   - subscriptionid
+                - digest('hex')
+            - generated signature ko compair karenge jo hamare post data mai tha us se
+             -if:agar match nahi karta hai, then errormessage with statusCode send kar do.
+             else : agar match ho gaya toh, entry create ko kardo  
+
+            - Ab user level par subscription ko active mark karna hai. 
+              -user.subscription.status = active
+            - database mai save kar do
+            -success message with json configuration send kado. 
+
+
+         4.-export const cancelSubscription = async (req,res,next)=>{}
+           -user ki id nikal li req.user se.
+           -user level par check karna hai ye exist karta hai ki nahi findById(id)
+           - agar user exist nahi karta, aur wo admin hai
+           - user se related subscriptionid nikalni hai
+           - an subscription ko cancel karna hai
+               with the help of razorpaymethod
+           - user level par subscription ka status set kar denge.
+           - changes ko database mai save kar denge.
+           - error handling ke liye try catch mai dal sakte hai
+         5.-export const allPayments = async (req,res,next)=>{}
+            - Interface description:
+              -registerd users :  wo jo payment page par aaye hai, payment initiate karne ki kosis ki hai.
+              -subscribed users : registered users mai se kitno ne subscribe kiys hai. 
+              - subscription count : kita subscription abhi tak  hai
+              - total revenue :- subscription count, se kitna paisa collect hua hai.
+            -Theory
+              -razorpay aur database se information nikalenge, sara info client as it is de denge
+              -future :- monthley aur final monthley mai kitne logo ne, kitno ne registered kiya hai aur kitno ne
+               actually payment kiya hai.(massazz karlo)
+            - req.query se count nikal lenge
+            -count ke basis par sare subscription nikal lenge, subscription variable mai
+            - let's se ki subscription mai konsi detail aa rahi hai
+                -    res.status(200).json({
+                        success : true,
+                        message : 'All payments',
+                        subscriptions
+                    })
+        
+        -Ab hum chahte hai ki course ki details(course.routes.js) wahi dekh paye jo, subscription liya hai , then auth.middleware.js
+         ek method bana lenge authorizedsubscriber() naam ka.
+           -const authorizedSubscriber = async(req,res,next) =>{}
+             -subscription mai subscription ka status user level par store karke rakha hai, toh se subscription nikal
+              lenge.
+             -currrentUser ka role kya hai, user hai admin, nikal lenge, req.user.role se
+             -if: check karenge ye currrentUser ka role admin toh nahi hai. aur subscription ka status active nahi hai
+                  toh errormessage with statusCode de denge
+             - next() 
+

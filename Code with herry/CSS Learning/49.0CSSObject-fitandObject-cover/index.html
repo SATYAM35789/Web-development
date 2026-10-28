@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Object-fit and Obeject-cover</title>
+    <style>
+        .container{
+            width: 566px;
+            height: 355px;
+            border: 2px solid black;
+            background-color: azure;
+        }
+        img{
+            width: 566px;
+            height: 655px;
+            object-fit: cover;
+            /* object-position: top right; */
+            /* object-position: bottom right; */
+            /* object-position: 10px 20px; */
+            object-position: 25% 30%;
+            /* object-fit: contain; */
+            /* object-fit: fill; */
+            /* object-fit: scale-down; */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+          <img src="img.jpg.jpg" alt="Group Photo">
+    </div>
+</body>
+</html>

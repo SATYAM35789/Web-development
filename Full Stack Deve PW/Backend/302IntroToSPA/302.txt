@@ -1,0 +1,233 @@
+Theory 
+     1. Introduction to SPA (302):
+  
+      -Normally websites par jab visit karte hai, brawser par toh hum ye notice kar sakte hai ki pages refresh nahi ho 
+       rahe hai, some parts of the website stick.like linkdin, bookmyshow, etc we on brawser like that ki hum app use 
+       kar rahe ho, jaise usme bhi koi reloader nahi hota. Ye websites karti hai par kuchh ceases mai(refresh).
+        -in type ke application (linkdin, bookmyshow)ko kahte single page application.
+      -App jaise intergration ab website par bhi kar sakte hai, hum collage ki websites dekh sakte hai jaha pages reload hote
+       hai. 
+      -Single Page Aplication(SPA):- 
+        -aise apllication hoti hai jo user se dynamically content rewrite karwane mai help karti hai. matlab user interact
+         karega aur dynamically jitna part reload hona chahiye utna reload hoga, ye app like feeling deta hai. 
+         - features:- 
+            -single page application ka source code hota wo kaffi minimized hota hai.
+            - isme hum single page render karte hai aur us single page ko, javascript ki help se modify karte rahte hai.
+              yahi hota hai SPA mai. 
+         - isko banane ke liye bahut sari frameworks aur library available hai. 
+             like google launched : angular, facebook launched : react, emberjs, vuejs  aise bahut sare frameworks hai jo single
+             page application mai help karte hai. 
+         - Why we choose React? 
+           - React industry mai sabse jada used hai, job oppourtunity better hai, advanced than others, back by facebook
+             and most application use react : linkdin: ember,etc . 70 to 75 percent of application react mai likhi jati hai.
+
+     2. Intro to react (303):
+          -React ka basic concept, ye user interfaces banane mai help karta hai, ye user interfaces ko reusable component
+           ke form mai treat karta hai, 
+          -Reusable component means: jab bookmyshow visit kar rahe the tab kuchh chije stick thi means like uska navbar
+           jo reuse ho raha tha. Yahi ek underline principle jis par react shuru se kaam karta hai.
+          -React ka use karke hum bookmyshow jaise apllication bana paa rahe hone , javascript se interactivity layenge.
+          - React ki latest docomentation mai bolta hai ki , ki hum kaffi kuchh use kar sakte hai jaise nextjs aur bhi framework 
+            use kar sakte hai, lakin purne docs mai createapp ke bare mai baat karte hai. 
+            - react ek javascript library means bahut sara coes javascript mai likha hoga.
+          - react cdn ke through hamne apne html page par react load kar li hai 
+             -cdn links are : 
+              <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+                :-react mai bahut sare fratures hote hai jaise, hooks. etc
+                  -react ka bahut sare frameworks hai react-native for mobile apps, react-dom use for web-app par 
+                  manipulation kar sakte hai. 
+
+              <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+          - react mai hum html ke elements banate kaise hai : 
+             -react ki help se div ko , hum dom tree ka tree bana sakte hai , phir html elements ko render kar sakte hai.
+             - so react mai jab hum render karte hai, tab wo normal form mai render nahi hote. are called react element. 
+               react element ek json object ke form mai hota hai, jaha value key-value pair mai store hote hai. 
+                - type: element ka type kya hai like button, div,h1,etc. 
+                -props : ek khud ek object hota hai, ye uski property hota hai like id,class,children,etc
+
+                is type ke json structure ko react element kahte hai.
+            
+           - Difference b/w html element and react element
+             -html element :  ye ek actual representation hai dom tree ka. , ek node hota hai.
+             -react element : ye dom node nahi hota.(ex index303)
+           -React.createElement(type,props,children) : creating the react element
+              - children : also defined in the form of  React.createElement()
+
+           - How to render react element : 
+             - react element ko root element par render karna hoga. 
+               - rootcontainer nikalenge with the help of getElementById ke through
+                -const rootContainer = document.getElementById('root')
+               - ReactDOM ek fun provide karta hai jiske help se root element bana sakte hai
+                 const root  = ReactDOM.createRoot(rootContainer)
+               -root.render(Btn()) 
+           -jsx :  html like syntex hota hai, jo coding implementation ko easy bana deta hai.
+           - summary : pure reactjs and manually created the react element. 
+    
+     3. setting up react using vite and create react app 
+        -bahut sare tool hote hai jo, hamare basic react app bana kar late hai 
+          - jaise : vite tool and create-react app : jiase inko google search karte hai ye instruction dete hai isko 
+            banane ke liye 
+            create-react app:-
+            - npx : direct terminal mai run ho sakte hai, ye basic react app banane ka steps hai:-
+                 npx create-react-app my-app
+                cd my-app
+                npm start 
+      
+        - http://localhost:3000 is hamara basic reactapp ban chuka hai.
+
+      - NOTE: Ab tak humko pata hai ki, hum ek he page render karte hai, usme ek root element banate hai waha par react 
+              element ko render karte hai.
+             -so jaha root element hota hai sirf wahi page render hoti hai exactly, aur javascript aur manipulation instruction
+              page par akar karta hai.  
+      - vite tool :
+          npm create vite@latest 
+    
+    Intro to Jsx(305)
+      - jsx ki help se html jiasa markup likh sakte ho
+         - javascript ke ander html jaisa syntex likh pate hai
+      - Babel in js : babel ek tarah ke syntex ko compile karke dusri tarah mai kar sakta hai.
+        -javascript babel jaisa transpillers ka use karke, is jsx jo actually, usi syntex mai convert kar dega
+         jis tarah hamne pahle likha tha. hum easy dikhne wala syntex use kar sakte hai. 
+      - ab jab bhi fun ka naam aur uske ander html ka tags dikhenge, wo actually ek component hai, jo reuseable UI interface  hai.
+      - component ko hum do tarike sa bana sakte hai : 
+        1. class 2. Function
+        - latest tarika hai function based component ka.  
+          -Ye ek normal javascript function hai . And function ko export bhi kar sakte hai. 
+      - multiline jsx banana hai toh function ke return mai () bracket ka use karlo. 
+      - function ko call karne ke <functionNaam /> ye syntex hai. 
+    
+    Component basic(306):-
+      -use case 1 :(Repeatation problem)
+        - jab hum baic html projects banate the, 1. index.html 2. about.html
+          - agar dono page mai navbar bana rahe hote toh hum ek mai banate dusre mai same copy-pasete kar dete.
+          - baad mai kuchh updation hoti toh jaha jaha defined hai, waha waha changes karne padte, which is waste,
+            there is way in programming to do not repeat yourself. 
+          -html is not programming languages, so usme logical principle se decsion capabilities nahi hoti. 
+          -so html mai bahut sara, repeatation of the cord ho jata hai. 
+          - iske wajah se updation mai, bahut probllem hoti thi. 
+        - React is repeatation ki problem ko solve kar deta hai, react help in 
+          html + css + js , is tino ko combine karke ek nayi entity banao, component, ye component ek reuseable UI element hoga.
+          - koi bhi component, is made up of html tags. 
+          -jaise html nested structure mai hota hai, waise he component bhi nested structure mai ho sakta hai. 
+          - How can you defined this component?
+            -1. Javascript functions  2. Javascript classes. 
+            note: functional component are more revelent. 
+          -ham apne component mai interaction laga sakte hai, click, hover, and styling bhi kar sakte. ye sab ek component bhi 
+           kar sakte hai.
+          -jab jsx mai component likhte hai, function App() in my-app,  is component ki calling, html jaise hoti hai. 
+           toh pre-defined-html aur user-defined-component differentiate kaisa kar pata hai(react). 
+           -user-defined-component are internally functions hote hai, aur inko defined jsx mai karte hai, 
+           -The name of the component should, always start in Capital. 
+           - While creating be careful of this
+            - function ke return mai single tag return kar diya , toh koi error nahi aayegi. 
+            - multiple line ke liye (), is bracket ka use karlo.  
+              -return karte waqat at last sab ek he parent ke ander aan a chahiye means final mai jab return kar rahe hai
+               wo ek single parent mai return hona chahiye.
+               - ek parent mai bind karke bahut sare tags bhej react ko koi issue nahi hoga
+            - export the component.
+            - hum ek file mai ek se jada component bana sakte hai, humko kabhi bhi nested component nahi banana chahiye. 
+
+      Import abd export(307)
+        -  Moduling concept in javascript : 
+           -nodejs kahata hai ki aap apne code ko reusable modules mai divide kar sakte hai means ek chhota code
+            of file using in another file.
+           - jo jo part ek file ka hame use karna hai, usko expose(visible) karenge, expose karne ke liye export karenge.
+             jaha isko use hona hai, waha isko karenge import. or require karte hai. 
+             -react mai import mainly use hota hai, but nodejs mai import and require both. aisa kyu
+             - In nodejs, do tarah ke module hote hai, 
+               cjs(common js Moduling):- syntex const express = require('express') 
+                - ye old syntex hota  hai.  
+               es(echema script moduling) :- syntex import App from './App'    
+            - export karne ke do tarike hote hai 
+              1. default export : agar koi import kar raha hai toh ,ye or jo iske ander wo zarur milega. 
+                 - mainly for the single entity ko export karne ke liye use hota hai.
+                 - inko direct import kar sakte hai, inko destructure karne ki zarurat nahi:
+                    import DogCard = from 'filename' 
+                    - import karte waqat, default export name se alag ho sakte hai. 
+              2. named export : 
+                  ex export function a()    
+                     export function b()
+                   -inko import karne ke liye:- ek object ka access milega, usko destructure karenge.
+                    import {a,b} from 'filename'
+              3 dono ko sath mai import karne ke liye
+                 - import default ,{a ,b} from {filename}
+    Few pointers on jsx(308):
+      -jsx Requirements :-
+        - user defined component should be start with capital letters. 
+        - jsx mai return : humesha single element/entity he return karenge, uske ander multiple elment ho sakte hai.
+        - ab hum nahi chahte hai ek extra element add kare, tab hum fragement use kar sakte hai. 
+        - fragement : ek ya ek sa jyada elements ko group karne ki functionalality deta hai. but wo apne taraf se extra
+          element nahi dalta. ex div in App.js help to group but extra element aa ja raha hai. 
+        - fragement use karne se dom par koi extra element add nahi hoga. 
+        - final output mai feel hoga ki grouping ki he nahi hai thi. 
+        - fragement use karne ke empty open and empty close tag de sakte hai
+
+        jsx based component banate waqat :
+         - har component ko kuchh data input kar sakte hai from its parent. is kahte hai props. 
+         - component props :- child element ko value bhejna ko he props kahte hai. 
+           - html mai extra property add karne ke liye hum attributes use karte the, aur ye bhi html like structure hai. 
+           - attributes jaisa he syntex hota hai props ka. 
+           - props ex < img src = "...">
+             - jab function isko access kar raha hoga tab hum uske parameter mai props.attribute pass ho jate hai.  
+             - src ek string expect kar raha tha props.src nahi. lekin ye ek valid javascript expression hai. 
+             - isko compute karne ke liye {} mai bind kar sakte hai. 
+             - jitne aise attributes honge jo props ka kaam karne wale hai, wo camel case mai rehega hamesha. 
+               like class ko className in jsx. 
+    
+    JSX Curlies:
+      - Destructuring the props example
+         function Image1(props){
+          return (
+           <div>
+              <img src = {props.src}></img>
+              <h2> Hello I  </h2>
+            </div>
+          )   
+        }
+
+      destructure form:
+        function Image1({src}){
+          return (
+            <div>
+              <img src = {src}></img>
+              <h2> Hello I  </h2>
+            </div>
+          )   
+        }
+    
+     - allocating default value to the props
+        function Image1({src = " Hello I am default value."}){}
+     - passing full jsx as a props
+       import Name from "./Name" 
+       function DogCard(){
+         return (
+           <>
+              <Name>
+                  <h3> Bruno </h3>
+              </Name>
+           </>
+         )
+       }  
+       note: dekho jo jsx hamne name ke ander pass ki hai ab usko Name file ke ander as children props use kar 
+       sakte hai. so Name file mai. 
+    - jsx Curlie:
+       jo nhi javascript expression hogi, aap usko as a input de sakte hai. then wo expression evaluate ki jati hai,
+       then jo output usko render kar rahe hote hai.  
+       - in DogCard()
+          -let title = "This is dog card."
+          -return(<h2> { title } </h2>) 
+    - jsx mai jab attributes defined karte hai, tab as a string htm jaisa nahi pass kar sakte like
+       <h1 style= "font-size:30px"></h1>
+      - so hamko string ki jagah object pass karni padegi.
+         <h1 style={fontSize = 10px}></h1> wrong
+         <h2 style ={{fontSize :'10px', color : 'red'}}> correct
+         do Curlie mai because one Curlie for the object and another for the jsx destructure
+      -jsx mai jab bhi koi attribute de rahe honge, 99 percent times, we realize that sab kuchh camel case mai likha jata hai.
+
+         
+    
+
+
+         
+
+

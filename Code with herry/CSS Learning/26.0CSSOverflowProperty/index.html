@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Css Overflow</title>
+    <style>
+        .box {
+            width: 40vw;
+            height: 30vh;
+            border: 2px solid black;
+            /* We can see in the preview that content is overflow*/
+            /* overflow: scroll; */
+            overflow: auto;
+            /* white-space: nowrap; iska use karne se horizontal space le ge */
+            /* text-overflow: ellipsis; */
+            /* overflow: auto;
+            overflow-x: hidden;
+            overflow-y: scroll; */
+            overflow: hidden auto; /* Uper ke tin in one line */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Css Box modal:- The CSS Box modal defines how elements are rendered and how their dimensions are calculated.
+     It discribes the structure of an element as rectangular box that has content, padding, a border, and a margin -->
+    <div class="box">
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate fugit debitis dignissimos amet expedita
+        blanditiis recusandae incidunt, mollitia sed deserunt ratione accusantium, culpa alias esse earum nam quisquam
+        id cum temporibus quidem voluptates sit saepe. Hic consectetur doloremque dolorum fugiat? Ut est rem amet
+        repellat.
+    </div>
+</body>
+
+</html>

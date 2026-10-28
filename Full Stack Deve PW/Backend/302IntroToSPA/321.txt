@@ -1,0 +1,337 @@
+                     *** project : todo_list   ***
+
+- vite apps setup kar kenge, css files and some conatain of app files ko removes kar denge. 
+- creating some components in component folder. 
+- we have two component now Todo and Todolist.
+  - we have basic structure of function Todo() in Todo folder.
+     - Basic structure of function include function body with export statement. 
+    - In Todo() we have getting an argument of name todoData.  
+    - Div: input , {todoData}, Button Edit, Button Delete
+  - now we have the function Todolist() in the Todolist folder
+    - Basic structure of function
+    
+
+Challenges and Overcoming it:
+component ban gaye hai inko synchronized karna hai. 
+- Jaise he hum Add button par click kare in AddTodo() waise he Todolist() mai list update ho jaye. 
+  - normal list ko ek stateVarible bana lenge list ko . 
+  - list jaha hai waha access hai usko maintain karna ka. 
+  - 1st approch:- ek callBack call kar le, phir app component mai gaye aur waha se apna data list me pass karde ya maintain karle. 
+  - 2nd approch :-  list ko la de jaha se callBack kar rahe the app.jsx aur todolist() ek props expect kare. list naam ka
+    aur AddTodo() ye bhi props ecpect kare updatelist naama ka. 
+    - finished: checkBox ke ander ek property hoti hai, checked karke jo batati hai ki , jaha lagaye hai wo finished hai ki nahi.  
+- apne parent's ko check karna hai ki  wo checked hai ya unchecked hai. so id  managa lenge Todo ke ander. 
+  id ka access lene ka baad hum check karenge ki, ek stateVarible maintain karenge, isFinished pass kar do. 
+
+Summary:- 
+simple component and prop management karna hai.AddTodo() jo apne parents ka updatelist fun call karta hai,  ek todo hai jo apne parents data ekatha karta hai
+aur Todo() se data lakar print kar raha hai. App.jsx mai el stateVarible maintain kiya hai, jiska setter function ek callback custiom implementaion kar ke 
+Todo mai pass kar rahe hai. 
+- Todo list ke anders e chize update bhi ho paye. Have functionality of add and delete. 
+
+- mai apme list aur setList ka acccess TodoList() ko de raha hu, 
+  - Todo() ke ander ek finished property rakhte hai, jiase he onchange karte hai, toh Todo ko hu ek callback de rahe hai changefinished with updated
+    finished value, jo bhi finished value hai uske basis par puri list par iterate karenge. todo ko updated kar denge updated finished se,
+    phir updatelist mai updated value ko pass kar denge, phir Todo mai jakar value ko marked kar denge. changefinished mai . 
+
+-Hamara actual component app.js mai hai, aap.jxs se component Todolist() mai ja raha hai, phir waha se Todo() mai ja raha hai, props ke through pass hote ja 
+ rahe lakin parent child ka relation aa rahah hai mutiple baar. child ko agar kuchh karna hai, aur wo chahta hai ki parents ko pata chal jaye toh,
+ jumko callback ke through karna pad raha hai. kaffi combustion practice ho ja rahai hai. 
+ - Isko solve karne ke lie hamare pass bahu sari techniques hai, jaise redux library. usme hum aise he problem ko solve kar rahe hote hai. 
+ in advanced topic par jane se pahle hum ek concept sikhenge context Api ka. Ye concept baad mai add hui hai, aur context api ne kaffi chizo ka game change kar diya
+ pahle hamesha redux jaise library ka use karna he padta tha, ab hum contextApi ka use karke bhi almost sari chize kar sakte hai. Yaha thoda limitation exist karti hai
+ like cleaning, etc Hachathon mai used kar sakte the. 
+ 
+- contextApi kya hota, kaise use karte, benifits of using context Api:-
+  - iske help se humko apne grand ke grand child se baat karne ke liye props se nahi bhejne padenge, aur apne child se apne heirarchy mai kahi 
+    bhi change karna ho toh, easily ho sakta hai. callback call karne ki zarurat nahi padegi. 
+  - context ek parent ki tarah hota hai, aur us parent ke ander sare ke sare child pass kardo as child, 
+    - agar context mai agar koi bhi value defined hai hai toh wo har children mai by default accssible hogi.
+- Created context folder and have the TodoContext.js file.
+- Have function createContext from react , import kar lenge, :- it help in creating the parent context. 
+- export this function
+- main.jsx mai import kar lenge.
+- jaise he hum ek contextObject banate hai, toh us object ke help se wo context parent bana sakte hai. 
+- toh har ek contextObject ek method provide karta hai provider so contextObject.provider humko parent banane ke capability de dega.
+- ye sab hum App.jsx mai he karenge. 
+- TodoContext.Provider isme ek props pass karne value naam ka. ye ek object lega jiske ander hum stateVaribles pass kar denge.
+- ab ye list ans setlist app ke ander directly accssible hoga , by import same contextObject. in app.jsx
+  - Jaha use karna hai contextApi: ander useContext() hook  ke ander hum Apna defined contect pass kardenge contextObject , iske ander jo bhi
+    value pass ki hogi wo sari yaha mil jayengi. 
+
+- Pahle state moves kar rahi the from App to Todolist to Todo , abhi state app mai lakin, ab internal children ke pass ab access hoga. 
+  useContext hook ka use karke, same Context pass karenge jis ko hamne provider banaya hai (states ka).
+  object ke form mai useContext se data lenge because hamne  object ki form mai pass kiya tha. 
+
+Lecture 322 :- 
+ -Need cleanup code?
+  -AddTodo.jsx : component mai hum ek UI hai aur ek state manage kar rahe hai, jisme ek updatedList ka props hai.
+  -Todo.jsx:  ek Todo ka component hai, isme single todo ka details aati hai , aur component mai kuchh callback aata hai.
+    like : todoData, isFinished, changeFinished, onDelete, onEdit
+  -TodoList.jsx : component complex ho gaya hai, iska kaam tha context se todo uthata tha aur list mai Todo print karne the. 
+   -print karne ke liye hamko bahut sari callback pass karni padi hai. isEdit, isDelete, etc
+   -Readablity: 
+     in sare callback ko ek alag function ke form mai likh lete hai. 
+     - Hamne abhi tak function toh bana liye taki Readablity easily like onFinished, onDelete, onEdit.
+     - lakin jaise jaise hamari app grow karti jayegi waise waise ye function aur badte jayegi jis maintainablilty achhi nahi 
+       ho payegi. Jitne jayda, ye callback aur event handler hum dalenge utani jada maintainablilty hamper hoti hai. 
+       Agar kahi aur bhi zarurat padegi toh hamko ye fun waha bhi likhna padega. Extract out kar sakte hai  but state bhi hai. 
+     -So basically hamare pass react mai reducers hote hai, so reducers bahut powerful mechanism hai, ek simple function hai. 
+      -Wo sirf do chize leta hai, 
+       -1.current state ka input lega (object) :- jo bhi state update karna chahte hai.
+       -2. Action input lega(object) : us state ke uppar kya opertaion karna chahte hai.
+          - arguments 
+             - type property like add_todo
+             - payload() : action karne ke liye humko kya kya chahiye
+        - basically hum ek state ke corressponding sara logic ek he reducers function ke ander dal sakte hai. Jab bhi callback ko trigger
+          karna hoga, in action execute karenge, means dispatched karenge means koi action karna tha aur hamne action ko start kar diya. 
+    - Creating folder reducers and finle name TodoReducers.js
+    - Reducers ek simple fun hai, state and Action lega 
+    - jab hum ek action perform karenge, ye reducers perform hoga.
+    - Different checks lagaenge , Different types of action ke  basis par aur inke corressponds kuchh perform hoga.
+      - har ek action ka type: wo ek tatah ki string hoga jo bateyegi, kya action excute karna hai. Maaan lo add_todo karna hai 
+        toh hamare payload mai ek todo aana chahiye. action ke ander ek payload object hai waha se hum todoText nikal lenge aur
+        apne state ko update kar lenge. 
+      - Yaha humko set updatter function ki zarurat nahi hai. Baad mai ek hook padenge. 
+      - ek nayi updated list banate the n, edit karte hue, yaha bhi bana lenge, state ke uppar iterate karenge sare todo ke uppar 
+        jayenge,  Agar todo ki id hamare current todo ke barabar hai toh usko update kar denge.  
+     - Yaha hamne, state ko update karne ka kogic likh liye hai or extract kar liye hai. 
+    - export the function
+    - useReducer():- Hook, 
+       -arguments
+         - reducer method
+         - initial state
+        - return : 
+           - stateVarible OR stateObject :- Jaha object ko use karna hai waha use karlenge.  
+           - dispatched method deta hai :- jaha action , karna hoga
+
+- hamne koi bhi setList nahi call kiya hai, hamane action dispatched kiya hai, action kya hai, type le basis par do action differeniate
+  ho rahe hai,  ye dispatched internally reducer ko call karta hai, us reducer mai internally ye state pass karta  hai, dispatched method mai jo bhi hota hai
+  wo jata hai, reducers mai excute ho jata hai. 
+      <AddTodo updateList={(todo) => {
+          dispatched({ type: 'add_todo', payload: { todoText: todo } })
+        }} />
+  - Add functionality kaam kar rahi hai, lakin baki functionality nahi chal rahi  hai, kyuki hum setList pass nahi kar rahe hai,
+    toh humko setList ka access kisi bhi child ko dene ki zarurat nahi hai, kyuki hum hum dispatch ka access de sakte hai, 
+    1. value mai he dispatch pass kar de
+    2. Better approch , context bana lo. aur usko import karlo. 
+       - <TodoDispatchedContext.Provider> </TodoDispatchedContext>  isko use karne ke baad uppar wala updateList aur dispatched method use karne ki 
+          zarurat nahi hai context apply karenge.
+       -  AddTodo.jsx mai access milega directly, 
+            - const {dispatch} = useContext(TodoDispatchedContext)
+            - directly dispatch call kardenge
+
+Redux part 1:-
+- Basic react, uske statement management sath mai contextApi and reducers ka use kiye hai. 
+- Reducers ki functionality ko aur enhance kar sakte, ye capability hamesha se react ke pass nahi thi. iske pahle sari callback aur
+  aur state lo callbacks se manage kar rahe the, hamare pass ek bahu famous library thi. Redux naam ki aur bhi jaise mobex. Redux ka logic:-
+  same action ko dispatch karna , aur reducers prepare karna, ye sari kaam karta hai, iske sath sath aur bhi capability deta hai. 
+  - Yaha state ko manage karne ke liye contextApi ka use kar rahe hai, taki component , common states share kar paye. Common store hai waha se data
+    directly fetch  ho raha hai. humko props ke through pass nahi karna pad raha hai. Pahle contextApi use nahi hoti, jab hum chahte the ki 
+    component ko props mai pass nat karo, seperate store bankar rakho, Tab bhi redux kaam aata tha. 
+
+- Redux:-
+  -It is pridictable state container for js apps. Redux ko hum aur bhi javaScript application mai use kar sakte hai jaha React use nahi ho raha hai. 
+   Redux help in:- 
+    - Predictable:- Redux ye ensure karne ki kosis karta hai ki, kisi bhi environment aur kisi bhi library ke sath code likho, behaviour ek function ka same rahega.
+    - Centralized:- yaha hum states ko redu, undo kar payenge, state ko persistence kar payenge. 
+    - Debugglable :- react have different tools, are most powerful, if you enable and using redux tool then we able to know how changes are done on the state,
+      kisi bhi privios state par wapas ja sakte hai, Time travel kar sakte hai. 
+    - flexible :- bahut bara ecosystem hai, redux ke corressponding aur bhi library exist karti hai, 
+
+    - Wehave another library reduxToolKit, ye redux ke kafi sari bowler reduce kar deti hai, Pahle redux samjhenge aur phir react ko react mai kaise karna hai
+      usko samjhenge. And then goto redux toolkit. 
+
+    - Installation:-
+      1. ReduxToolKit :-  ye end to end solution provide karta hai, easily redux ko setUp karne ke liye. 
+      2. Create a ReactRedux app: ek aise library hai, jo react application ke sath integrate karne ke liye help karti hai. 
+      3. Reduc core :- Jaise ki humko pata hai ki redux react ke bahar bhi use ho sakte hai, core set of library exist karti hai jo har jagah,
+         common hai. Is ke kuchh set of library hai ko redux use karta hai, aur ye integration mai use hoti hai react ke sath. 
+         Redux ka base hai Redux core. Iske uppar he React redux bana hai , Redux core ki capability React mai kaise karna hai. 
+         Kahi par bhi react appliaction setUp karni hai bahut jaldi, waha Toolkit use hoti hai. 
+      
+      Redux Core:- 
+      - ye koi react project nahi hai, ye basic npm project hoga, 
+      - npm init -y
+      - intallation:- 
+        - npm install redux
+        - create new file composeDemo.js in Redux_core
+      
+      Redux(library) main functions :- which covers the library . 
+      1. compose 
+      2. applymiddleware
+      3. createStore
+         - Gives the capability like dispatch actions, store objec and to subscribe. 
+      4. combinedReducer
+      5. bindactionCreator 
+
+      Redux core API
+      1. compose:- 
+        - We have different method in the composeDemo.js , agar hum chahte hai ki, ek he string ko sare function mai pass karna, means 
+          ek string se sari working karna chahte hai. 
+          1 Way :- const output =  convertToUpper(repeatString(removeSpaces(" Hello i am satyam")))
+          2nd Way :- Redux ki help se 
+           - compose: different function ko as argument leta hai. argument ko usi way mai pass kar rahe hai kis way mai excution chahiye humko. 
+                const composeFunction = compose(removeSpaces, repeatString, convertToUpper)
+                - ab composeFunction bhi ek tarah ka function ban chuka hai. 
+                console.log(composeFunction(input))
+           - Yahi useCase hai compose ka. 
+
+Redux Part 2 :- 
+
+- createStore.js 
+- jaise hamare pass states hoti thi react appliaction mai, aur hamko pata hai ki Redux state management ki he library hai.
+- createStore fun hamko states banane mai help karta hai, Reducers and contextApi ek sath kya karte the, ye ek sath state manage kar rahe the,
+  ek state hoti thi, reducer state ke liye action aur reducerfun provide karte the. and contextApi us state ka baki jagah available karati thi. 
+- createStore also do same thing for us. 
+- In createStore documentation:- 
+  -It store the complete state Tree of your app. There should be single store in the app. Ek store ke ander sari states store kar sakte hai. 
+
+How to use createStore method?
+ - import it from redux library.
+ - phir hum createStore ka object bana sakte hai. 
+   - iske arguments exactly same hote hai useReducer() hook se. 
+    1. Initail state 2. Reducer Function : todoReducer() : state, action
+Note:- reducers method mai ye chiz important hoti hai ki, agar koi bhi action satisfied nahi ho rahe hai toh original state return kardo. 
+  - jab reducerfun ko hamne createStore ke object mai pass kiya with initial state ([])
+     -const response = createStore(todoReducer, [])
+     Toh ab ye reponse humko Char chize (methods) de raha hai
+     1. dispatch
+     2. subscribe:
+     3. getState : current state kya hai usko print karne ke liye. 
+     4. replaceReducer : apne reducer ko naye reducer ke sath replace karne ke use karte hai. 
+Note:- jab bhi hum kahi raw string use karte hai jaise 'add_todo' jo bar bar use ho sakti hai, usko ek variable mai store 
+karlo then usko use karo. 
+ 
+ - In createStore: hum state jo bana pa rahe hai, state ko dispatched kar paa rahe hai. 
+
+subscribe: jab bhi state change hua hai usko lock karna hai, or state Change jo event us par kuchh karna hai, toh 
+subscribe method call kar sakte hai. 
+  - abhi iske pahle hum getState method ko bar bar console kar rahe the wo karne ki zarurat nahi padegi.
+  - subscribe ek callback fun leta hai. 
+       subscribe( ()=> console.log(getState()))
+       - ab jab bhi state update hogi, subscribe method ki callback execute ho jayegi. 
+
+3. bindactionCreator()
+- bindactionCreator method samjhne se pahle, actioncreater samjhna padega.
+- dispatch mai jo pass ho raha hai wo simple hamara action hai. maan lte hai ki add_todo bahut badi application hai hamko kai bar apni code mai use kiye hai,
+  agar kuchh naya update karna hoga, toh har jagah jakar changes karne padenge jaha jaha call kiya hai, kyuki raw data pass kar rahe hai. 
+  aise chiz ko replace karne ke liye hum , ek fun bana lete hai. 
+   -// Action objects -> action methods (action creators like addTodo, deleteTodo)
+    const addTodo = (todoText) => ({type : ADD_TODO , payload : {todoText}})
+    dispatch(addTodo('actionBind'))
+
+    const deleteTodo = (id) => ({type : DEL_TODO, payload: {todoId: id}})
+    dispatch(deleteTodo(2))
+ 
+   - ab problem ye hai ki bar-bar hamko dispatch ke ander method call karna pad raha hai, Manlo hamre app Redux ki app hai
+     actionCreater ko dispatch karna hai, isse hamko har component ko dispatch method ka access dena padega. Toh useReducer
+    apna action bhi perform kar sakte hai. kyuki dispatch ke ander ek plain text(javaScriptObject) ja raha  hai. Isko avoid karne hamare 
+    pass bindactionCreator hota. 
+
+  - bindactionCreator:- take two parameter
+    1. Object : addTodo, deleteTodo jis bhi method ko bind karna chahte ho
+    2. jo method as object bheje hai wo bind go jaye, agar by default call kar raha hu to dispatch ke ander call ho raha ho.
+   - use karna ka fayda ye hai ki humko pura dispatch pass karne ki zarurat nahi hai hum bas actions.AddTodo bhi de sakte hai, if needed to pass. 
+
+   in documentation:-
+   -Turns an object whose value are action creator, into an object with same keys but with every action creator wrapped into
+    dispatch calls so they may invoked directly. 
+    - means ye ek object leta hai action creator ka aur return bhi karta hai ek object actions creator ka 
+    lakin ye returned thode modified hai, ye sare ke sare (addTodo , deleteTodo) dispatch ke ander wrapped hai. Is se hamko dispatch ke
+    ander in methods ko call nahi karna padega. 
+
+Redux Part 3 :- 
+4 combinedReducer :- 
+  - ab ek reducer mai ek he type ka state reduce hona chahiye, maan late hamare pass do state hai todo ki aur user ki.
+       function userReducer(state , action){}  in createStore.js 
+  - createStore function sirf ek he reducerfunction leta hai agar hamare pass 7-8 important states hai, createStore mai 8 reducer
+    kaise pass hoga, iske liye kaam aati hai combineReducer kaam aati hai.
+  - combinedReducer: ek se jada reducer combine karke ek single reducer apne aap bana deta hai. 
+    - different reducers ko unke initial value wahi de denge. aur hamko Initail state createStore mai pass karne ki zarurat nahi padegi. 
+      aur ab hum createStore mai object pass karenge combinedReducer ka.
+      - combinedReducer(); ek object lega , key-value ke pair mai , key ka naam soch ke rakhna padega, kyuki states mai yahi 
+        naam hoga. means hamko kaise pata chalega ki kon sa states hai kyuki jab hum multiple states ek reducers mai karna chahte 
+        tah key help karti states ko identify karne ke liye. 
+        - create actionmethod for the addUser
+
+- applymiddleware :- Agar hamare pass set of functions hai , toh ek middleware ke pass access hota hai apne i/p arguments aur
+  agle middleware functions ka, req aur res ko recycle karte rahete the, similarly  yaha  bhi hoti hai.
+  states ke formation par , agar hum chahte hai ki jab bhi dispatch call ho , koi function execute karna chahte hai, like any
+  login method, toh us case mai applymiddleware use kar sakte hai. 
+  jab react redux ke uppar baat karenge tab hum isko waha dekh lenge. 
+
+
+Redux part 4 
+- integrating the redux in our todo_list project
+- react-redux ek library hai jo help karti hai react ko redux ke sath bind karne ke liye. 
+- intallating npm install react-redux   npm install redux
+- creating new file store.js in src of todo_list.
+- createStore ka object banayenge, so hum combinedreducer bhi import kar lenge. 
+- ab  is store ka access sare component ko dena hai, jaise contextApi kaam karti thi , Agar koi bhi data parent mai store kara tha 
+  jin jin child component ko wrapped karti thi , un sare mai data available hote the. similarly main.jsx mai jayenge wo ek component 
+  provide karti hai, provider ye similarly contextApi jaisa kaam karta hai iski help se store ko appliaction mai kahi bhi use kar sakte hai. 
+  <provider>: it take store props
+    - hum store bhi yaha import kar lenge
+    - iske baad humko app.jsx mai reducer, useContext etc ki zarurart nahi padegi. 
+    - dispatch ki zarurart bhi nahi hai. contextApi se pahle la rahe the , ab hamne contextApi se hata diya hai , no needed
+    - contextApi se state nahi pass kar rahe hai ab hum redux se mil raha hai, redux -> provider-dtore se aa raha hai. 
+      -  redux mai dispatch ka dobara access chahiye, with the help of react-redux in AddTodo.jsx
+        import {useDispatch} from 'react-redux'
+      - useDispatch ek hook jiske help se dispatch method create ho sakta hai. 
+        ye same kaam humko TodoList.jsx mai bhi karna hoga. 
+      - useSelector hook :- ye ek callback leta , store ke ander jo bhi state stored hai, wo stored le lega, waha se jo bhi 
+        component chahiye, todo (reducer ka key ka naam)
+          const list = useSelector((state)=> state.todo)
+        - so jo hum hum pahle context se la rahe the usko useSelector se layenge. 
+    - Abhi tak hamara sare functionality kaam kar rahe hai. 
+    - so hum TodoList mai abhi directly dispatch use kar rahe hai so ab hum action folder banayenge jiske andar todoaction.js
+      - todoaction se related jo bhi actions honge usko yaha likhenge. 
+      - usablity badane ke liye plain object ko method mai change kar diye hai
+    - ab hum barbar aise bhi use nahi karna chahte: dispatched(addTodo(inputText))
+    - so ek constants naam ka folder banalenge, uske ander action.js file jisme action se releted action honge .
+
+    - dispatch ko dispatched(addTodo(inputText))  is tarah, nahi pass kar sakte, ya as props pass kar de actions ko, 
+      lets do this:- App.js mai he dispatch bana lete hai. 
+        -const dispatched = useDispatch()  (inse related imports bhi kar lenge)
+        -const actions =  bindActionCreators 
+
+Summary of Today:- 
+- sabse pahle hane ek store banaya in store.js mai, store mai combinedReducer mai jitne bhi abhi reducers hai usko combined reducers mai pass kerdiye,
+  uske is obkect ko store mai pass kar diya toh , hamko store ka access mil gaya, 
+- Ab store ka access sare components ko karana hai, React -redux library ek provider component deti hai ho ki ek store props leta hai in main.jsx. 
+- raw string ko variable mai store kar liya in action.js, action bana liye raw action ki jagah action method ko call karenge. 
+- phir in actions ko App.jsx bindactionCreator se in methods ko bind kar diya, dispatched method ke sath.
+- dispatched hamko mila tha useDispatch() hook se. ye dispatched automatically us store ko refer kar raha hota jisko hamne banaya tha. 
+- AddTodo and TodoList mai action.corresspondingaction ko pass kar denge. 
+
+Redux Toolkit lecture 327
+- bas chhoti se todo_application banane ke liye bhi bahu sare code likhna pada hai. Toh redux mai hamesha se ye problem exist karti rahi thi,
+  chhota sa chiaz ko setup karne ke liye bhi bahut sara boiler plate ki zarurat padti rahi hai, isko sove karne ke liye redux se introduced
+  kari ek library redux-toolkit
+  -In documentation: Redux toolkit include the redux core as well as other key packages essential for building Redux applications
+   (such as Redux Thunk and Reselect)
+  - install : npm install @reduxjs/toolkit 
+  - humko actions banane pad rahe hai, action ke contants , reducers banana pad raha hai, humko bahut mehnat karna pad raha hai, 
+    -isme se kuchh bhi use karne ki zarurat nahi hai ek folder banayenge slices.
+    - slices ek aisa object hoga jiske help se, action aur reducers ek sath mention honge. we have file name todoSlice.js
+    - In todoSlice.js
+      - import createSlice from reduxToolKit
+      - define the initail state
+        -todo exist karega jo empty array hogi
+      -todoSlice ek aisa object hoga jiske ander sab kuchh like actions, constants, reducers etc yaha honge . 
+       iske liye humko createSlice method call karna padega jo ek argument leta hai 1. name: apne state mai isko kis naam se bulana chahte hai,
+       initialState pass kar sakte, reducers jiske ander reducer ke object pass kar sakte hai, aur sara ka sara logic yaha likh sakte hai.  
+       - reduxToolKit ek library use karti hai jiska naam hai emer.js, abhi tak hamko jo bhi update karna hota tha, toh technically ek naya object aur 
+         naya array banakar bhejte the, ham yaha par ek naya tarika bhi use kar sakte hai, ya purna he way use kar sakte hai.
+       - Is new file ki wajah se jaha bhi change honge, uska file ka purna version mai  project.txt mai hoga
+       - hamne named export kar diya hai sare axtions ka, reducer ko bhi export kar diya in todoSlice.js
+       - store banane ke liye reducer chahiye hota hai, store ke state mai changes karne ke liye actions chahiye hota hai. 
+       - create store mai ab hum createStore use nahi karnege configureStore use karenge
+         - configureStore ek reducer parameter leta hai, isme ek he reducer pass kar sakte hai, go and see in store.js
+           iske parameter mai reducer, middleware, devtools,etc pass kar sakte hai. 
+         - In documentation: reducer mai jo bhi hamare state ka part hai, wo sare parts yaha pass kar sakte hai. 
+           iske baad kuchh nahi bas dispatch karna hai. 
+         - In AddTodo.js Redux toolkit mai jo bhi action method hum call karte hai, jo argument pass karte hai wahi as an action pass ho jayega.
+           add(inputText) se lakin action mai hum , humko ek payload pass karna hai, aise 
+            -addTodo({ todoText :inputText}) 

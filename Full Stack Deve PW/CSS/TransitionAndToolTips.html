@@ -1,0 +1,35 @@
+<!-- Jab hum hover par jaye tab uska size and other parameter change ho jaye. Smooth banane mai help karta hai -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Transitions and tooltips </title>
+    <style>
+        div {
+            height: 200px;
+            width: 200px;
+            background-color: black;
+            /* transition: kisko change karna hai  kitna sec mai */
+            /* transition: width 2s , height 3s; */
+            transition: height 5s;
+            /* ease, ease-in, ease-in-out, ease-out */
+            /* transition-timing-function: ease-in-out ; */
+            transition-delay: 3s;
+        }
+        div:hover{
+            width: 300px;
+            height: 415px;
+        }
+
+    </style>
+ </head>
+ <body>
+    <!-- Transitions -->
+     <div>
+
+     </div>
+     <!-- Tooltip -->
+      <p title="Satyam Mishra"> Yes! Baby</p>
+ </body>
+ </html>

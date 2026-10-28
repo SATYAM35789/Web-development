@@ -1,0 +1,83 @@
+Learning Management System:- 
+Provide: 
+-MultipleCourses ko host and run kar sakte hai. 
+ -As admin there are different roles defind like  coursecreating, peices deciding, student manage kar
+  sakte hai, etc
+- As student, enroll in the courses, signin, registration, purchesing the course, online and offline accessing etc
+
+Features in the Learning Management System : - 
+- Course explore 
+- User flow :- 
+   - Registration Page :- Name, Email, Password, action: Create account.
+   -Login Page:- Email , password , action: login or forgot password option.
+     Isse karne ke baad hum kya kya kar sakte hai:- 
+      - profile mai change kar sakte hai. Deletion, updation and traversing(dekh sakte hai) kar sakte hai.
+      - Course purchesing kar sakte hai 1. Course ki details dekh sakte hai  2. Payment.
+
+
+Summary: Learning Management System:
+We are not creating superAdmin from where we can give the acccess to the admin. Here we do directly from the 
+database
+1. As student: Module
+    - User:- 1. Create Account 2. Login  3.forgot Password 4.View Profile 5. Edit Profile
+    -Course:- 1.View Courses 2. View Courses details 
+    -Payment :- 1. Subscibe kar sakte hai
+2. As admin:- Module 
+    -User:- 1.Create Account 2.Login 3. forgot password, 4. Edit Profile 5. View profile 
+     -Course (manage):- 1. List Course 2. View Course 3. Edit Course 4. Delete Course 
+     - Payment(manage) :- 1. View Payment details 
+
+
+Tech stack:- MERN
+1. Frontend : React
+2. Backend : all others 
+we develop backend Here
+
+Discussing the architecture in details:- 
+ 1. Client(restournent) 2.Server(kitchen)  3. Database(Storage)
+ Story:- Hum kisi restournent mai gaye waha order liya , weiter order ko kitchen mai laker jayega, finally saif 
+ jo kitchen mai unko kuchh integredent ki zarurat padegi. Toh wo Storage mai jayenge aur resove karenge aur chize
+ process honge and finally process hone ke baad aapke pase chize react ke through render ho jayengi. 
+
+Server side:- 
+ -External server: Creating external server jo Forgot Password ke case mai email par link bhejega. 
+ -Payment Gateways : payment se related kaam karenge. 
+ 
+ API:- Create Api jo ki sare module ke crossponding kuchh n kuchh kaam karngi. 
+ 1. User level :-
+  1. (/api/v1/user) :- User module se related sare api
+   - (/register) : Create account
+   - (/login) : Login
+   - (/changepassword) : Forgot password
+   - (/me)  : View Profile
+   - (/update)  :- Edit Profile
+   - (/logout) : logout
+
+  2. (/api/v1/courses) :- Course se related, sari details  
+    - (/) :- View Courses
+    - (/:id):- View courses details
+
+Folder levek par chizo ko detail mai dekhte hai:- 
+ 1. Client :- Client side ka sara cide exist
+    1. node_modules 
+    2. public
+    3. src :- include all the information in this file while using the react 
+    4. files like package-lock.json, package-json , package.json , tailwind.config.js
+ 
+ 2. Server:-
+    1. configs:- database related configuration
+    2. controllers :- sari controllers defined honge
+    3. middlewares :- 
+    4. Module
+    5. node_modules :- 
+    6. routes :- sari routes yaha defined honge
+    7. uploads 
+    8. utils :- mails send karna , error tracking. 
+    9. .env :- sari credential detail hongi project se related
+    10. .env.example
+    11.  .gitignors
+    12.  app.js :- sari routes yaha import karenge
+    13.  servers.js:- root file jisko nodemon se run karenge
+    14.  package-lock.json :- lock file jo ensure karti hai same file dusre machine par run karte hai, 
+         same version ki dependency download hongi.  
+    15.  package-json :- Sari dependency download hai

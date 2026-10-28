@@ -1,0 +1,47 @@
+What and Why of CORS?
+- frontend ka application hai wo run kar raha hai localhost 3000 ke uppar aur jo hamne api generate kiya hai wo
+  jo express server hai run ho raha 5001 par, do different port hai or do different process hai , in do alag 
+  alag port par frontend aur backend chal raha hai. 
+-Jab hamne sign kiya postman ke through ho gaya but, Agar same chiz ek web application / brawser ke through 
+ access karna chahta hu toh error show ho raha hai means jab hum dusre port se hamra server access karne ki kosis
+ kar rahe tab error aa rahi hai.
+
+ CORS:-
+ - Cross Origin Resource sharing hota hai jo ki http header based mechanism par kaam karta hai jo  ensure karta 
+   hai hum cross origin request nahi mar sakte kyuki agar hamne google.com par koi public API bana rakhi hai ,
+   aur koi ek fake google.com banaya aue same api use karke wo publically same kaam karna chalu kar dega. means
+   server google ka UI mera aur kaam ho gaya. 
+- Toh cross origin communication ke liye server ko kuchh toh permission dene padegi ki aap dusri domain se request
+  kar sakte ho. 
+- Dusre domain se access karni hai, toh server ko permission deni padegi warna usko allow nahi karega. 
+-same domain(route/path) ka use karoge toh cors allow lar dega. 
+
+Working of cors :-
+- example.com par hai aur request karna chate hai api.example.org par jo ek sub-domain or dusra domain he hai.
+  toh sabse pahle api preflight request marti hai , usme header hota hai options , jo check karta hai ke kya
+  aapke pas proper headset hai ki nahi hai or cors enabled hai ki nahi means example.com ko permit kar rakha hai ki 
+  nahi. Agar ye valid hua Toh 2nd request jayegi brawser se aur phir further process hoga.
+
+  Heder which is important:- 
+   -Access-Control-Allow-Origin:- konse origin allowed hai
+   -Access-Control-Allow-Methods: konse method allow hai
+   -Access-Control-Allow-Header: konse header ko read and send karne ki permission de rakhi hai. 
+
+   Agar ye setting nahi hoga hum brawser se access nahi kar payenge.
+
+Why getting cors error?
+  Access-Control-Allow-Origin : allow nahi hoga
+
+Two way resolve this:- 
+1. Setting CORS headers in the API response : loi bhi request kahi se maru wo sab allow hai (app level par kar diya or root level)
+2. Enabling core in server-side API : -individual api level par he set kar dena access permission
+
+   note: har ek page par ya main par jaha sab ek sath defined hai. 
+   1. way:-  App.js mai use karlo
+      dependency require kar lenge:-
+      app.use(cors({
+         origin:[process.env.CLIENT__URL],
+         credentials : true
+       })) 
+       
+   2. nots folder mai hai core294 naam se.

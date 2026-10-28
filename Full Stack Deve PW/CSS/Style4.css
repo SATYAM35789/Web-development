@@ -1,0 +1,28 @@
+/*Simple selectors : 1.Universal Selectors */
+*{
+    margin: 0;
+    padding: 0;
+}
+/* Element Selector */
+h4{
+    color: #808080;
+}
+/* Class Selector  :- Ek tag ka multiple class ho sakte hai*/ 
+.para{
+    color: #505090;
+}
+.hello{
+    font-size: 30px;
+}
+
+/* Id Selector : Uniqness */
+#id1{
+    color: whitesmoke;
+    background-color: black;
+}
+/* Selector list */
+.class1 , .class7 , .class8{
+    color: rgb(38, 29, 13);
+    background-color: orchid;
+    font-weight: 300;
+}

@@ -1,0 +1,10 @@
+1. Abhi tak hamne, sari dependencies download kar li hai, ab humko inko configure karna hai. 
+2. So sabse pahle react-router ko configure karte hai
+     -iske liye humko
+       1. Apne app component ko brawser component se wrap karna hota hai. in main.jsx.
+          Wrap karne se react-router-do ki sari capabilities iske snder wali component ke ander aa jati hai.
+       2. Ab App.jsx mai hum iske routes defined karenge. Ek  route ek url ko ek particular component se map kar deta hai. 
+          Agar bahut sare routes hai, toh pahle Routes component import karna padega. 
+          Defining the routes:- <Route path= "" componentAdd> </Route> 
+             <Route path= "/" element = {<Home/>}> </Route>
+

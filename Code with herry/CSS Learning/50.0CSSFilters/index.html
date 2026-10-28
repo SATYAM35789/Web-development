@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Filters</title>
+    <style>
+        img{
+            width: 60vw;
+            height: 55vh;
+            /* filter: blur(10px); */
+        }
+        .img1{
+            filter: brightness(222%);
+        }
+        .img2{
+            filter: grayscale(80%);
+        }
+        .img3{
+            /* filter: sepia(870%); */
+            /* filter: invert(1); */
+            filter: opacity(.2);
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img  src="Puppy.jpg.jpg" alt="Puppy Image">
+        <img class="img1"src="img1.jpg" alt="Image 1">
+        <img class="img2" src="img2.jpg" alt="Image 2">
+        <img class="img3" src="img3.jpg" alt="Image 3">
+    </div>
+    
+</body>
+</html>

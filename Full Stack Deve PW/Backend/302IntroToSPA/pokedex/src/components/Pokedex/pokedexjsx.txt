@@ -1,0 +1,26 @@
+      // Before the 320 // 
+
+
+
+import PokemonList from "../PokemonList/PokemonList"
+import Search from "../Search/Search"
+
+//Css Import
+import './Pokedex.css'
+
+function Pokerdex(){
+    return(
+        <div className="pokedex-wrapper">
+           <Search/>
+           <PokemonList/>
+        </div>
+    )
+}
+export default Pokerdex
+
+
+
+
+
+
+

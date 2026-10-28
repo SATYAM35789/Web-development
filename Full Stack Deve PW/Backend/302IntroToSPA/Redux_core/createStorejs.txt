@@ -1,0 +1,66 @@
+         ***  Reduc part 3 :- createStore and bindactionCreator 
+
+import { bindActionCreators, createStore } from "redux";
+
+const ADD_TODO = 'add_todo'
+const DEL_TODO = 'delete_todo'
+const EDIT_TODO = 'edit_todo'
+
+ function todoReducer(state, action){
+    if( action.type == ADD_TODO){
+        const todoText =  action.payload.todoText
+        return[
+            ...state,
+            { text : todoText, isFinished : false , id: (state.length == 0)? 1 : state[state.length - 1].id + 1}  // last ka id nikal usme 1 add kar diya
+        ]
+    }
+    else if(action.type == DEL_TODO){
+        const todoId = action.payload.todoId 
+        return state.filter( t=> t.id != todoId)  // wahi todo id layenge jo hamare given todo ke barabar nahi hai
+    }
+    else if(action.type == EDIT_TODO){
+        const todo = action.payload.todo
+        const todoText = action.payload.todoText
+        //  todo.id : id jisko update karna hai t.id : ek ek karke jis id ke pass ja rahe hai
+        return state.map( t=> {
+            if(t.id == todo.id){
+                t.text = todoText
+            }
+            return t
+        })
+    }
+    else{
+        return state
+    }
+ }
+
+ const response = createStore(todoReducer, [])
+//  console.log(response)
+//   or (response ko destructure kar dena)
+const {dispatch , subscribe , getState , replaceReducer } = createStore(todoReducer , [])
+
+subscribe( ()=> console.log(getState()))
+
+
+//  Add method dispatch
+dispatch({type : ADD_TODO , payload : {todoText : 'todo1'}})
+// console.log( getState())
+dispatch({type : ADD_TODO , payload : {todoText : 'todo2'}})
+// console.log( getState())
+
+//  Delete method dispatch
+dispatch({ type : DEL_TODO , payload : { todoId : 1}})
+// console.log( getState())
+
+
+// Action objects -> action methods (action creators like addTodo, deleteTodo)
+const addTodo = (todoText) => ({type : ADD_TODO , payload : {todoText}})
+dispatch(addTodo('actionBind'))
+
+const deleteTodo = (id) => ({type : DEL_TODO, payload: {todoId: id}})
+dispatch(deleteTodo(2))
+
+const actions = bindActionCreators({addTodo, deleteTodo}, dispatch)
+//  no need to call dispatch
+actions.addTodo('Hello Baby')
+actions.deleteTodo(3)

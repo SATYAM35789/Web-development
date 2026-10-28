@@ -1,0 +1,25 @@
+/* Descendant Selector */
+main p{
+    color: rgb(21, 2, 190);
+}
+/* Child Selector : DES AND CHILD ARE almost same*/
+h1 > p {
+    color: orange;
+}
+/* Adjacent selector */
+section + p{
+    color: darkorange;
+}
+/* General Selector */
+div ~ p{
+    color: darkcyan;
+}
+/* attribute selectors  */
+[target="_blank"]{
+    color: orange;
+    text-decoration: none;
+}
+/* general attribute selector */
+[alt~="say"]{
+    background-color: black;
+}

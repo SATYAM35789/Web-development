@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Specificity</title>
+    <style>
+        h1{
+            /* Specificity priority:- Inline style > ID Selectoe > Class or Attribute
+            selector > Element selector > Universal Selector*/
+            /* The specificity of thgis selector is 1*/
+            color: aqua;
+        }
+        .yellow{
+            /* The specificity of thgis selector is 10*/
+            color: yellow;
+        }
+        .cred{
+            /* The specificity of thgis selector is 10*/
+            color: red;
+        }
+        .cpurple{
+            /* The specificity of thgis selector is 10*/
+            color: purple;
+        }
+        /*Attribute Selector
+        [data-x=a]{
+            background-color: red;
+        } */
+        /* :- User Agent stylesheet :- Sheets which from the brawoser
+        :- Important Jaha isko karenge wo sabse imprtant. in inspecting*/
+    </style>
+</head>
+<body>
+    <div>
+        <h1 class=" yellow cred cpurple" data-x = 'a'> CSS Specificity</h1>
+    </div>
+</body>
+</html>

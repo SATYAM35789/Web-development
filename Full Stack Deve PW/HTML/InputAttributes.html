@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>User Registration Forms </title>
+</head>
+<body>
+    <!-- Understanding: get and post method -->
+    <form method="get" action="/signup" >
+        <fieldset>
+            <legend> User Registration </legend>
+            <!-- setting Default value -->
+            <label for="username"> Enter your username:</label>
+            <input type="text" id="username" name="username" value="Satyam" readonly disabled>
+            <br>
+            <label for="mail"> Enter your Email:</label>
+            <input type="email" id="mail" name="usermail" placeholder="a@example.com" autofocus>
+            <br>
+            <label for="password"> Enter your password</label>
+            <input type="password" id="password" name="userpassword" >
+            <br>
+            Gender
+            <label for="male"> Male</label>
+            <input type="radio" id="male" name="Gender" value="male">
+            <br>
+            <label for="Female"> Female</label>
+            <input type="radio" id="Female" name="Gender" value="female">
+            <br>
+            <label for="trans"> Transgender</label>
+            <input type="radio" id="Trans" name="Gender" value="Transgender">
+            <br> 
+            <input type="number" min="-2" max="90">
+            <input type="submit" value="Submit Here">
+        </fieldset>
+    </form>
+</body>
+</html>

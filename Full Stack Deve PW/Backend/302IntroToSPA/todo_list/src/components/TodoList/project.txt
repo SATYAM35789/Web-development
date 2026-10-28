@@ -1,0 +1,512 @@
+                     *** Before using the context techniqE our project seem like: Lecture 321
+
+1. App.jsx
+import { useState } from "react"
+import AddTodo from "./components/AddTodo/AddTodo"
+import TodoList from "./components/TodoList/TodoList"
+
+
+function App() {
+    const [list , setList] = useState([
+    {id : 1, todoData : 'todo 1',finished: false},
+    {id : 2, todoData : 'todo 2' ,finished: true},
+   ])
+  return (
+  <>
+       Todo 
+       <AddTodo updateList={(todo)=> setList([ ...list, {id:list.length + 1 ,todoData:todo, finished: false}])}/>
+       <TodoList list= {list} updateList={setList}/>
+  
+  </>
+  )
+}
+
+export default App
+
+2. TodoList.jsx
+
+import Todo from "../Todo/Todo"
+
+function TodoList({list , updatedList}){
+   return(
+    <div>
+        {list.length>0 && list.map(todo => <Todo 
+        key={todo.id} 
+        todoData={todo.todoData} 
+        isFinished={todo.finished}
+        id={todo.id}
+        changeFinished={(isFinished)=> {
+            console.log(isFinished);
+            
+          const updatedList = list.map(t => {
+                if(t.id= todo.id) {
+                    todo.finished = isFinished
+                }
+                return t
+                updatedList(updatedList)
+             })
+        }}
+        />) }
+    </div>
+   )
+}
+export default TodoList
+
+3. Todo.jsx
+import { useState } from "react"
+
+function Todo({todoData , isFinished , changeFinished}){
+    const[finished, setFinished ]= useState(isFinished)
+   return(
+     <div>
+       <input type="checkbox" checked={finished} onChange={(e)=> {setFinished(e.target.checked)
+          changeFinished(e.target.checked)}
+       }/>
+       {todoData}
+       <button>Edit</button>
+       <button> Delete</button>
+    </div>
+   )
+}
+export default Todo 
+
+
+4. AddTodo.jsx
+
+import { useState } from "react"
+
+function AddTodo({updateList}){
+    const [inputText, setInputText] = useState('')
+    return(
+        <div>
+            <input
+               type="text"
+               value={inputText}
+               placeholder="add your nexy todo"
+               onChange={e =>setInputText(e.target.value)}
+            />
+            <button onClick={()=>{ 
+                updateList(inputText)
+                setInputText('')}
+                }> Add </button>
+        </div>
+    )
+}
+export default AddTodo
+
+
+5. main.jsx
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+
+
+                               *** Before CleanUp Code and  After Context API Lecture 322
+
+AddTodo.jsx  :-
+import { useState } from "react"
+
+function AddTodo({updateList}){
+    const [inputText, setInputText] = useState('')
+    return(
+        <div>
+            <input
+               type="text"
+               value={inputText}
+               placeholder="add your nexy todo"
+               onChange={e =>setInputText(e.target.value)}
+            />
+            <button onClick={()=>{ 
+                updateList(inputText)
+                setInputText('')}
+                }> Add </button>
+        </div>
+    )
+}
+export default AddTodo
+
+Todo.jsx : -
+import { useState } from "react"
+
+function Todo({todoData , isFinished , changeFinished, onDelete, onEdit}){
+    const[finished, setFinished ]= useState(isFinished)
+    const [isEditing, setIsEditing] = useState(false)
+    const [editText ,setEditText] =  useState(todoData)
+
+   return(
+     <div>
+       <input type="checkbox" checked={finished} onChange={(e)=> {setFinished(e.target.checked)
+          changeFinished(e.target.checked)}
+        }/>
+
+       { (isEditing) ? <input type="text" value={editText} onChange={ e=> setEditText(e.target.value)}/> : <span> {todoData}</span> }
+
+       <button onClick={ ()=> {
+        setIsEditing(!isEditing)
+        onEdit(editText)
+        
+       }}> {(!isEditing) ? 'Edit' : 'save'}</button>
+
+       <button onClick={onDelete}> Delete</button>
+    </div>
+   )
+}
+export default Todo 
+
+TodoList.jsx :-
+import Todo from "../Todo/Todo"
+import TodoContext from "../../context/TodoContext";
+import { useContext } from "react";
+function TodoList(){
+    const {list, setList} = useContext(TodoContext)
+   return(
+    <div>
+        {list.length>0 && list.map(todo => <Todo 
+        key={todo.id} 
+        todoData={todo.todoData} 
+        isFinished={todo.finished}
+        id={todo.id}
+
+        changeFinished={(isFinished)=> {
+            console.log(isFinished);
+            
+          const updatedList = list.map(t => {
+                if(t.id= todo.id) {
+                    todo.finished = isFinished
+                }
+                return t
+            })
+             setList(updatedList)
+        }}
+
+        onDelete = {()=> {
+            const updatedList = list.filter( t=> t.id != todo.id)
+            setList(updatedList)
+        }}
+
+        onEdit = { ( todoText)=> {
+             const updatedList = list.map(t => {
+                if(t.id= todo.id) {
+                    todo.todoData = todoText
+                }
+                return t
+            })
+             setList(updatedList)
+        }}
+        />)}
+    </div>
+   )
+}
+export default TodoList
+
+App.jsx 
+
+import { useState } from "react"
+import AddTodo from "./components/AddTodo/AddTodo"
+import TodoList from "./components/TodoList/TodoList"
+import TodoContext from "./context/TodoContext"
+function App() {
+   const [list , setList] = useState([
+      {id : 1, todoData : 'todo 1',finished: false},
+      {id : 2, todoData : 'todo 2' ,finished: true},
+     ])
+  return (
+  <TodoContext.Provider value={{list, setList}}>
+       Todo 
+       <AddTodo updateList={(todo)=> setList([ ...list, {id:list.length + 1 ,todoData:todo, finished: false}])}/>
+       <TodoList />
+  
+  </TodoContext.Provider>
+  )
+}
+
+export default App
+
+App.jsx :dispatched method 
+
+
+import { useReducer, useState } from "react"
+import AddTodo from "./components/AddTodo/AddTodo"
+import TodoList from "./components/TodoList/TodoList"
+import TodoContext from "./context/TodoContext"
+import todoReducers from "./reducers/TodoReducers"
+function App() {
+  //  const [list , setList] = useState([
+  //     {id : 1, todoData : 'todo 1',finished: false},
+  //     {id : 2, todoData : 'todo 2' ,finished: true},
+  //    ])
+
+  const [list, dispatched] = useReducer(todoReducers, [])
+  return (
+
+    <TodoContext.Provider value={{ list }}>
+        Todo
+        <AddTodo updateList={(todo) => {
+          dispatched({ type: 'add_todo', payload: { todoText: todo } })
+        }} />
+        <TodoList />
+
+    </TodoContext.Provider>
+  )
+}
+export default App
+
+
+   *****  Before Redux 4 : Before integrating with redux- react
+
+app.jsx
+
+
+import { useReducer, useState } from "react"
+import AddTodo from "./components/AddTodo/AddTodo"
+import TodoList from "./components/TodoList/TodoList"
+import TodoContext from "./context/TodoContext"
+import TodoReducers from "./reducers/TodoReducers"
+import TodoDispatchedContext from "./context/TodoDispatchedContext"
+function App() {
+
+
+  const [list, dispatched] = useReducer(TodoReducers, [])
+  return (
+
+    <TodoContext.Provider value={{ list }}>
+      <TodoDispatchedContext.Provider value={ {dispatched}}>
+        Todo
+        <AddTodo/>
+        <TodoList />
+      </TodoDispatchedContext.Provider>
+    </TodoContext.Provider>
+  )
+}
+
+export default App
+
+AddTodo.jsx
+import { useContext, useState } from "react"
+import TodoDispatchedContext from "../../context/TodoDispatchedContext"
+
+function AddTodo(){
+    const [inputText, setInputText] = useState('')
+    const {dispatched} = useContext(TodoDispatchedContext)
+    return(
+        <div>
+            <input
+               type="text"
+               value={inputText}
+               placeholder="add your nexy todo"
+               onChange={e =>setInputText(e.target.value)}
+            />
+            <button onClick={()=>{ 
+                dispatched({type : 'add_todo', payload : {todoText : inputText}})
+                setInputText('')}
+                }> Add </button>
+        </div>
+    )
+}
+export default AddTodo
+
+TodoList.jsx
+import Todo from "../Todo/Todo"
+import TodoContext from "../../context/TodoContext";
+import { useContext } from "react";
+import TodoDispatchedContext from "../../context/TodoDispatchedContext";
+function TodoList(){
+    const {list} = useContext(TodoContext)
+    const {dispatched} = useContext(TodoDispatchedContext)
+    function onFinished(todo , isFinished){
+        dispatched({type : 'finish_todo', payload : {todo, isFinished: isFinished}})
+    }
+
+    function onDelete(todo){
+        dispatched({type : 'delete_todo', payload : {todo}})
+    }
+
+    function onEdit(todo, todoText){
+        dispatched({type : 'edit_todo', payload : {todo, todoText}})
+    }
+   return(
+    <div>
+        {list.length>0 && list.map(todo => <Todo 
+        key={todo.id} 
+        todoData={todo.todoData} 
+        isFinished={todo.finished}
+        id={todo.id}
+        changeFinished={(isFinished)=> onFinished(todo, isFinished)}
+        onDelete = {()=> onDelete(todo)}
+        onEdit = { ( todoText)=> onEdit(todo, todoText)}
+        />)}
+    </div>
+   )
+}
+export default TodoList
+
+
+***** Before passing the action as props
+AddTodo.jsx :- 
+import {  useState } from "react"
+import {useDispatch} from 'react-redux'
+import { addTodo } from "../../actions/todoActions"
+
+function AddTodo(){
+    const dispatched = useDispatch()
+
+    const [inputText, setInputText] = useState('')
+    return(
+        <div>
+            <input
+               type="text"
+               value={inputText}
+               placeholder="add your nexy todo"
+               onChange={e =>setInputText(e.target.value)}
+            />
+            <button onClick={()=>{ 
+                // dispatched({type : 'add_todo', payload : {todoText : inputText}})
+                dispatched(addTodo(inputText))
+                setInputText('')}
+                }> Add </button>
+        </div>
+    )
+}
+export default AddTodo
+
+TodoList.jsx
+import { useDispatch, useSelector } from "react-redux"
+import Todo from "../Todo/Todo"
+
+
+function TodoList(){
+   
+    const dispatched = useDispatch()
+    const list = useSelector((state)=> state.todo)
+
+  
+    function onFinished(todo , isFinished){
+        dispatched({type : 'finish_todo', payload : {todo, isFinished: isFinished}})
+    }
+
+    function onDelete(todo){
+        dispatched({type : 'delete_todo', payload : {todo}})
+    }
+
+    function onEdit(todo, todoText){
+        dispatched({type : 'edit_todo', payload : {todo, todoText}})
+    }
+   return(
+    <div>
+        {list.length>0 && list.map(todo => <Todo 
+        key={todo.id} 
+        todoData={todo.todoData} 
+        isFinished={todo.finished}
+        id={todo.id}
+        changeFinished={(isFinished)=> onFinished(todo, isFinished)}
+        onDelete = {()=> onDelete(todo)}
+        onEdit = { ( todoText)=> onEdit(todo, todoText)}
+        />)}
+    </div>
+   )
+}
+export default TodoList
+
+
+*****   Before using ReduxToolkit(327) or Files which got change after creating todoSlice.js
+store.js
+import {createStore , combineReducers} from 'redux'
+
+// reducer imports
+import todoReducer from './reducers/TodoReducers'
+
+const reducers = combineReducers({todo : todoReducer})
+
+const store =  createStore(reducers)
+
+export default store
+
+App.jsx
+import { useDispatch } from "react-redux"
+import AddTodo from "./components/AddTodo/AddTodo"
+import TodoList from "./components/TodoList/TodoList"
+import { bindActionCreators } from "redux"
+import { addTodo, deleteTodo, editTodo,  todoFinished } from "./actions/todoActions"
+function App() {
+const dispatched = useDispatch()
+const actions =  bindActionCreators({addTodo, deleteTodo, editTodo, todoFinished}, dispatched)
+  return (
+      <>
+        <AddTodo addTodo = {actions.addTodo} />
+        <TodoList deleteTodo = {actions.deleteTodo} editTodo= {actions.editTodo} todoFinished={actions.todoFinished} />
+      </>
+  )
+}
+
+export default App
+
+    AddTodo.jsx
+import {  useState } from "react"
+function AddTodo({addTodo}){
+   
+
+    const [inputText, setInputText] = useState('')
+    return(
+        <div>
+            <input
+               type="text"
+               value={inputText}
+               placeholder="add your nexy todo"
+               onChange={e =>setInputText(e.target.value)}
+            />
+            <button onClick={()=>{ 
+                // dispatched({type : 'add_todo', payload : {todoText : inputText}})
+                // dispatched(addTodo(inputText))
+                addTodo(inputText)
+                setInputText('')}
+                }> Add </button>
+        </div>
+    )
+}
+export default AddTodo
+
+TodoList.jsx
+import {  useSelector } from "react-redux"
+import Todo from "../Todo/Todo"
+
+
+function TodoList({editTodo, deleteTodo, todoFinished}){
+   
+
+    const list = useSelector((state)=> state.todo)
+
+  
+    function onFinished(todo , isFinished){
+        todoFinished(todo, isFinished)
+    }
+
+    function onDelete(todo){
+        deleteTodo(todo)
+    }
+
+    function onEdit(todo, todoText){
+        editTodo(todo, todoText)
+    }
+   return(
+    <div>
+        {list.length>0 && list.map(todo => <Todo 
+        key={todo.id} 
+        todoData={todo.todoData} 
+        isFinished={todo.finished}
+        id={todo.id}
+        changeFinished={(isFinished)=> onFinished(todo, isFinished)}
+        onDelete = {()=> onDelete(todo)}
+        onEdit = { ( todoText)=> onEdit(todo, todoText)}
+        />)}
+    </div>
+   )
+}
+export default TodoList

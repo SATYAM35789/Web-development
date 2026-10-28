@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Forms </title>
+</head>
+
+<body>
+    <form>
+        <fieldset>
+            <legend> User Details </legend>
+            <!-- Taking Inputs in Forms -->
+        <label for="name"> Enter Your Name :</label>
+        <input type="text" id="name" name="username">
+        <br>
+        <!-- user ko multiple line mai likhne ke liye . Text area ke default size set karne ke rowa and cols   Id: id ka matlab name dena ki us tag ko hum bar bar use kar sake -->
+        <label for="address">Please enter your address:</label>
+        <textarea rows="10" cols="30" id="address" name="usseraddress"></textarea>
+        <br>
+        <label for="dob">D.O.B</label>
+        <input type="date"  id="dob" name="userdob">
+        <br>
+        <label for="password"> Enter password:</label>
+        <input type="password" id="password" name="userpassword">
+        <br>
+         Select Gender:
+         <br>
+         <label for="male"> male</label>
+        <input type="radio" id="male" name="gender">
+        <br> 
+        <label for="female">Female</label>
+        <input type="radio" name="gender" id="female">
+        <br>
+        Select favourite movies:
+        <br>
+        <label for="avengers">Avengers</label>
+        <input type="checkbox" name="useravengers" id="avengers">
+        <br>
+        <label for="thor">thor</label>
+        <input type="checkbox" name="userthor" id="thor">
+        <br>
+        <label for="Ironman">Ironman</label>
+        <input type="checkbox" name="userironman" id="Ironman">
+        <br>
+        <input type="submit" >
+        </fieldset>
+    </form>
+</body>
+
+</html>

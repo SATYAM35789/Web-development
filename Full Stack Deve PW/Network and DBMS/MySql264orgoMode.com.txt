@@ -1,0 +1,208 @@
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.44 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use college;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| courses           |
+| marks             |
+| students          |
++-------------------+
+3 rows in set (0.01 sec)
+
+mysql> select * from courses limit 4;
++----------+-------------+------------------+---------+
+| CourseID | CourseName  | Department       | Credits |
++----------+-------------+------------------+---------+
+|        1 | Mathematics | Computer Science |       4 |
+|        2 | Physics     | Electronics      |       3 |
+|        3 | DBMS        | Computer Science |       4 |
+|        4 | Mechanics   | Mechanical       |       4 |
++----------+-------------+------------------+---------+
+4 rows in set (0.01 sec)
+
+mysql> select Department, length(Department) from courses ;
++------------------+--------------------+
+| Department       | length(Department) |
++------------------+--------------------+
+| Computer Science |                 16 |
+| Electronics      |                 11 |
+| Computer Science |                 16 |
+| Mechanical       |                 10 |
+| Mechanical       |                 10 |
+| Electronics      |                 11 |
+| Computer Science |                 16 |
+| Civil            |                  5 |
+| Civil            |                  5 |
+| Electronics      |                 11 |
++------------------+--------------------+
+10 rows in set (0.00 sec)
+
+mysql> select Department, length(Department) as len from courses ;
++------------------+-----+
+| Department       | len |
++------------------+-----+
+| Computer Science |  16 |
+| Electronics      |  11 |
+| Computer Science |  16 |
+| Mechanical       |  10 |
+| Mechanical       |  10 |
+| Electronics      |  11 |
+| Computer Science |  16 |
+| Civil            |   5 |
+| Civil            |   5 |
+| Electronics      |  11 |
++------------------+-----+
+10 rows in set (0.00 sec)
+
+mysql> select Department, length(Department) as len from courses order by asc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asc' at line 1
+mysql> select Department, length(Department) as len from courses order by len;
++------------------+-----+
+| Department       | len |
++------------------+-----+
+| Civil            |   5 |
+| Civil            |   5 |
+| Mechanical       |  10 |
+| Mechanical       |  10 |
+| Electronics      |  11 |
+| Electronics      |  11 |
+| Electronics      |  11 |
+| Computer Science |  16 |
+| Computer Science |  16 |
+| Computer Science |  16 |
++------------------+-----+
+10 rows in set (0.00 sec)
+
+mysql> select Department, length(Department) as len from courses order by len, Department;
++------------------+-----+
+| Department       | len |
++------------------+-----+
+| Civil            |   5 |
+| Civil            |   5 |
+| Mechanical       |  10 |
+| Mechanical       |  10 |
+| Electronics      |  11 |
+| Electronics      |  11 |
+| Electronics      |  11 |
+| Computer Science |  16 |
+| Computer Science |  16 |
+| Computer Science |  16 |
++------------------+-----+
+10 rows in set (0.00 sec)
+
+mysql> select Department, length(Department) as len from courses order by len, Department limit 1;
++------------+-----+
+| Department | len |
++------------+-----+
+| Civil      |   5 |
++------------+-----+
+1 row in set (0.00 sec)
+
+mysql> select Department, length(Department) as len from courses order by len desc, Department limit 1;
++------------------+-----+
+| Department       | len |
++------------------+-----+
+| Computer Science |  16 |
++------------------+-----+
+1 row in set (0.00 sec)
+
+mysql> create table Triangles(A,B,C);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',B,C)' at line 1
+mysql> create table Triangles(A Integer,B Integer,C Integer);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into Triangles (A,B,C) values (20,20,23),(20,20,20),(20,21,22),(13,24,30);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> insert into Triangles (A,B,C) values (13,14,30);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select case when A+B>C AND B+C>A AND A+C>B THEN CASE WHEN A = B AND B=C THEN "Equilateral" WHEN A=B OR B=C OR A=C THEN "Isosceles" ELSE "Scalence" ELSE "Not a triangle";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ELSE "Not a triangle"' at line 1
+mysql> select case when A+B>C AND B+C>A AND A+C>B THEN CASE WHEN A = B AND B=C THEN "Equilateral" WHEN A=B OR B=C OR A=C THEN "Isosceles" ELSE "Scalence" ELSE "Not a triangle" END from Triangles;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ELSE "Not a triangle" END from Triangles' at line 1
+mysql> select case when A+B>C AND B+C>A AND A+C>B THEN CASE WHEN A = B AND B=C THEN "Equilateral" WHEN A=B OR B=C OR A=C THEN "Isosceles" ELSE "Scalence" ELSE "Not a triangle" END from Triangles;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ELSE "Not a triangle" END from Triangles' at line 1
+mysql> select * from Triangles ;
++------+------+------+
+| A    | B    | C    |
++------+------+------+
+|   20 |   20 |   23 |
+|   20 |   20 |   20 |
+|   20 |   21 |   22 |
+|   13 |   24 |   30 |
+|   13 |   14 |   30 |
++------+------+------+
+5 rows in set (0.00 sec)
+
+mysql> select count(*) from courses where Department = "Computer Science";
++----------+
+| count(*) |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select district Department from courses;
+ERROR 1054 (42S22): Unknown column 'district' in 'field list'
+mysql> select distinct Department from courses;
++------------------+
+| Department       |
++------------------+
+| Computer Science |
+| Electronics      |
+| Mechanical       |
+| Civil            |
++------------------+
+4 rows in set (0.00 sec)
+
+mysql> select count(*), distinct Department from courses group by district;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'distinct Department from courses group by district' at line 1
+mysql> select count(*), distinct Department from courses group by distinct;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'distinct Department from courses group by distinct' at line 1
+mysql> select count(*), district Department from courses group by district;
+ERROR 1054 (42S22): Unknown column 'district' in 'field list'
+mysql> select count(*), distinct Department from courses group by Department;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'distinct Department from courses group by Department' at line 1
+mysql> select count(*),  Department from courses group by Department;
++----------+------------------+
+| count(*) | Department       |
++----------+------------------+
+|        3 | Computer Science |
+|        3 | Electronics      |
+|        2 | Mechanical       |
+|        2 | Civil            |
++----------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> select count(*),  Subject from students group by Subject;
+ERROR 1054 (42S22): Unknown column 'Subject' in 'field list'
+mysql> select count(*),  Subject from students group by Subject having count >2;
+ERROR 1054 (42S22): Unknown column 'Subject' in 'field list'
+mysql> select count(*),  Department from courses group by Department having count >2;
+ERROR 1054 (42S22): Unknown column 'count' in 'having clause'
+mysql> select count(*) as count,  Department from courses group by Department having count >2;
++-------+------------------+
+| count | Department       |
++-------+------------------+
+|     3 | Computer Science |
+|     3 | Electronics      |
++-------+------------------+
+2 rows in set (0.00 sec)
+
+mysql>

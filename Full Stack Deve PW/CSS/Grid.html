@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid </title>
+    <style>
+      .container {
+         display: grid;
+         grid-template-columns: repeat(3, 1fr);
+         grid-template-rows: 100px 100px 100px ;
+         grid-area: header header header  ;
+         justify-items: start;
+         gap: 20px;
+      }
+       .box {
+        height: 100px; 
+        width: 100px;
+        margin: 10px;
+       }
+       .box1 {
+         background-color: red;
+         border: 3px solid black;
+         justify-self: center;
+
+       }
+       .box2 {
+         background-color: hwb(313 5% 16%);
+       }
+       .box3 {
+         background-color: yellow;
+       }
+    </style>
+</head>
+<body>
+     <!--Grid System  -->
+     <div class="container">
+        <div class="box box1"></div>
+        <div class="box box2"></div>
+        <div class="box box3"></div>
+        <div class="box box1"></div>
+        <div class="box box2"></div>
+        <div class="box box3"></div>
+        <div class="box box1"></div>
+        <div class="box box2"></div>
+        <div class="box box3"></div>
+     </div>
+
+</body>
+</html>

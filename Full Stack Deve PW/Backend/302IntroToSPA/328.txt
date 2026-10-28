@@ -1,0 +1,102 @@
+Intro to Tailwind and Utility First Apporach
+- First go to the Tailwind Css website.
+- This website says that Build modern websites without ever leaving your html. means hum kabhi bhi css file mai jate he nahi hai.
+  Css hamare liye autogenerate hoti hai. 
+- Utility First framework :- like text center so automatically text center mai aa jata hai, Bas yahi classess hai,
+- Best practices, don't actually works :- like Css alag file mai rakheye, css use honi chahiye. Tailwind dusri approch leta hai, 
+  agar hamne component likh diya hai, usko kahi bhi copy karenge toh wo har jagah waisa he function show karna chahiye. aur dusri css se 
+  conflict nahi karna chahiye.
+- Different properties given in detail like Colors, Sizing, Typography, Shadows, etc. 
+- Bulid what you want seriously. like Simple, Playful, Elegant, Brutalist 
+  kis tarah ka cards chahiye uppar mai se. Bootstrip ke jaisa strict nahi hote yaha. 
+- It's tiny-- never ship unused CSS again:-  Bahut log kahte hai ki Tailwind utna performance optimized nahi hai, kyuki sari css load kar deta hai. 
+  lakin ye toh aap par depend karta hai, sari css load karne ko bolenge toh sari hoga, agar achhe se use karenge , jitni hum likh rahe hai utani he css file generate ki jati hai. 
+  Jo hum use kar rahe hai wahi generate hota hai. 
+- Responsive Everything :- 
+  - By default ye start hota hai chhoti devices se. 
+  - Agar bade mai use karna hai toh specilized Css likh de uske liye or jo chhote ke liye hai wo badi ke liye bhi use hogi. 
+- Hover and focus states :- 
+  - Different states hai selected-states, etc 
+- Worried about duplication :-
+  - Ye duplication nahi hone deta hai. (abhi hum vanilla javascript par focus kar rahe hai)
+-Dark mode 
+- Cutting Edge is our comfort zone :- Css Grid, Transforms, Filters 
+
+What is css framework ? 
+- it is important , kyuki core css kisi ko likhna pasand nahi hai.  Ye easy to use hoti hai. Jayda tar framework ke ander prewritten
+  css hoti hai. humk sirf class wagera deni hoti hai.
+Why CSS framework over CSS.
+- Agar hum css likh sakte hai toh kisi aur kikhi hua css kyu use kare, 
+  - kyuki consistency rahti hai color, height, font, etc mai. 
+  - responsive design easy hoti hai. 
+Tailwind CSS?
+- Utility First css framework hai jaha par, kaffi kuchh hai , waha se hum easily development kar sakte hai. 
+
+Advantages of Tailwind Css
+- Faster and easy development.
+- maintainance easy kyuki css collpse nahi karti aapas mai
+- responsive design and customizable bhi hota hai means value ko hum change bhi kar sakte hai, ye bahi hai jo uthakar
+  laye hai, wahi use karna hai.
+
+Disadvantages of Tailwind Css
+- classes ka overview hota, means reuse kaffi jagah karte hai. 
+- brawser support deta hai par accessibilty mai issue hota hai
+- maintainance developer ke hath mainnahi hai, humko core css ka use karna padta hai. 
+
+Installation from Docs
+cdn file:- lana 
+  -<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    - is kaam toh ho raha hai, lakin isse se suggestions nahi aa rahe hai, 
+    - 2nd is ki hamne cdn puri ki puri css load kar li hai, jo ki bahut badi file hai. 
+    ex: <h1 class = "text-3xl bg-orange-400"> Tailwind Css words here</h1>
+    - h1 sirf do classes nahi balki bahut file load kar raha hai.
+
+Tailwind CLI :- 
+- npx tailwind init 
+- module export karna padega
+- Input css banana padega
+
+Lecture 329 Understanding Layout and Spacing
+-in-> index1.html 
+- tracking-tighter: letter ke bich mai space kaisa rahega, jinko hum tracking bhi kahte hai. 
+- leading:- leading space kitna chahiye, lines ke bich mai  kitna chahiye. 
+- Different properties like :- 
+  -underline , line-through
+  - uppercase, capitalize
+
+  -w-3/12 :- Pure screen ko 12 part mai divide kardo aur usko 3rd pat dedo, aur ye percentage based hota hai, so pure screen ke according hpta
+   hai
+
+   Lecture 330 Colors Background and Borders
+   In file index2.html
+
+   Lecture 331 Advanced Tailwind(Pseudo class Varient, Animation and Responsiveness)
+   - code ko likhna se jayda humko is par focus karna chahiye ki code kar kya raha hai, ye hamko samjh mai aaye.
+   - Toh basically is lecture mai hum dekhenge ki, hover, etc hum tailwind kaise kar sakte hai. 
+   - Pseudo classes ke bare mai padna hai, toh sabse pahledocs mai jao, waha core concept hai, usme Hover, focus and other states hai. yahi 
+     pseduo classes hoti hai.
+   - Index3.html
+        syntex <button class="bg-sky-500 hover:bg-sky-700 ...">Save changes</button>
+     Tailwind includes variants for just about everything you'll ever need, including:
+      -Pseudo-classes, like :hover, :focus, :first-child, and :required
+      -Pseudo-elements, like ::before, ::after, ::placeholder, and ::selection
+      -Media and feature queries, like responsive breakpoints, dark mode, and prefers-reduced-motion
+      -Attribute selectors, like [dir="rtl"] and [open]
+      -Child selectors, like & > * and & *
+  -Responsive design:-
+    - By default , sab kuchh chhote device ke liye hota hai so humko bado devices ke liye property use karni padegi. 
+      so it called mobile-first framework css.  
+    - classes ka use karke override karte hai. 
+    ex  <!-- Width of 16 by default, 32 on medium screens, and 48 on large screens -->
+          <img class="w-16 md:w-32 lg:w-48" src="..." />
+          - go to the docs enhance your knowledge for more.
+
+Project (Beginner and Intermediate)(332):-
+   -Index4.html
+   - div:- gradiant lane ke liye gradiant kaha se dena loke topse blue-500 se blue 600 tak.
+    -div:- my-4: y axis map margin 4 de dete hai. 
+   - index4intermediate.html for Intermediate level of project.
+
+Advanced Project [333]:-
+-
+

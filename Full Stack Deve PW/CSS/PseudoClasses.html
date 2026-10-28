@@ -1,0 +1,63 @@
+<!-- Kuchh chije thi css se possible nahi ho pa rahi thi inke aane se solve ho gaya.like hover,focus, link, visited,active, first child, nth child -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pseudo Class </title>
+    <style>
+        /* Pseudo class:- p:hover Syntex Selector:jispar kaam karna hai */
+        /* Selector: tag, class,id etc */
+        .hover1:hover {
+            background-color: black;
+            color: white;
+        }
+
+        /* Focus : Jab hum us par dhyan denge or usko use mai layenge */
+        input:focus {
+            color: rgb(94, 8, 224);
+            background-color: rgb(118, 99, 72);
+            font-size: 25px;
+        }
+
+        a:hover {
+            color: orange;
+        }
+
+        /* Jab active hoga tab kya hoga  */
+        a:active {
+            color: brown;
+        }
+
+        a:visited {
+            color: black;
+        }
+
+        /* a:first-child{
+            color: yellow;
+        } */
+        a:nth-child(2) {
+            color: rgb(255, 255, 0);
+            background-color: rgb(85, 110, 132);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Pseudo class : hover :- use case button , anchor tag -->
+    <p class="hover1"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ad non deleniti aut animi expedita
+        esse.
+    </p>
+    <input type="text">
+    <br>
+    <nav>
+        <a href="https://www.google.com"> Google</a>
+       
+        <a href="https://www.google.com"> Google</a>
+        
+        <a href="https://www.google.com"> Google</a>
+    </nav>
+</body>
+
+</html>

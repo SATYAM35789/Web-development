@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment </title>
+    <style>
+         * {
+            padding: 0;
+            margin: 0;
+         }
+         body{
+            display: flex;
+
+
+        }
+         @media screen and (max-width: 425px) {
+            .box1{
+                background-color: aquamarine;
+                font-size: 40px;
+                font-weight: 800;
+                
+            }
+            .box2,.box3,.box4{
+                visibility: hidden;
+            }
+         }
+         @media screen and (min-width: 425px) and (max-width:768px) {
+ 
+            .box2{
+                background-color:blueviolet;
+                font-size: 40px;
+                font-weight: 300;
+            }
+            .box1,.box3,.box4{
+                visibility: hidden;
+            }
+         }
+         @media screen and (min-width: 768px) and (max-width:1024px) {
+            
+            .box3{
+                background-color: rgb(4, 93, 63);
+                font-size: 40px;
+                font-weight: 400;
+            }
+            .box2,.box1,.box4{
+                visibility: hidden;
+            }
+         }
+         @media screen and (min-width: 1024px) {
+            
+            .box4{
+                background-color: rgb(142, 123, 159);
+                font-size: 40px;
+                font-weight: 500;
+            }
+            .box2,.box3,.box1{
+                visibility: hidden;
+            }
+         }
+    </style>
+</head>
+<body>
+  <div class="box box1">Mobile Screeb: 425px </div>
+  <div class="box box2">  Tablets: 768px </div>
+  <div class="box box3"> Normal screen : 1024px </div>
+  <div class="box box4">  Large Screen: 1440px </div>  
+</body>
+</html>

@@ -1,0 +1,66 @@
+nodemon:- ka use hum isilye karte hai taki jab bhi changes kare toh usko bar bar server pad up or reflect n karna pade. 
+const PORT = Process.env.PORT || 5000;  :- dynamically aur static port setup kar rakha hai
+app.js = server 
+app.use( '/', (req,res)=>{})= agar / ke through accsess karna chahte hai , toh call back back fun run karna hoga
+ye function kuchh kaam karega.
+module.exports = app; = export kar rahe module ko taki dusre jagah import kar sake
+app.listen(PORT, ()=>{}) =  server jo banaye hai usko start kar rahe hai (index.js)
+    
+    Basic setup done 
+    1. File index.js
+       Contain:
+           const PORT = process.env.PORT || 5001;
+           const app =  require('./app');
+
+           app.listen(PORT, ()=>{
+           console.log(`server is listenting at http://localhost:${PORT}`)
+           })
+
+    2. File app.js // server
+       Contain:
+          const express = require('express')
+          const app = express(); //  instance/object of express
+
+          app.use( '/', (req,res)=>{
+             res.status(200).json({ data: 'JWTauth server '})
+          })
+
+         module.exports = app;
+
+Next Target : Enhancing this basic setup 
+    1.Adding more routes : router folder
+        const express = require('express') = express ka instance chahiye taki jo reqired hai wo mol jaye
+        const authRouter = express.Router() = router ka instance chahiyejo milega express.Router() se 
+
+        Ab instance ki help se :- 
+          post: - 1. koi chiz access karni hai aur secure dta pass karna hai , data leak n ho
+                2. create something
+          1. authRouter.post('/signup', ControllerName ) :  route mai do part hoe hai
+              1 '/signup' : konsa path chahiye
+              2. Controller: agar koi is route par aata hai toh usko kya show karna hai
+                means agar koi is route par post marta hai toh kya execute karenge. 
+    
+    2. Controller folder
+        1. const signup = (req, res, next)={} : calling function jisko pass karenge router mai
+           fn ke ander req,res aur next. next kya karna wo defind karte hai. 
+          - fn ke ander: (static response bana rahe hai):- 
+            resposne ka status set kar rahe hai aur json form response send kar rahe hai.
+                     return res.status(200).json({
+                        success : true,
+                        data : {}
+                     }) 
+         -post call hai toh , isme koi information toh send karenge aur check bhi kar sakte kya hai wo info
+              const { name,email, password, confirmpassword } = req.body :- requestbody ye sari info bhejenge
+              console.log(name,email, password, confirmpassword )
+        2. isko ander jo bhi defind kiye usko export kar rahe hai
+         
+
+    3. App.js 
+       // By default , request ko authrouter par bhejna:-
+       app.use('/api/auth/', authRouter) : agar cliewnt koi route access karna chahta hai toh usko redirect kar do authroter ke uppar
+       - redirect karne ke is file mai authRouter hona chahiye so aquire karnege usko
+         const authRouter = require('./router/authrouter')
+      - app.use(express.json()); :  data kis form mai server par aayega like json ke form mai 
+          
+
+

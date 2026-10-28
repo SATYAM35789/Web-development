@@ -1,0 +1,27 @@
+Authentication and Authorization
+Authentication : 
+ - kisi bhi company/ bank ke ander jana hai toh phale check hota hai ki aap kon ho? employ ho ki nahi,
+   aapka bankaccount exist or not.
+ - aapka userid and password aapka Authorization hai.
+ -login karne ka access hai ki nahi. 
+ ex authcontroller.js mai sign() method.
+ - ye ek process hai jiske through hum pata karte hai, ki aap kon ho, aap exist karte ho ki nahi or
+   aapka ke pass data/application ka access hai ki nahi. 
+
+   Common Types of Authentication:- 
+   - something you know :-  username and password pata hai or able to answer the security based question.
+   -something you have: - Physical devices jaise ki smart card, USB security tokens explict
+   - something you are:- Biometric Authentication or aise Physical characterstices jo permit karne ke liye allow 
+     karti hai. 
+
+ Authorization:
+Aane de raha toh aapka kya kya karne ki access hai, wo aata hai Authorizationmai. 
+  - login karne ke baad aap kya kya kar sakte ho. There are different roles defined in Authorization.
+  - not do this in this video but will understand the meaning. 
+  - process of determining kya aapke pass revelent access(permission/privilages) hai protected resources ko use karne ke liye. 
+
+ So pahle kya karna chahiye Authentication or Authorization :- 
+   - You cannot authorized the user or services before identifying them, Authentication always comes before the 
+     Authorization.
+   - ex email account pahle username aur password ke basis par login karte means authenticate hote hai , phir
+     login hone ke baad send or recives message ko access karte hai. 

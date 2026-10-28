@@ -1,0 +1,352 @@
+Use Effect
+  - we use pokeapi.co to made this project. 
+  - ye basic react project hai , so let set-op the folder structure. 
+  - Created folder components , where we defined all coomponents of the project.
+  - component folder have another  two folder right now, 1. Pokerdex 2. Search 
+  - Pokerdex folder has file Pokerdex.jsx
+    - In this file we define the function: Pokerdex()
+    - In Pokerdex(): 
+      - return()
+        -<div> :  className
+    - export this function component.
+  - Search folder has a file Search.jsx 
+    - In this fils has function: Search()
+    -In Search()
+      - 
+      -return()
+        - Designing UI
+         - <div>: className
+          -<input> :id type, placeholder. 
+      - export ths function component
+  
+  - Another folder PokemonList having file Pokenmon.jsx
+    - In file we have function : PokemonList()
+    - In PokemonList()
+        -useEffect() : expact two argument 
+          1. Call back fun : 
+            - jo bhi logic iske ander likhenge wo excute hoga. 
+            -  excute joga, jab component pahli baar render ho raha hai.                
+          2. Dependency Array :
+            -  Agar dependency array pass nahi karte, tab jab bhi component re-render hoga, tab pura logic excute hoga.
+            - Agar dependency array pass karte hai, tab jab pahli baar render hua tabhi logic implement hoga. re-render par excute nahi hoga. 
+              - Agar kisi statusvariable ke changes ko track larna chahte hai, toh component re-render hoga. Agar is stateVariable
+                ke wajah se component re- render hua toh useEffect call karunga
+                - useEffect(()=>{},[])
+                - const [x , setX] = useState(0)
+                - const [y , setY] = useState(0)
+                -async function
+                - return()
+                - div : 
+                -x ki value print on clicking
+                -y ki value print on clicking
+                - export the function component
+                Note abhi tak, useEffect ko samjh rahe the. 
+    
+useEffect.jsx        
+        - const [x , setX] = useState(0)
+        - const [y , setY] = useState(0)
+        - useEffect(()=>{},[])
+        - return()
+          - div : 
+            -x ki value print on clicking
+            -y ki value print on clicking
+Theory :- 
+  - Hum chahte hai ki ,  jaise he hamara UI load/refresh ho toh hum list of pokemon download karke laye. 
+  - Toh hum pokemon ko download kar ke kaise la sakte hai. So ek API : pokeapi/c0/docs/v2#pokemon
+    yaha ek url hai, us url(https://pokeapi.co/api/v2/ability) par directly serach marte hai, toh lists are 
+    pokemon aa jayega hamare pass aa jaye.
+  - Ab is api ko use karene ke liye, hamare pass ek aisa mechanism hona chahiye, jaise apne UI ko load kare, Pokedex
+    ke api par ek request jaye, jaise request jayegi, humlog data ko download karke layenge, toh is process mai kuchh
+    time lagega. Jaise he wo downloading khatam ho jayegi, uske baad hum apne UI par print kar denge. 
+  - Toh React humko yeh facility deta hai, wo functional component load kiya us component ke har ek load par koi specific
+    task karna hai, hamare pass ek hook exist karta hai, useEffect.
+  - useEffect Component :- jo bhi uske ander pass karenge wo sari chize execute hongi. 
+    - Go to folder Pokenmon List for more detail.  
+    - useEffect help us to connect with outer world. 
+    - koi bhi aisa kaam jo component ke first load or reload par hona hai, ye sab hum useEffect se kar sakte hai. 
+    - Ab data ko download karne ke liye we have fetchapi, and axios we use thisone. 
+    - Ab humko apne component ki knowledge use karke in pokemon ko Apne UI par lana hai. 
+    
+     PokemonList(): making our project
+       -const hai , stateVariable(pokemonList)
+       - jab tak hamara data download ho raha hai, uske liye stateVariable(isLoading)
+       -async function : downloadPokemons()
+         - using downloading api, axios. in response variable
+         - setLoading(false): response console hone ke baad, setLoading ki state change kar denge downloading to 
+           downloaded 
+       -useEffect()
+         - calling downloadPokemons()
+       -return()
+         - div : className  
+         - isLoading stateVariable , ternary operator. 
+       -const: response mai jo array hai wo sara ka sara download ho jaye.
+           - response ko   store kar lete hai. 
+             - const pokemonResultsPromise = response.data.results;
+           - ab is result parameter par iterate karenge. 
+            - pokemonResults.map( (pokemon)=> axios.get(Pokemon.url))
+            - axios.get(Pokemon.url) : pokemonResults mai ek url hai, pokemon iterate kar kerke url layenga
+          - another cost pokemonData 
+              -axios.all(pokemonResultsPromise):  jab sara ka sara data download ho jayega tab lakar ye de dega.
+          -console kar do pokemonData ko.
+          -Summary ab un sare Url ja aaye hai un pad get request marenge, aur isko ek array mai store kar denge, jisko bolenge
+            ki array mai sare ke sare promises hai. phir inhe print kar denge.
+          -Saving data: iteration ka use karke data ko fetch karenge aur waha se uska Data lenge. 
+            - const res mai jakar dekho. 
+     - export the PokemonList 
+
+  Pokemon.jsx 
+    - function Pokemon() : name, image
+      -return()
+    - export this function
+    Theory:- Abhi hamne dekha response.data ko console mai jakar, waha hamko previous aur next ka data mil raha hai
+    jane ka tarika pata chal gaya, ab hum next 20 aur privious 20 pokemon la sakte hai. Ab is functionality ko apply 
+    karenge. 
+    - pokerdexUrl naam ka stateVariable hai , ab jaise he next ya previous button dabate hai, wise he url ko change kar denge
+      and jab pokerdexUrl change hoga tab hamara toh hamara useEffect dobara se execute hona chahiye.
+    - Now we add the functionality to the next and previous button. 
+      -ek specific data attribe dete hai data-url karke hai.  or do stateVariable bana lete hai. 
+        1. nextUrl
+        2. prexUrl
+        onClick={()=>setPokedexUrl(prevUrl)} : click karte he setPokedexUrl url mai previousUrl ki value daal do. 
+        - jaise he download pokemon call ho raha hai, waise he setLoading(true) ho jana chahiye. 
+
+Summary till now:
+response: download karega list of 20 pokemon, ab 20 pokemons ke list se array of pokemon nikalte hai pokemon se. Is array
+of pokemon ke naam hai, aur unki detail naikalne ke liye url hai (in pokemonResults). AB pokemonResults par iterate
+kar rahe hai, and using their url, to create to an array of promises taht download those 20 pokemon. Uske baad 
+passing that promises to array of axios.all, sabhi le download hone ke baad he answer dega. jo ki el detailed data dega.
+pokemon ka . ab iske har ek pokemon par iterate karenge aur extract karenge id, name, image, types. 
+- ye sari chize possible ho pa rahi hai useEffect ka wajah se. 
+
+lecture 317 : React Router
+- Ab ye chahta hu ki , jaise he kisi pokemon par hum click kare, waise he uski sari details print ho jaye.
+- Hamare pass pokemon ke id ke basis par url present hai, is url mai pokemon ki sari details hai. 
+- jaise he hum kisi pokemon ke uppar click karenge, toh hamko ek network request lagani hogi usko specific details keliye.
+- Ab jaise he hum click kare waise he ek naya page khuleso hum ek new component banayenge:
+- install npm i react-router-dom package.
+   - isko main.jsx mai import karenge, BrowserRouter(component) ke through. aur <App/> component iske ander call karenge.
+     - ye karne se hamare pure application mai react-router enable ho jayega.
+     - Ab humko configure karna hai apne routes
+     - Now crete a new folder outside the Component folder, folderName : routes  -> CustomRoutes.jsx -> CustomRoutes()
+       - In CustomRoutes()
+       - we enable the react-router here. 
+         - react-router humko ek aur specific component deta hai routes isko import kar lenge. 
+         - BrowserRouter component se enable rahega, ab react-router-dom ki functionality likhne ke liye, hum routes component
+           use karte hai. 
+           - Routes component internally, kuchh bunch of component lega, <Route/> , iske ander hum different route de sakte hai.
+           - yaha hum actually defined kar payenge ki kon se path par kon sa component render hona chahiye. <Route/> ke ander
+              <Route path= "/"element={Pokerdex}/>
+              - /pokemon/:id' :-  :id ek variable hota hai. 
+          - hum ye chahte hai ki, hum kisi pokemon par click kare wo kisi aur pokemon par chale jaye. 
+            - by default , kuchh ye bhi kar sakte hai, 
+              - pokemon.jsx mai jakar naam aur image ek anchor tag mai kar do.
+                -<a href='/pokemon/2'> Name Image <a/>
+                -is tarah karne se solution toh mil sakta hai, lakin Single Page Application ki property kho de raha hai,
+                 page barbar refresh ho raha hai. 
+                -Isiliye anchar tag ki jagah ek isme Ek component hota hai <Link/>. 
+                -Ye component humko milta hai react-router-dom se. ye internally webBrowser mai anchor tag jaisa he hota hai.
+                - ye use href(property) ki jagah to(property) use karta hai.
+Summary : routes configure
+  Sabse pahle hamne apne App component ko BrowserRouter se wrap kar liya, jise se pure ke pure App component ander react-router-dom
+  enable ho gaya, uske baad hamne ek naya CustomRoutes banaya, jisme hamne Routes component ke ander different Route de diye,
+  jisme hum bata sakte hai ki kisme kon sa component render ho raha hai. Uske baad App.jsx se <CustomRoutes/> ko render kar diya. 
+  - Hum yaha navbar bana sakte hai, jo ki Har page par common rahega. 
+  - redireaction ke liye hum anchar tag use nahi karenge, Link component use karenge. 
+
+- Ab humko params mai se id ko fetch karle, is id ko fetch karne ke baad useEffect mai ek Api call laga sakte hai axios se,
+- Hamare ek hook aata hai , useParams from the react-router-dom ,  for fetching id. 
+  const {id} = useParams : ye apne aap id la dega , console karke inspect>console mai jakar dekh sakte hai. 
+- Hamare pass ek function hai downloadPokemons naam ka, 
+  - const banayenge response ka naam , axios ke help se data layenge. 
+- useEffect mai downloadPokemons ko call kar denge.
+- ek stateVariable bano lo , pokemon naam ka, function name setPokemon
+  - setPokemon ke help se response mai se kuchh configureation fetch kar lenge
+    - map ,types mai har ek type object hai. 
+
+
+       - export the function
+- folder PokemonDetails -> fileName PokemonDetails.jsx
+  - In PokemonDetails.jsx 
+  - function pokemonDetails()
+    -return()
+    -export the function
+
+
+Advanced useState(318) :-
+- hamane apne folder mai bahut sari useState ki help se, stateVariable banayi hai, which is not good practice. There is a 
+  way to handle many stateVariable :-
+  - Maintain a object , and us object mai sari stateVariable rakh de in key:value pair, and object state ki tarah treat karle. 
+    ex.
+      Different stateVariable: 
+        -const [pokemonList, setPokemonList] = useState([])
+        -const [isLoading, setIsLoading] = useState(true)  
+        -const [pokedexUrl , setPokedexUrl] = useState('https://pokeapi.co/api/v2/pokemon')
+        -const [nextUrl, setNextUrl] = useState('')
+        -const [prevUrl , setPrevUrl] = useState('') 
+
+        Converted for, as object :-
+          - const[pokemonListState, setPokemonListState ] = useState({}) : here useState take an variable.
+          - implemented form :-
+              const[pokemonListState, setPokemonListState ] = useState({
+                pokemonList : [],
+                isLoading : true,
+                pokedexUrl : 'https://pokeapi.co/api/v2/pokemon',
+                nextUrl : '',
+                prevUrl : ''
+              })
+
+          - How to implement this way or method:-
+            - Agar is stateVariable as Function use karna hai toh function variable call karenge:
+              setPokemonListState():-
+               -is parenthesis ke ander, pahle is object jo bhi hai usko unpacked karenge, with this=> ({...pokemonListState})
+               - jo bhi object or functionality humko chahiye usko override kar denge parenthesis ke ander, override means jo object
+                 hamne define kiya hai waise he. {isLoading:true}
+                 overall aisa dikhega : setPokemonListState({...pokemonListState, isLoading:true})
+               - In statevariable :har jagah unpacked karne ki zarurat nahi hai ab, ab iska stateVariable.functionality ad kar sakte hai 
+                 jaise : pokemonListState.pokedexUrl
+               - functionality ke liye uppar wala method.
+
+            - occured problem:- so yaha do pokemon ki state set ho rhai, means jab hum do setPokemonListState ko call kar rahe hai
+              toh do baar value set ho ja rahi hai, isme aisa nahi hota ki pahle ek baar value set ho jaye, uske baad update ho jaye. 
+              uske uppar, setfunction call karte hai kisi bhi stateVariable par, ustime agar hamne 5 baar call kara toh pahle pahle wali 
+              state lag jayegi, phir uske uppar duri wali lagegi an so on. Jo final setfunction update hota hai wahi mana jata hai. 
+               -how to avoid this : 
+            
+            -Queueing a series of state Updates :- 
+              - maan lo ek number hai kisko hum set kar rahe hai, usko lagatar tin baar kar diye, ham lagege ki tin bar change hogi,
+               but value change hogi according to last set.  beccaue React wait until all code in the event handles has run before
+               processing your state update. means pahle toh react wait karta hai do re-render ke bich mai , jo rerenders hai wo execute 
+               ho jaye, uske baad wo sari ki sari event ko render karta hai. 
+               - Updating the same state multiple times before the next render then, you have to send a updaterFunction. 
+                 -means agar hum ek call function pass kardo jo , sari ki sari fun ko queue kar deta hai. render hone se pahle callback function
+                  queue pahle excute hoga uske baad render hoga. 
+
+              - Agar do rerenders ho rahe hai, agar hum directly value ko update karte hai, like state variable pokemonListState ko , jaha jaha 
+               state variable call hoga,  us time ki actuall value pick ki gayi hai, aur phir un tino ko process karte hai lakin
+               callback fun pass karne ke baad, iska jo bhi output future mai aa sakta hai, wo value set hogi. toh isiliye sari callback
+               fun queue ho jati hai. 
+
+Custom hooks in React (319):-
+  - Creating  own hook, to minimized the complexity of the program or file.
+  - In component folder we have another folder hooks -> file name usePokemonList.js .
+  - in this file, hum yaha complexity kam karne ki kosis karenge, function like downloadPokemon ko yaha segregate karne ki kosis karenge.
+    - so by doing this ham hamare function ko alag se test kar sakte hai. like unit testing. 
+  - create fun usePokemonList()
+  - Advanced useState Created
+  - downloadPokemon ko copy pase from pokemonList.jsx
+  - same with useEffect()
+  - jo bhi chiz humko use karna hai, pokemonList.jsx mai ab usko yaha se return kar denge. 
+    -jis bhi format means array [], object{} from mai bhejoge usi format mai , dusri file mai import bhi karna padega. 
+
+Benifits of custom hook:
+  - code reusable bana sakte hai.
+  
+-  Want to add more functionality like by click on the any pokemon at out interface, there is some type give so what next we want 
+   is to add: toh hum same type of pokemon ke details ki list show kar sakte hai :-
+  - ab hum ad type parameter in usePokemonList in custom hook .
+  - ab is type ke based par hum check type exist karta hai ki nahi,
+    if : exist karta hai, toh 
+      - setPokemonListState() ko call kare aur, yaha pokemonList ko update kardo is se. 
+         response.data.pokemon.slice(0,5) -> intial ke 0 se 5 pokemon chahiye
+      - slice fun in js: array ke contain mai se sub-contain nikalne mai help karta hai. 
+    else : agar nahi karta hai toh, jo hum pahle kar rahe the usko kardo .
+
+pokemonList.jsx mai : 
+  - So jab hum chahte hai ki , jis tarah ke pokemon par click kare wo usi tarah ke aur bhi pokemon humko sahow so
+    toh iske liye hum 
+  - pokemonDetails. jsx mai apna custom hook pass karenge aur uppar wali functionality layenge bu doing so changes in custom hook.
+  - ab custom hook ek url aur type expect karta hai 
+  - url mai kuchh aur configuration karnege ki yrl mai types hai ki nahi
+  - phir return mai jakar interface mai kaisa list chahiye wo define karenge. 
+  - pahli bar Loading ho jane ke baad , isko track karna suru karte hai. 
+Summary of downloadPokemon method:-
+- state setting karte hai ki kuchh load ho raha hai, pokemons ko download karte hai, url ke through  axios mai bhej kar
+  ab is download mai se results se nikal lete hai.
+
+Now creating another custom hook for the pokemonData.jsx , which is usePokemonDetails(): id passed in it:
+hum chahte hai ki agar downloading pokemon ho jaye tab, then hum pokemonList ko use kare. Inside pokemonList it calls another
+fun ko call karle, Let see ki hum kaise implement karenge isko. 
+- jaise he hamara data download ho jaye waise he hum apne state ka url badal denge then, toh actuall usePokemonList rerenders
+  ho jayega. 
+
+Summary of this lecture:- 
+hamare pass pokemons details ko jo component tha , toh hamara target tha ki similar type of data ko lekar aaye, 1stley
+we try pokemonList wala he component use karle, the we realize ki kaffi complex logic ban raha tha, jisme custom kuchh 
+revelent call karega,(new custom hook) so better is pokemons ki sari detail lakar aayo, uske types ke basis par uske similar 
+pokemon lakar aayo, in dono chizo ke help se pokemon ki state ko set kar sakte hai, so hum new hook usePokemonDetails :-
+ - is hook ek id milegi us id ke basis par ek pokemon lekar aayega, pokemon ke basis par uske similar types ka list aa jayega, 
+   phir pokemon ke state set kar denge phir same hook ko import kar denge pokemonDetails mai, useprams se id mil jayegi pass kerne 
+   baad sab print kar denge. 
+
+Debouncing in react(320):
+-Ab new functionality add karna chahte hai, Search wali, agar Search box mai id or name dale toh uski details aa jaye.
+-PokemonDetails ki component ko modify karenge, ho sakta hai ki hamara pass params na aa rahe ho lakin uske baad, 
+ details show karni ho, params nahi aa rahe toh kya raha hai. 
+-Now we add this functionality first :  jaise he user type karna shuru kar raha hai , hum uske type basus par figureout karna chahte
+ kya type kiya hai aur kya serach kar raha hai. 
+ - so sabse pahle ek state maintain karne ki kosis karenge in serach.jsx
+ - jaise he input change hoga waise he hum kuchh change karne ki kosis karenge with onchange() event
+   - ye karne se hum serachTerm mai apne text ko bhej pa rahe hai. 
+ - Ab jo bhi searchTerm aa rahi usko ab parent component MAI bhejna hai, in serach ka parent pokedex hai. 
+   - ab parent decide karega ki pokemonlist show karna hai ki, ya koi specific pokemon show karna hai. 
+ - in Pokedexjsx :-
+   - const [ searchTerm , setSearchTerm] = useState('')
+   - callback in <serach/>
+     - iske baad humko state maintain karne ki koi zarurat nahi hai , in serachjsx aur print bhi nahi karnege serchterm ko
+   - serachterm ko pokedexjsx mai print karnege. 
+   - So hamne apne state jo banaya tha usko serch se nikal kar podex mai dal diya, kyuki humko pokedex mai actual calcultion
+     karni hai serach pokemon hai ki nahi. 
+   - doing condional rendering
+     - agar serachterm ki length 0 hai toh hum pokemon list render karnege, nahi toh abhi kuchh nahi render karnege. 
+   - Ab hum chahte hai ki jo bhi hum yaha serach kare uske bared par pokemondetails lekar aaye. 
+     - abhi hamara pokemondetailsjsx , id ke basis par kaam karta hai. internally ye hook use karta hai usePokemonDetails. 
+     - 1st way: tum naam laker aayo, aur naam ke basis par id find kar lenge aur id ke basis par details show kar do. 
+     - 2nd way : usePokemonDetails ki functionality ko extend karo, aisa zaruri nahi hai ki hamesha id basis par he chize chal 
+       rahi ho. 
+       - So now, pokemon details ek props lega pokemonname
+       - id null bhi ho sakta hai 
+         - so ab usePokemon mai id aur name dono aa sakta hai. 
+     - Agar serach term ki length zero nahi toh us pokemon ki detail lana chahte hai. in pokedexjsx
+     - problem :- Dekho jaise he hum apne serach mai koi term likh rahe wo render ho ja raha , pahle ek type karne se he,
+       lakin 2nd word ka koi impect nahi pad raha hai , means wo render nahi ho raha so hum chahte hai ki render ho 
+       - so adding useEffect in pokedexjsx check kar liye koi impact nahi pad raha . so hata do. 
+       - agar hum sirf search term par he serchcondion laga de pahle wali, sirf length ko hata do, us se bhi kuchh khas fayeda nahi milega
+       - Already aagr hamara serachTerm change ho raha toh component rerender ho raha hai, usko manually triger karne ki zarurat nahi hai. 
+         hum key props pass kar sakte, jab humko component render karna toh isko pass kar sakte hai. in pokedexjsx
+         - so yaha ab react direct compairsion karta hai, kya jo component pahle render hona tha same component render ho raha hai. 
+           ab jab serachTerm i length grater than 0 ho gai, hamesha pokemon se details he show karna hai, value hum change karne ki 
+           kosis kar rahe par react ke liye wo matter nahi karta. according recancelization algorithum.
+           -recancelization algorithum :- yaha react compair karta hai ki konsa component render hona hai kon sa nahi. key pass
+            karne ke baad jab bhi length change hoga tab rerender hoga.
+     - Bahut sari request ho rahi in network log we can see, toh is se hamare server par load ho raha hai. 
+      - we need to handle it 
+        - we can introduce delay, jab bhi hum serach kare rehe hai toh, imidiately request no ho server par. 
+          hamne ek chiz type kar rahe phir i sec buffer period aa raha hai, agar us ek sec mai kuchh aur bhi type kar rahe hai,
+          toh wo buffer reset ho jayega agle ek sec ke liye . isko kahte hai Debouncing. 
+          So we create new CustomHook in useDebounce.js .
+
+        - useDebounce() : customHook. 
+         - ye fun ek callback cb aur delay lenge.
+         - jo bhi hamara delay time hai, is samay ek aur call request ho raha hoga toh, pichhla time ko diskart kar denge. 
+           - timerid variable
+           - setTimeout layenga jiske , delay laga denge itne samay baad mujko kuchh execute kar denge, basically uske ander
+             time ko khatam karne ki kosis karnege. iske sath hum cb() ko call karengetoh humko iske parameter pata hon achahiye.
+             toh hum ek arrow fun return karenge so hum ab in sabko hata denge. 
+
+             return(...argument)=>{}
+              - jo bhi i/p argument aaya hai in fun call ke liye, wo sara argument fill kar lega. 
+              - timeid, jiske ander delay pass karnege aur iske baesed par kuchh execute karenge. so naya timer start karne se 
+               pahle purna timeout clear kar denge, naye timer mai cb() call kar denge with same no. arguments. 
+
+Summary :- 
+  -..args ke through hamare pass hum sare argument ko acess kar sakte hai, jaise he hamare input mai koi change ho raha hai
+   hum reset kar paa rahe hai, . 
+
+
+
+
+
+
+
+
+

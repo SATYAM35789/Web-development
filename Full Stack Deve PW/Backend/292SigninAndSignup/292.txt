@@ -1,0 +1,137 @@
+config folder
+  -mongose package jo install kiye toh usko import or require kar rahe hai.
+       const mongoose = require('mongoose');
+  -mongoose connect karge , uske path ki , kaha connect karna hai / do tarah se de sakte like ye apne local database use karge
+     ya kisi aur hosted service use karna chahta hu
+        const MONGODB_URL = process.env.MONGODB_URL || "mongodb://localhost:27017/my_database";
+  -ek method banate jaha se database connection kar sakte hai (mongoose ko call karenge)
+       databasecoonect naam ka method hai jo karega:-
+          1. mongodb se connect
+          2. connect hogaya to kya hogaya
+          3. connect nahi hua toh kya hoga
+           
+        const databaseconnect = ()=>{
+         mongoose
+           .connect(MONGODB_URL)
+           .then((conn) => console.log(`Coonect to DB:${conn.connection.host}`))
+           .catch((err)=>console.log(err.message))
+        }
+
+App.js file
+  databaseconnect()
+
+.env file
+   ke help se hum dynamically database use kar sakte hai
+
+model folder : database la schema 
+   userSchema.js : user se related schema rakhega
+     - schema banane ke liye mongoose ki zarurat padegi
+        const mongoose = require('mongoose')
+    - mongoose ek method deta hai schema 
+       const {schema}= mongoose
+    -userSchema :- struture define karega 
+      - timestampo bhi laga diya hai har ek access ke baad
+      - Validation laga diye : Validation 3 jagah add hota hai 
+        1. client par jaha react ka application likha tha like username, password
+        2. controller mai dikkat aati hai
+        3. Jab data store karne ja rahe hote hai
+           ex require : require: [true, 'User name is required'] 
+            name ke ander tob , name required jo jarur hona he chaiheye nahi toh show error message
+        
+        -usermodel baneyenge aue jisme hoga ki hum kis tarah se schema mai data daal rage hai wo hoga
+       struture mai data fill karega
+        const userModel = mongoose.model('user', userSchema)
+        collection hai uska naam user hai hai, user mai data , userschema ke form mai aayega.
+        schema kaisa hoga wo upper defined hai.
+
+authcontroller.js 
+  - data kiss ne bheja jai toh , meri responsiblity hai usko store karne ki
+  - usermodel ka ek instance banate hai aur isme req body ke throgh jo data aaya hai usko dal denge
+    dalte samay ek baat yad rakhna ki req body mai data same naam se aana chaiheye jis form local variavle defined hai 
+    const userInfo = userModel(req.body);
+  - directly data ko store kar rahe hsi hai
+  - try catch ka use kar rahe hai erroe handling ke liye
+    try - mai agar data save hota tab kya karenge
+    catch agar fail ho jata hai tab kya karenge
+     isme hum e.code=== 11000 then ye more precise batayega ki data mai duplicacy hai. 
+
+
+note : 
+         const userInfo = userModel(req.body);
+         const result = await userInfo.save()      In do line se data hamara stored ho gaya hai. 
+
+Validation add lar rahe in authcontroller.js
+  - agar kisi ne name/email / password / confirm password isme ek bhi nahi diya toh then response mai bad request 
+    send kar do
+         if(!name || !email ||  !password ||!confirmpassword){
+           res.status(400).json({
+             success : false,
+             message : " Every field is required."
+           })
+         }
+    
+ - Agar kisi ne email galat diya hai toh :- 
+      Ek dependency ka use karenge
+          const validEmail = emailValidator.validate(email)
+    if(!validEmail){
+      res.status(400).json({
+        success : false,
+        message : " Please provide a valid email id"
+      })
+    }
+
+- Agar password != confirmpassword
+
+Yaha hamara sign up khatam jo gaya hai
+
+now SIGNIN  karenge:
+   - signin mai ek request aayega humko response dena hai
+   - request karne ke liye , client humko username password deta hai(body ke ander = req.body)
+       const{email,password} = req.body;
+   - response dekhte 
+     1. Validation 
+       - email || password mai se ek nahi toh
+            if(!email || !password){
+                 res.status(400).json({
+                   success : false,
+                   message : " Every field is required."
+                 })
+            } 
+
+    
+       -email id check karenge ki wo database mai exist karti hai ki nahi
+           data base mai lookup karenge : - 
+            agar gmail exist karta hai toh usko password lete aao aur check karo li ye password barabar jo 
+            user password dala hai signin karne ke liye
+             const user = await userModel
+              .findOne({
+                 email
+               })
+              .select('+password');
+
+             // agar user bhi nahi aur password bhi galat hai
+               if(!user|| user.password !== password){
+                 res.status(400).json({
+                   success : false,
+                   message : "Invalid credentials"
+                 })
+             } 
+         Summary of signin till now : 
+           user gives email and password, ye verify hota hai if valid then token generate jisko hum cookie mai dalte 
+           hai , login karne ke baad hum baar request marte hai post, user profile , etc AB hum har request ko toh 
+           check nahi karenge ki valid user hai ki nahi. toh hum token ko hum cookies mai store kar dete. Jo request 
+           hum karte wo toke laker aati hai, in token ko match kar lenge
+
+           email + password > valid > tokens generate > cookies
+
+           Tokens: JWT tokens hum use karenge 3 part mai :
+             1 Alogorithum userd 
+             2. Data you want 
+             3. konsa signature use karna chahte ho encryption ke liye. 
+userschema.file : 
+  schema ek achhi chiz deta hai ki agar aapko custom methods define kar sakte ho so JWT token generate 
+  karne ka method ka likh deta hu.
+   genertaion: jwt dependency, iske ander ek method hai JWT.sign(), is method ke ander tin part de denge
+      1c contain id email 2. Secret key 3 kab khatam hoga 
+
+

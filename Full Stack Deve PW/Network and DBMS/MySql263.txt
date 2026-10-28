@@ -1,0 +1,212 @@
+
+mysql> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| courses           |
+| marks             |
+| students          |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from courses limit 4;
++----------+-------------+------------------+---------+
+| CourseID | CourseName  | Department       | Credits |
++----------+-------------+------------------+---------+
+|        1 | Mathematics | Computer Science |       4 |
+|        2 | Physics     | Electronics      |       3 |
+|        3 | DBMS        | Computer Science |       4 |
+|        4 | Mechanics   | Mechanical       |       4 |
++----------+-------------+------------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select * from marks limit 4;
++--------+-----------+-----------+---------------+------------+----------+
+| MarkID | StudentID | Subject   | MarksObtained | ExamDate   | CourseID |
++--------+-----------+-----------+---------------+------------+----------+
+|      1 |         1 | Maths     |            85 | 2025-03-15 |        1 |
+|      2 |         2 | Physics   |            78 | 2025-03-15 |        2 |
+|      3 |         3 | DBMS      |            88 | 2025-03-15 |        3 |
+|      4 |         4 | Mechanics |            74 | 2025-03-15 |        4 |
++--------+-----------+-----------+---------------+------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from students limit 4;
++-----------+-------------+------+--------+------------------+
+| StudentID | StudentName | Age  | Gender | Department       |
++-----------+-------------+------+--------+------------------+
+|         1 | Amit Sharma |   20 | M      | Computer Science |
+|         2 | Priya Verma |   21 | F      | Electronics      |
+|         3 | Raj Patel   |   22 | M      | Mechanical       |
+|         4 | Neha Singh  |   20 | F      | Civil            |
++-----------+-------------+------+--------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> select StudentName, Department, Subject from students join marks on marks.MarkID = students.StudentId  join marks.MarkID = courses.CourseID limit 8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= courses.CourseID limit 8' at line 1
+mysql> select StudentName, Department, Subject, CourseName from students join marks on marks.MarkID = students.StudentId  join on marks.MarkID = courses.CourseID limit 8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'on marks.MarkID = courses.CourseID limit 8' at line 1
+mysql> select StudentName, Department, Subject, CourseName from students join marks on marks.MarkID = students.StudentId  join marks on courses limit 8;
+ERROR 1066 (42000): Not unique table/alias: 'marks'
+mysql> select StudentName, Department, Subject, CourseName from students join marks on marks.MarkID = students.StudentId  join courses on marks.MarkID = courses.CourseID limit 8;
+ERROR 1052 (23000): Column 'Department' in field list is ambiguous
+mysql> select StudentName, Subject, CourseName from students join marks on marks.MarkID = students.StudentId  join courses on marks.MarkID = courses.CourseID limit 8;
++---------------+-----------+----------------------+
+| StudentName   | Subject   | CourseName           |
++---------------+-----------+----------------------+
+| Amit Sharma   | Maths     | Mathematics          |
+| Priya Verma   | Physics   | Physics              |
+| Raj Patel     | DBMS      | DBMS                 |
+| Neha Singh    | Mechanics | Mechanics            |
+| Rohit Mehta   | Maths     | Thermodynamics       |
+| Sanya Kapoor  | Physics   | Circuit Theory       |
+| Arjun Das     | DBMS      | Software Engineering |
+| Nidhi Chauhan | Mechanics | Structural Analysis  |
++---------------+-----------+----------------------+
+8 rows in set (0.00 sec)
+
+mysql> select StudentName, Subject, CourseName , courses.Department from students join marks on marks.MarkID = students.StudentId  join courses on marks.MarkID = courses.CourseID limit 8;
++---------------+-----------+----------------------+------------------+
+| StudentName   | Subject   | CourseName           | Department       |
++---------------+-----------+----------------------+------------------+
+| Amit Sharma   | Maths     | Mathematics          | Computer Science |
+| Priya Verma   | Physics   | Physics              | Electronics      |
+| Raj Patel     | DBMS      | DBMS                 | Computer Science |
+| Neha Singh    | Mechanics | Mechanics            | Mechanical       |
+| Rohit Mehta   | Maths     | Thermodynamics       | Mechanical       |
+| Sanya Kapoor  | Physics   | Circuit Theory       | Electronics      |
+| Arjun Das     | DBMS      | Software Engineering | Computer Science |
+| Nidhi Chauhan | Mechanics | Structural Analysis  | Civil            |
++---------------+-----------+----------------------+------------------+
+8 rows in set (0.00 sec)
+
+mysql> select StudentName, Subject, CourseName , Credits , courses.Department from students join marks on marks.MarkID = students.StudentId  join courses on marks.MarkID = courses.CourseID limit 8;
++---------------+-----------+----------------------+---------+------------------+
+| StudentName   | Subject   | CourseName           | Credits | Department       |
++---------------+-----------+----------------------+---------+------------------+
+| Amit Sharma   | Maths     | Mathematics          |       4 | Computer Science |
+| Priya Verma   | Physics   | Physics              |       3 | Electronics      |
+| Raj Patel     | DBMS      | DBMS                 |       4 | Computer Science |
+| Neha Singh    | Mechanics | Mechanics            |       4 | Mechanical       |
+| Rohit Mehta   | Maths     | Thermodynamics       |       3 | Mechanical       |
+| Sanya Kapoor  | Physics   | Circuit Theory       |       3 | Electronics      |
+| Arjun Das     | DBMS      | Software Engineering |       3 | Computer Science |
+| Nidhi Chauhan | Mechanics | Structural Analysis  |       4 | Civil            |
++---------------+-----------+----------------------+---------+------------------+
+8 rows in set (0.00 sec)
+
+mysql> select StudentName, Subject,  Department from students right outer join marks on marks.MarkID = students.StudentId  ;
++------------------+-----------+------------------+
+| StudentName      | Subject   | Department       |
++------------------+-----------+------------------+
+| Amit Sharma      | Maths     | Computer Science |
+| Priya Verma      | Physics   | Electronics      |
+| Raj Patel        | DBMS      | Mechanical       |
+| Neha Singh       | Mechanics | Civil            |
+| Rohit Mehta      | Maths     | Computer Science |
+| Sanya Kapoor     | Physics   | Electronics      |
+| Arjun Das        | DBMS      | Civil            |
+| Nidhi Chauhan    | Mechanics | Computer Science |
+| Varun Jain       | Maths     | Mechanical       |
+| Deepa Nair       | Physics   | Electronics      |
+| Kunal Gupta      | DBMS      | Civil            |
+| Manisha Roy      | Mechanics | Mechanical       |
+| Ishaan Garg      | Maths     | Computer Science |
+| Ananya Sethi     | Physics   | Civil            |
+| Tarun Bhatia     | DBMS      | Mechanical       |
+| Ritika Khanna    | Mechanics | Electronics      |
+| Piyush Singh     | Maths     | Computer Science |
+| Sneha Pillai     | Physics   | Mechanical       |
+| Abhay Rao        | DBMS      | Civil            |
+| Simran Kaur      | Mechanics | Electronics      |
+| Yash Sharma      | Maths     | Computer Science |
+| Sakshi Ghosh     | Physics   | Civil            |
+| Tanishq Malhotra | DBMS      | Mechanical       |
+| Ira Bansal       | Mechanics | Electronics      |
+| Aman Patel       | Maths     | Computer Science |
+| Meera Joshi      | Physics   | Civil            |
+| Ravi Shankar     | DBMS      | Mechanical       |
+| Shruti Nair      | Mechanics | Electronics      |
+| Harsh Vardhan    | Maths     | Civil            |
+| Lavanya Iyer     | Physics   | Computer Science |
+| Naman Goyal      | DBMS      | Mechanical       |
+| Isha Malik       | Mechanics | Electronics      |
+| Kartik Tyagi     | Maths     | Civil            |
+| Aditi Chopra     | Physics   | Computer Science |
+| Mohit Raj        | DBMS      | Mechanical       |
+| Rekha Sinha      | Mechanics | Electronics      |
+| Lakshay Arora    | Maths     | Civil            |
+| Parul Jain       | Physics   | Computer Science |
+| Dhruv Taneja     | DBMS      | Mechanical       |
+| Jiya Pandey      | Mechanics | Electronics      |
+| Harish Kumar     | Maths     | Civil            |
+| Tanvi Deshmukh   | Physics   | Computer Science |
+| Nilesh Rathi     | DBMS      | Mechanical       |
+| Aarohi Mehta     | Mechanics | Electronics      |
+| Raghav Chopra    | Maths     | Civil            |
+| Divya Nanda      | Physics   | Computer Science |
+| Prateek Bansal   | DBMS      | Mechanical       |
+| Muskan Jain      | Mechanics | Electronics      |
+| Siddharth Rana   | Maths     | Civil            |
+| Garima Kaul      | Physics   | Computer Science |
++------------------+-----------+------------------+
+50 rows in set (0.00 sec)
+
+mysql> select StudentName, Subject,  Department from students left outer join marks on marks.MarkID = students.StudentId  ;
++------------------+-----------+------------------+
+| StudentName      | Subject   | Department       |
++------------------+-----------+------------------+
+| Amit Sharma      | Maths     | Computer Science |
+| Priya Verma      | Physics   | Electronics      |
+| Raj Patel        | DBMS      | Mechanical       |
+| Neha Singh       | Mechanics | Civil            |
+| Rohit Mehta      | Maths     | Computer Science |
+| Sanya Kapoor     | Physics   | Electronics      |
+| Arjun Das        | DBMS      | Civil            |
+| Nidhi Chauhan    | Mechanics | Computer Science |
+| Varun Jain       | Maths     | Mechanical       |
+| Deepa Nair       | Physics   | Electronics      |
+| Kunal Gupta      | DBMS      | Civil            |
+| Manisha Roy      | Mechanics | Mechanical       |
+| Ishaan Garg      | Maths     | Computer Science |
+| Ananya Sethi     | Physics   | Civil            |
+| Tarun Bhatia     | DBMS      | Mechanical       |
+| Ritika Khanna    | Mechanics | Electronics      |
+| Piyush Singh     | Maths     | Computer Science |
+| Sneha Pillai     | Physics   | Mechanical       |
+| Abhay Rao        | DBMS      | Civil            |
+| Simran Kaur      | Mechanics | Electronics      |
+| Yash Sharma      | Maths     | Computer Science |
+| Sakshi Ghosh     | Physics   | Civil            |
+| Tanishq Malhotra | DBMS      | Mechanical       |
+| Ira Bansal       | Mechanics | Electronics      |
+| Aman Patel       | Maths     | Computer Science |
+| Meera Joshi      | Physics   | Civil            |
+| Ravi Shankar     | DBMS      | Mechanical       |
+| Shruti Nair      | Mechanics | Electronics      |
+| Harsh Vardhan    | Maths     | Civil            |
+| Lavanya Iyer     | Physics   | Computer Science |
+| Naman Goyal      | DBMS      | Mechanical       |
+| Isha Malik       | Mechanics | Electronics      |
+| Kartik Tyagi     | Maths     | Civil            |
+| Aditi Chopra     | Physics   | Computer Science |
+| Mohit Raj        | DBMS      | Mechanical       |
+| Rekha Sinha      | Mechanics | Electronics      |
+| Lakshay Arora    | Maths     | Civil            |
+| Parul Jain       | Physics   | Computer Science |
+| Dhruv Taneja     | DBMS      | Mechanical       |
+| Jiya Pandey      | Mechanics | Electronics      |
+| Harish Kumar     | Maths     | Civil            |
+| Tanvi Deshmukh   | Physics   | Computer Science |
+| Nilesh Rathi     | DBMS      | Mechanical       |
+| Aarohi Mehta     | Mechanics | Electronics      |
+| Raghav Chopra    | Maths     | Civil            |
+| Divya Nanda      | Physics   | Computer Science |
+| Prateek Bansal   | DBMS      | Mechanical       |
+| Muskan Jain      | Mechanics | Electronics      |
+| Siddharth Rana   | Maths     | Civil            |
+| Garima Kaul      | Physics   | Computer Science |
++------------------+-----------+------------------+
+50 rows in set (0.00 sec)
+
+mysql>

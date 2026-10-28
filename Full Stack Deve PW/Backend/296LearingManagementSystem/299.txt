@@ -1,0 +1,159 @@
+2. Course Module:
+   1.Models Folder
+     2. course.model.js:-
+       - model aue schema ko mongoose se import kar lenge
+       - schema ka instance banana hai , jiska naam courseSchema
+         jiske ander, defined karenge ki kya kya chahiye hamne
+          -title : type + Validation
+          -discription : type + Validation
+          -category: type + Validation
+          -thumnail : public_id , secure_url + Validation
+          - lectures : title, discription, + Validation
+             -lectures : public_id , secure_url + Validation
+       - numbersOfLectures : type + Validation
+       - createdBy : + Validation
+    
+     - Model create karlo , jis ke ander database ka collection ka naam , courseSchema, pass kar do
+   
+     - export course
+    
+   2.routes Folder :
+      -course.routes.js
+          - Router import karlo from express se
+          -router ka instance bana lo
+            const router = new Router()
+          - router.get('/', getAllCourses) 
+             -agar koi / par get kare toh, getAllCourses execute kardo.
+                    OR
+           -router.route('/').get(getAllCourses)  
+              -by using this method, hum ek root se different get/post  method use kar sakta hu    
+          - router.get('/:id', getLecturesByCourseId)
+            -agar kisi ek route ke ander, id send karta hai, getLecturesByCourseId execute kar do
+          Note : server ko batana padega ki is type ka koi route exist karta hai in app.js.
+                app.use('/api/v1/courses' , courseRoutes)
+                - courses par koi hit karega toh is route par jayega. 
+                 - agar / (slash) hai toh getAllCourses show hoga.
+                 - agar /:id (slash with id) hai , toh getLecturesByCourseId show karenge.
+                 Validation :-
+                 -ensuring that ki lectures tabhi dekhunga , jab mai kam se kam loggedin hu
+                   - root mai isLoggedIn add kar the get method mai.
+             As admin
+           - Agar koi '/' slash par he post request karta hai
+             - .post(createCourse)
+        
+           - Agar same (/:id) slash:id put req karta hai toh  kuchh update karna ho 
+            - ye isme hai because humko ye operation perform karne ke liye id chahiye, humko pata ho ki kis id ko update karni hai
+             - .put(updateCourse)
+           - delete karne ke liye , we need id do hum yaha defined karenge. (/:id)
+             .delete(removeCourse)
+             Note: hum / or /:id ke mai update aur delete operation kar sakte the, but difference isme aata ki hum data
+             le kaise rahe hai.
+               -req.body
+               -req.params
+           -Route for: lecture adding:- 
+             - same (/:id) par koi click kare toh mai course add kar pau,
+               -post(addLectureToCourseById)
+    3. controller Folder
+         -course.controller.js
+           1. const getAllCourses = async function(req,res,next){}
+              -sare courses chahiye 
+                 const courses = await Course.find()
+                - is se sara ka sara data mil jeyega.
+               - const courses = await Course.find().select('-lectures')
+                  -lectures ko chodkar sara detail milega.
+              -success message with statusCode show kardo
+              - error handling with try and catch
+           2. const getLecturesById = async function(req,res,next){}
+              - Try and Catch ko stating mai use karlo taaki koi error n aayegi
+              - root mai id mila hua hai , toh waha se nikal lo data. 
+                   const {id} = req.params
+              - id ki help se ab course pata kar lenge kya kon konsa course mai involved hai
+              - agar course exist nahi karta or something worng in id
+                if :  errormessage with statusCode
+              - lectures show kar denge ,   success aur nessage course ke lecture fetched ho chuka hai.
+            
+             As admin
+           3.const createCourse = (req,res,next)=>{}
+             - What we need while creating the course 
+                - Instructor name , Course category, course Description, thumbnail, course title
+             - form data post karenge because we have image type of data 
+                upload karne se we need, route mai upload.single('thumbnail') middleware use karenge
+                - thumbnail : is key mai image form mai data hai. 
+                -ye ensure karta hai ki sara data form data and multiparted data , req.body se he mil jaye.(package ki  help se)
+                    const {title,description,category,createdBy} = req.body
+             - Agar title , description, category, createdBy mai se ek bhi nahi hai
+               if : error message with statusCode send kar do
+               else :agr exist karta hai
+                - course ka instance bana lo with some configuration
+               -check karenge ki ye course ban gaya ki nahi
+                if : errormessage aur statusCode bhej do.
+                else Agar course ban gaya hai, toh check karenge file hai ki nahi
+                  - agar file upload nahi hua hai toh koi bata nahi, kyuki ye secondary chiz thik
+                  -if: agar file exist
+                     -ensure karna hai, upload ho cloudinary par, ye result ke ander karenge
+                     -cloudinary mai do chiz pass karenge 1. req.file.path 2.aur bhi configuration 
+                     if: Agar result mil jata hai, toh thumbnail ke ander 
+                       -public_id update kardo
+                       -secure_url update kar do
+                - jo file hamne upload kiya tha usko local server se remove kar denege
+                  fs.rm(`uploads/${req.file.filename}`)
+                - database mai save kardo
+                - success message with statusCode bhej do
+           4.const updateCourse = (req,res,next)=>{}
+             - sabase pahle try catch use kar lo, error handling ke liye.
+             - update ki id aur uska pura data bata do.
+             - course ki id humko params se mil jayegi. 
+             - course update ke liye, Course.findByUdAndUpdate(), ye method deta hai:
+               - konsi id ke corresponding data update karna hai.
+               - $set : req.body : jo bhi mila hai usko overwrite kardo. 
+               -runValidators : ye Validation check karta hai jo naya data aa raha hai, wo sahi hai ya nahi hai
+            - if :  agar iske baad course nahi milta toh exist he nahi karta tha. 
+            - agar course mil gaya toh success message with statusCode 
+           
+           5.const removeCourse = (req,res,next)=>{}
+             - sabse pahle try catch use karenge error handling ke liye
+             - sabse pahle course ki id nikalenge , params se.
+             - ab check karenge ki kya koi entry exist karti hai, is id se. 
+             -if : agar koi entry exist nahi karta then give the error
+             - agar exist karta hai, toh course ko delete kardo
+             - response mai success message with statusCode bhej do. 
+            
+            Note : Authentication  : kon operation perform kar sakta hai.
+               -Abhi tak koi bhe user isko delete kar sakta  hai
+                 - 1. Jo delete/create/update kara raha kam se kam wo , loggedin ho , add isLoggedIn in routes mai.
+                 - 2. Kon se type ke user is type ka kaam kar sakta hai (user, admin) 
+                      - create method in  auth.middleware.js
+             
+                1.auth.middleware.js :- 
+                  - method name authorizedRoles 
+                  - user se mangenge , jo bhi roles hai wo ek list mai de do
+                  - existing user ke roles kaha se milenge, hamne token mai sari info dali thi ,  usko req.user object mai 
+                    save ki thi(user.model.js)
+                  - jo bhi him roles de rahe hai, check kar rahe hai ki kya current role,capable hai ki nahi
+                  -if : not capable , show error message and statusCode
+                  - next(): jao next, argument par in a method
+           
+           6. const addLectureToCourseById = (req,res)=>{}
+              - Basic info chahiye title, description, and video jo add hongi kisi existing course ke ander.
+              - info milengi from the req.body. :   
+              - course ki id milengi req.params se
+              - Hum basic Validation add kar sakte hai ki   title , description etc mila hai ki nahi
+              - jis course mai lecture add karna chahte hai, pahle us course ko check karenge hai ki nahi, id ke corresponding
+              - if: agar course us id ka nahi mila toh, error message with statusCode send kar do. 
+              - lectureData naam ke ek variable bana lenge, jiske ander title aur description de denege jo abhi humko pata hai
+              - abhi iske image se related chiz humko nahi pata hai
+                - req.file mai chizo ke check karenge, phir upload kar do, uski detail lectureData ke ander daal denge.
+                  - try catch mai kar lenge isko, jo hamne pahle kiya tha.(course.model.js mai lectures ke ander wali details ke 
+                     hamne try catch if ke ander likha hai)
+              - course ke ander lecture ke ander data push kar rahe hai
+                 course.lectures.push(lectureData) 
+              - numbersOfLectures ko update kardo
+              - database mai save
+              - success message with statusCode bhej do. 
+
+    4. Theory before Implementation
+       -Course module : list, view, create, edit, view etc As admin karna
+       - authorization check bhi dalenge.
+
+           
+

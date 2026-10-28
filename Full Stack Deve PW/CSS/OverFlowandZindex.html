@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> OverFlow and Z-Index</title>
+    <style>
+      p {
+        height: 250px;
+        width: 250px;
+        border: 5px solid red;
+        /* hidden: Jo bhi container ke bahar jayega usko hide kar dega */
+        overflow: hidden;
+        /* overflow: scroll; */
+        overflow: auto;
+      }
+      .one {
+        height: 50px;
+        width: 50px;
+        background-color: blue;
+        position: absolute;
+        top: 0;
+        z-index: -1;
+      }
+      .two {
+        height: 50px;
+        width: 50px;
+        background-color: black;
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        z-index: 2;
+      }
+    </style>
+</head>
+<body>
+    <!-- OverFlow -->
+     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed eaque quidem delectus odit necessitatibus totam fugit ex ullam illum harum, vitae sequi eos minus placeat. Sequi quasi nobis suscipit numquam? Aliquid commodi distinctio voluptatem odio cupiditate, nostrum corrupti animi assumenda saepe vel architecto totam pariatur fugiat repellat obcaecati molestias dolores exercitationem laudantium! Placeat sed dolorem quidem culpa cupiditate autem, necessitatibus cum? Molestiae eaque hic minima similique necessitatibus autem consectetur illum obcaecati quia quae voluptas veritatis, quas quidem repellendus dolore voluptatibus optio aliquam ipsa provident? Incidunt, sit illum reiciendis harum asperiores, doloremque animi laudantium enim dolorem atque, similique obcaecati debitis in!</p>
+    <!-- Z-Index or Stack-->
+     <div class="one"></div>
+     <div class="two"></div>
+</body>
+</html>

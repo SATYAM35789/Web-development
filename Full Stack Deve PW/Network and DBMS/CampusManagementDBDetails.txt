@@ -1,0 +1,255 @@
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 35
+Server version: 8.0.44 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> \c
+mysql> shows databases;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'shows databases' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| information_schema |
+| jbit               |
+| movies_databases   |
+| movies_db_pw       |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+10 rows in set (0.00 sec)
+
+mysql> use movies_db_pw;
+Database changed
+mysql> show tables;
++------------------------+
+| Tables_in_movies_db_pw |
++------------------------+
+| actors                 |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from  actors;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Jonny     |  Depp     | Male   |      200 |
+| Chris     |  Willium  | Male   |      400 |
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1500 |
+| Jonny     |  Depp     | Male   |      200 |
+| Salman    |  Khan     | Male   |      200 |
+| Sarukh    | Khan      | Male   |      250 |
+| Chadwick  |  Bosman   | Male   |      500 |
+| Chris     | Evans     | Male   |     1000 |
++-----------+-----------+--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> delete from actors where FirstName = "Jonny";
+Query OK, 2 rows affected (0.01 sec)
+
+mysql> select * from  actors;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Chris     |  Willium  | Male   |      400 |
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1500 |
+| Salman    |  Khan     | Male   |      200 |
+| Sarukh    | Khan      | Male   |      250 |
+| Chadwick  |  Bosman   | Male   |      500 |
+| Chris     | Evans     | Male   |     1000 |
++-----------+-----------+--------+----------+
+7 rows in set (0.00 sec)
+
+mysql>  update actors set NetWorth = 750 where FirstName = "Salman" AND LastName ="Khan";
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> select * from  actors;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Chris     |  Willium  | Male   |      400 |
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1500 |
+| Salman    |  Khan     | Male   |      200 |
+| Sarukh    | Khan      | Male   |      250 |
+| Chadwick  |  Bosman   | Male   |      500 |
+| Chris     | Evans     | Male   |     1000 |
++-----------+-----------+--------+----------+
+7 rows in set (0.00 sec)
+
+mysql> update actors set NetWorth = 750 where FirstName = "Salman";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from  actors;
++-----------+-----------+--------+----------+
+| FirstName | LastName  | Gender | NetWorth |
++-----------+-----------+--------+----------+
+| Chris     |  Willium  | Male   |      400 |
+| Rashmika  |  Mandanna | Female |      500 |
+| Tunisha   |  Sharama  | Female |     1500 |
+| Salman    |  Khan     | Male   |      750 |
+| Sarukh    | Khan      | Male   |      250 |
+| Chadwick  |  Bosman   | Male   |      500 |
+| Chris     | Evans     | Male   |     1000 |
++-----------+-----------+--------+----------+
+7 rows in set (0.00 sec)
+
+mysql> CREATE DATABASE CampusManagementDB;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE CampusManagementDB;
+Database changed
+mysql> CREATE TABLE Departments (
+    ->     DepartmentID VARCHAR(10) PRIMARY KEY,
+    ->     DepartmentName VARCHAR(100) NOT NULL,
+    ->     HeadOfDepartment VARCHAR(100),
+    ->     Location VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO Departments (DepartmentID, DepartmentName, HeadOfDepartment, Location) VALUES
+    -> ('D001', 'Computer Science', 'Dr. Kavita Rao', 'Block A'),
+    -> ('D002', 'Electronics', 'Dr. Mohan Das', 'Block B'),
+    -> ('D003', 'Mechanical Engg.', 'Dr. Ritu Bansal', 'Block C'),
+    -> ('D004', 'Civil Engg.', 'Dr. Karan Kumar', 'Block D');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Students (
+    ->     StudentID VARCHAR(10) PRIMARY KEY,
+    ->     Name VARCHAR(100) NOT NULL,
+    ->     Age INT,
+    ->     Gender CHAR(1),
+    ->     DepartmentID VARCHAR(10),
+    ->     Email VARCHAR(100),
+    ->     FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+    ->
+    -> show tables;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'show tables' at line 10
+mysql> CREATE TABLE Students (
+    ->     StudentID VARCHAR(10) PRIMARY KEY,
+    ->     Name VARCHAR(100) NOT NULL,
+    ->     Age INT,
+    ->     Gender CHAR(1),
+    ->     DepartmentID VARCHAR(10),
+    ->     Email VARCHAR(100),
+    ->     FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> ^C
+mysql> INSERT INTO Students (StudentID, Name, Age, Gender, DepartmentID, Email) VALUES
+    -> ('S001', 'Amit Sharma', 20, 'M', 'D001', 'amit.sharma@campus.edu'),
+    -> ('S002', 'Priya Verma', 21, 'F', 'D002', 'priya.verma@campus.edu'),
+    -> ('S003', 'Raj Patel', 22, 'M', 'D001', 'raj.patel@campus.edu'),
+    -> ('S004', 'Neha Singh', 20, 'F', 'D003', 'neha.singh@campus.edu'),
+    -> ('S005', 'Ankit Mehta', 23, 'M', 'D002', 'ankit.mehta@campus.edu');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Faculty (
+    ->     FacultyID VARCHAR(10) PRIMARY KEY,
+    ->     Name VARCHAR(100) NOT NULL,
+    ->     DepartmentID VARCHAR(10),
+    ->     Designation VARCHAR(50),
+    ->     Email VARCHAR(100),
+    ->     FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO Faculty (FacultyID, Name, DepartmentID, Designation, Email) VALUES
+    -> ('F001', 'Dr. Kavita Rao', 'D001', 'Professor', 'kavita.rao@campus.edu'),
+    -> ('F002', 'Dr. Mohan Das', 'D002', 'Professor', 'mohan.das@campus.edu'),
+    -> ('F003', 'Mr. Rakesh Jain', 'D003', 'Assistant Prof.', 'rakesh.jain@campus.edu'),
+    -> ('F004', 'Ms. Sneha Joshi', 'D001', 'Lecturer', 'sneha.joshi@campus.edu');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Courses (
+    ->     CourseID VARCHAR(10) PRIMARY KEY,
+    ->     CourseName VARCHAR(100) NOT NULL,
+    ->     Credits INT,
+    ->     DepartmentID VARCHAR(10),
+    ->     FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO Courses (CourseID, CourseName, Credits, DepartmentID) VALUES
+    -> ('C001', 'Data Structures', 4, 'D001'),
+    -> ('C002', 'Digital Electronics', 3, 'D002'),
+    -> ('C003', 'Thermodynamics', 4, 'D003'),
+    -> ('C004', 'Database Management', 4, 'D001'),
+    -> ('C005', 'Microprocessors', 3, 'D002');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Enrollments (
+    ->     EnrollmentID VARCHAR(10) PRIMARY KEY,
+    ->     StudentID VARCHAR(10),
+    ->     CourseID VARCHAR(10),
+    ->     Semester INT,
+    ->     Grade VARCHAR(2),
+    ->     FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    ->     FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> INSERT INTO Enrollments (EnrollmentID, StudentID, CourseID, Semester, Grade) VALUES
+    -> ('E001', 'S001', 'C001', 4, 'A'),
+    -> ('E002', 'S002', 'C002', 4, 'B+'),
+    -> ('E003', 'S003', 'C004', 5, 'A-'),
+    -> ('E004', 'S004', 'C003', 4, 'B'),
+    -> ('E005', 'S005', 'C005', 6, 'A');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Library (
+    ->     BookID VARCHAR(10) PRIMARY KEY,
+    ->     Title VARCHAR(150) NOT NULL,
+    ->     Author VARCHAR(100),
+    ->     DepartmentID VARCHAR(10),
+    ->     AvailableCopies INT,
+    ->     FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO Library (BookID, Title, Author, DepartmentID, AvailableCopies) VALUES
+    -> ('B001', 'Database System Concepts', 'Silberschatz', 'D001', 5),
+    -> ('B002', 'Introduction to Algorithms', 'Cormen', 'D001', 3),
+    -> ('B003', 'Digital Logic Design', 'Morris Mano', 'D002', 4),
+    -> ('B004', 'Engineering Thermodynamics', 'P.K. Nag', 'D003', 2),
+    -> ('B005', 'Strength of Materials', 'R.K. Bansal', 'D004', 6);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> show tables
+    -> show tables;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'show tables' at line 2
+mysql> show tables;
++------------------------------+
+| Tables_in_campusmanagementdb |
++------------------------------+
+| courses                      |
+| departments                  |
+| enrollments                  |
+| faculty                      |
+| library                      |
+| students                     |
++------------------------------+
+6 rows in set (0.00 sec)
